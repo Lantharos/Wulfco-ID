@@ -31,6 +31,15 @@ const Login = (props) => {
     return response
   }
 
+  // check if logged in
+  const checkLogin = async () => {
+    // check if session id and token are set
+    if (cookies.load('session_id') && cookies.load('token')) {
+      // check if session id and token are valid
+
+    }
+  }
+
   const connectMetamask = () => {
     apiHealth().then(async(res) => {
       if (!res) { return }
@@ -52,16 +61,16 @@ const Login = (props) => {
           fetch(api_url + '/id/login', {method: 'POST', headers: {'W-Crypto': 'true', 'W-Wallet-Type': walletType}, body: JSON.stringify({walletID: walletID, walletType: walletType, walletNetwork: walletNetwork})}).then((res) => {return res.json()}).then((data) => {
             toast.update(notification, {render: "Connected to Metamask", type: toast.TYPE.SUCCESS, theme: "dark", autoClose: 2000})
             setTimeout(() => {
-              cookies.save('secret', data.secret, {path: '/', secure: false, expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 3)})
-              cookies.save('token', data.token, {path: '/', secure: false, expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 3)})
-              cookies.save('id', data.user_id, {path: '/', secure: false, expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 3)})
-              cookies.save('loggen', data.loggen, {path: '/', secure: false, expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 3)})
-              cookies.save('session_id', data.session_id, {path: '/', secure: true, expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 3)})
+              cookies.save('secret', data.secret, {path: '/', secure: false})
+              cookies.save('token', data.token, {path: '/', secure: false})
+              cookies.save('id', data.user_id, {path: '/', secure: false})
+              cookies.save('loggen', data.loggen, {path: '/', secure: false})
+              cookies.save('session_id', data.session_id, {path: '/', secure: true})
 
               window.history.push('/summary')
             }, 3000)
           }).catch((err) => {
-            toast.update(notification, { render: "Failed to connect to Metamask", type: "error", isLoading: false, theme: "dark" })
+            toast.update(notification, { render: "Failed to connect to Metamask", type: "error", isLoading: false, theme: "dark", autoClose: 2000 })
           })
         } catch (error) {
           toast.error('Please connect Metamask to continue', {theme: "dark"})
@@ -132,11 +141,11 @@ const Login = (props) => {
               toast.update(loggingInNotification, {type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 5000, render: "Successfully logged in! Redirecting...", theme: "dark" })
 
               setTimeout(() => {
-                cookies.save('secret', data.secret, {path: '/', secure: false, expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 3)})
-                cookies.save('token', data.token, {path: '/', secure: false, expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 3)})
-                cookies.save('id', data.user_id, {path: '/', secure: false, expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 3)})
-                cookies.save('loggen', data.loggen, {path: '/', secure: false, expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 3)})
-                cookies.save('session_id', data.session_id, {path: '/', secure: false, expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 3)})
+                cookies.save('secret', data.secret, {path: '/', secure: false})
+                cookies.save('token', data.token, {path: '/', secure: false})
+                cookies.save('id', data.user_id, {path: '/', secure: false})
+                cookies.save('loggen', data.loggen, {path: '/', secure: false})
+                cookies.save('session_id', data.session_id, {path: '/', secure: false})
                 props.history.push('/summary')
               }, 3000)
             } else {

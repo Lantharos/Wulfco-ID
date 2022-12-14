@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd025e02-a35c-4530-81ad-28a880f44016" name="Changes" comment="" />
+    <list default="true" id="fd025e02-a35c-4530-81ad-28a880f44016" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/public/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/login/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/login/login.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,6 +17,10 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/node_modules/react-toastify/dist/core/toast.d.ts" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/node_modules/react-toastify/dist/types/index.d.ts" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -31,14 +40,16 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/Projects/Android/MXELEVATOR&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Projects/Uncategorized/Wulfco ID&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;E:\\JetBrains\\Toolbox\\apps\\IDEA-U\\ch-0\\222.4459.24\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external&quot;
+    &quot;ts.external.directory.path&quot;: &quot;E:\\JetBrains\\Toolbox\\apps\\IDEA-U\\ch-0\\222.4459.24\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -47,12 +58,29 @@
       <recent name="E:\Projects\Uncategorized\VikkiVuk ID\public\playground_assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Projects\Uncategorized\Wulfco ID\public" />
       <recent name="E:\Projects\Uncategorized\VikkiVuk ID\src\views\login" />
       <recent name="E:\Projects\Uncategorized\VikkiVuk ID\src\views\dashboard" />
       <recent name="E:\Projects\Uncategorized\VikkiVuk ID\src\views\password" />
       <recent name="E:\Projects\Uncategorized\VikkiVuk ID\src\views\registration" />
-      <recent name="E:\Projects\Uncategorized\VikkiVuk ID\src\components" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.start" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -72,6 +100,9 @@
       <workItem from="1669649333535" duration="3940000" />
       <workItem from="1669658802747" duration="821000" />
       <workItem from="1669659823245" duration="81000" />
+      <workItem from="1669668713289" duration="962000" />
+      <workItem from="1669727751257" duration="2041000" />
+      <workItem from="1669897268733" duration="1334000" />
     </task>
     <servers />
   </component>
