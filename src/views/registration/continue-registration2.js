@@ -3,10 +3,52 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 
 import './continue-registration2.css'
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
+let config = require('../../config.json')
+let api_url = config.api_url
 
 const ContinueRegistration2 = (props) => {
+  const validateImage = (file) => {
+    // check file size (max 2mb)
+    if (file.size > 2000000) {
+        toast.error("File size is too big. (max 2MB)", {theme: "dark"})
+    } else {
+        let img = new Image()
+        img.src = file
+
+        img.decode().then(() => {
+          // check image size (max 1000x1000)
+          if (img.width > 512 || img.height > 512) {
+            toast.error("Image size is too big. (max 512x512)", {theme: "dark"})
+          } else {
+            // check image type (jpg, jpeg, png)
+            if (file.type !== "image/jpeg" && file.type !== "image/png") {
+              toast.error("File type is not supported. (jpg, jpeg, png)", {theme: "dark"})
+            } else {
+              // check image ratio (1:1)
+              if (img.width !== img.height) {
+                toast.error("Image ratio is not 1:1", {theme: "dark"})
+              } else {
+                // all good
+                let reader = new FileReader()
+                reader.readAsDataURL(file)
+                reader.onloadend = () => {
+                  document.getElementById("pfp").src = reader.result
+                }
+              }
+            }
+          }
+        }).catch(err => {
+          console.log(err)
+          toast.error("An error occured", {theme: "dark"})
+        })
+    }
+  }
+
   return (
     <div className="continue-registration2-container">
+      <ToastContainer />
       <Helmet>
         <title>Create an Account</title>
         <meta
@@ -127,26 +169,25 @@ const ContinueRegistration2 = (props) => {
             className="continue-registration2-form"
           >
             <h1 className="continue-registration2-text1 notselectable">
-              Hello, John Doe!
+              Hello, {(sessionStorage.getItem("first_name")) ? sessionStorage.getItem("first_name") : "John"}!
             </h1>
             <div className="continue-registration2-container5">
               <span className="continue-registration2-text2 notselectable">
                 Username
               </span>
               <input
-                type="email"
-                id="email"
-                name="email"
+                type="username"
+                id="username"
+                name="username"
                 required="true"
                 autoFocus="true"
                 placeholder="john_doe"
-                autoComplete="name"
+                autoComplete="username"
                 className="continue-registration2-textinput input"
               />
             </div>
             <button
-              type="button"
-              onclick="this.classList.toggle('submit--loading')"
+              type="submit"
               className="continue-registration2-button button"
             >
               <span className="button__text continue-registration2-text3">
@@ -154,10 +195,9 @@ const ContinueRegistration2 = (props) => {
               </span>
             </button>
             <div className="continue-registration2-container6">
-              <button className="continue-registration2-button1 button">
-                <span className="continue-registration2-text4"> </span>
-              </button>
+              <input type="file" accept="image/png, image/jpg, image/jpeg" onChange={validateImage} className="continue-registration2-button1 button"></input>
               <img
+                  id="pfp"
                 alt="image"
                 src="https://play.teleporthq.io/static/svg/default-img.svg"
                 className="continue-registration2-image7"

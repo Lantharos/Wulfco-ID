@@ -44,6 +44,7 @@
   border-radius: 4px;
   background-color: #FFFFFF;
 }
+
 .input {
   color: #000000;
   cursor: auto;
@@ -52,6 +53,16 @@
   border-width: 1px;
   border-radius: 4px;
   background-color: #FFFFFF;
+}
+.error {
+  animation: shake 0.2s ease-in-out 0s 2;
+  box-shadow: 0 0 0.5em red;
+}
+@keyframes shake {
+  0% { margin-left: 0rem; }
+  25% { margin-left: 0.5rem; }
+  75% { margin-left: -0.5rem; }
+  100% { margin-left: 0rem; }
 }
 .textarea {
   color: #000000;

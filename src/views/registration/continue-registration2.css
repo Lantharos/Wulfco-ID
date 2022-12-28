@@ -320,6 +320,7 @@
   border-radius: var(--dl-radius-radius-round);
   flex-direction: row;
   background-color: transparent;
+  opacity: 0;
 }
 .continue-registration2-text4 {
   width: 0px;
