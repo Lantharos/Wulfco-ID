@@ -57,7 +57,7 @@ const Profile = (props) => {
           <span className="profile-text4 notselectable">{props.text2}</span>
           <textarea
             id="about_me"
-            maxlength="190"
+            maxLength="190"
             placeholder={props.textarea_placeholder}
             className="profile-textarea textarea"
           ></textarea>
@@ -74,7 +74,7 @@ const Profile = (props) => {
         <button
           id="submit"
           type="button"
-          onclick="this.classList.toggle('submit--loading')"
+          onClick="this.classList.toggle('submit--loading')"
           className="profile-save button"
         >
           <span className="button__text">{props.text4}</span>

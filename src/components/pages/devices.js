@@ -40,7 +40,7 @@ const Devices = (props) => {
         <button
           id="delete_sessions"
           type="button"
-          onclick="this.classList.toggle('submit--loading')"
+          onClick="this.classList.toggle('submit--loading')"
           className="devices-button button"
         >
           <span>{props.text4}</span>
