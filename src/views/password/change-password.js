@@ -43,9 +43,9 @@ const ChangePassword = (props) => {
               id="password"
               name="password"
               required="true"
-              autoFocus="true"
-              maxlength="20"
-              minlength="3"
+              
+              maxLength="20"
+              minLength="3"
               placeholder="• • • • • • • • • "
               autoComplete="new-password"
               className="change-password-textinput input"
@@ -60,9 +60,9 @@ const ChangePassword = (props) => {
               id="confirmpassword"
               name="confirmpassword"
               required="true"
-              autoFocus="true"
-              maxlength="20"
-              minlength="3"
+              
+              maxLength="20"
+              minLength="3"
               placeholder="••••••••••••••••"
               autoComplete="new-password"
               className="change-password-textinput1 input"
@@ -71,7 +71,7 @@ const ChangePassword = (props) => {
           <button
             id="submit"
             type="button"
-            onclick="this.classList.toggle('submit--loading')"
+            onClick="this.classList.toggle('submit--loading')"
             className="change-password-button button"
           >
             <span className="button__text change-password-text4">

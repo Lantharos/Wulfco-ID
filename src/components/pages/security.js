@@ -4,105 +4,22 @@ import PropTypes from 'prop-types'
 
 import SecurityKey from './page_components/security-key'
 import './security.css'
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
-import cookies from 'react-cookies'
-import hmac from 'crypto-js/hmac-sha256'
-
-let config = require('../../config.json')
-let api_url = config.api_url
 
 const Security = (props) => {
-  const mapSecurityKeys = () => {
-    if (props.userData.account.security.security_keys) {
-      for (let i = 0; i < props.userData.account.security.security_keys.length; i++) {
-        console.log(i)
-        return (
-          <SecurityKey
-            keyId={i}
-            name={props.userData.account.security.security_keys[i].name}
-            updateUserData={props.updateUserData}
-          />
-        )
-      }
-    }
-  }
-
-  const registerSecurityKey = async() => {
-    const challenge = new Uint8Array(16);
-    window.crypto.getRandomValues(challenge);
-
-    const publicKey = {
-      challenge,
-      rp: {
-        id: "localhost",
-        name: "Wulfco ID"
-      },
-      user: {
-        id: new Uint8Array(16),
-        name: props.userData.profile.username,
-        displayName: props.userData.profile.username
-      },
-      pubKeyCredParams: [ { type: "public-key", alg: -7 } ],
-      timeout: 60000,
-      attestation: "direct"
-    };
-
-    const credential = await navigator.credentials.create({ publicKey });
-
-    // convert ArrayBuffers to base64-encoded strings
-    const base64Encoder = new TextEncoder();
-    const base64Decoder = new TextDecoder();
-
-    const attestationObject = base64Encoder.encode(credential.response.attestationObject).toString();
-    const clientDataJSON = base64Encoder.encode(credential.response.clientDataJSON).toString();
-
-    await fetch(`${api_url}/id/security-key?id=` + encodeURIComponent(cookies.load("id")), {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
-            'W-Session': cookies.load('session_id'),
-            'W-Loggen': cookies.load('loggen')
-        },
-        body: JSON.stringify({
-          id: base64Encoder.encode(credential.id).toString(),
-          rawId: base64Encoder.encode(credential.rawId).toString(),
-          response: {
-            attestationObject,
-            clientDataJSON
-          },
-          type: credential.type,
-          name: prompt("Enter a name for this security key")
-        })
-    }).then((res) => {
-        res.json().then((data) => {
-            if (data.success) {
-                toast.success('Security key registered!', { theme: "dark" })
-                props.updateUserData()
-            } else {
-                toast.error('Failed to register security key!', { theme: "dark" })
-            }
-        })
-    }).catch((err) => {
-        toast.error('Failed to register security key!', { theme: "dark" })
-    })
-  }
-
   return (
     <div className="security-content">
-      <h1 className="security-text notselectable">Privacy & Security</h1>
+      <h1 className="security-text notselectable">{props.heading}</h1>
       <div className="security-container notselectable">
-        <span className="security-text01 notselectable">MULTI-FACTOR AUTHENTICATION</span>
+        <span className="security-text01 notselectable">{props.text}</span>
         <div className="security-container01">
           <div className="security-container02">
             <div className="security-container03">
               <div className="security-container04">
                 <h1 className="security-text02 notselectable">
-                  Security Keys
+                  {props.heading4}
                 </h1>
                 <h1 className="security-text03 notselectable">
-                  RECOMMENDED
+                  {props.heading5}
                 </h1>
               </div>
               <span className="security-text04 notselectable">
@@ -115,14 +32,14 @@ const Security = (props) => {
             <button
               id="add_skey"
               type="button"
-              onClick={registerSecurityKey}
               className="security-save button"
             >
-              New Key
+              {props.Save}
             </button>
           </div>
           <div id="current_keys" className="security-container05">
-            {mapSecurityKeys()}
+            <SecurityKey rootClassName="security-key-root-class-name"></SecurityKey>
+            <SecurityKey rootClassName="security-key-root-class-name2"></SecurityKey>
           </div>
         </div>
         <div className="security-authenticator-app">
@@ -195,7 +112,8 @@ const Security = (props) => {
           <input
             type="checkbox"
             id="usage_statistics_check"
-            defaultChecked={true}
+            checked="true"
+            autoComplete="on"
             className="security-checkbox"
           />
         </div>
@@ -217,7 +135,8 @@ const Security = (props) => {
           <input
             type="checkbox"
             id="usage_statistics_check"
-            defaultChecked={true}
+            checked="true"
+            autoComplete="on"
             className="security-checkbox1"
           />
         </div>
@@ -247,6 +166,7 @@ const Security = (props) => {
           <button
             id="request_data"
             type="button"
+            onClick="this.classList.toggle('submit--loading')"
             className="security-button button"
           >
             <span>{props.text4}</span>
@@ -260,14 +180,14 @@ const Security = (props) => {
 Security.defaultProps = {
   heading3: 'Use data to make our services work',
   Save: 'New Key',
-  heading: '',
+  heading: 'Privacy & Security',
   text2: 'MY DATA',
   heading7: 'Email Authentication',
-  heading4: '',
+  heading4: 'Security Keys',
   Save1: 'Setup',
-  text: '',
+  text: 'MULTI-FACTOR AUTHENTICATION',
   Save2: 'Setup',
-  heading5: '',
+  heading5: 'RECOMMENDED',
   heading1: 'Share my data with apps using VikkiVuk Storage',
   text4: 'Download my Data',
   heading2: 'Use data to improve our services',
