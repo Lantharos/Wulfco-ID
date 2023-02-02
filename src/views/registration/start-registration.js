@@ -118,7 +118,7 @@ const StartRegistration = (props) => {
               name="password"
               required="true"
               autoFocus="true"
-              minlength="5"
+              minLength="5"
               placeholder="••••••••••••••••••"
               autoComplete="email"
               className="start-registration-textinput1 input"

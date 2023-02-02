@@ -166,7 +166,7 @@ const Security = (props) => {
           <button
             id="request_data"
             type="button"
-            onclick="this.classList.toggle('submit--loading')"
+            onClick="this.classList.toggle('submit--loading')"
             className="security-button button"
           >
             <span>{props.text4}</span>

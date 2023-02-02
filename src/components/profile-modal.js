@@ -51,7 +51,7 @@ const ProfileModal = (props) => {
               <textarea
                 id="about_me_profile"
                 disabled
-                maxlength="190"
+                maxLength="190"
                 placeholder={props.about_me}
                 className="profile-modal-textarea textarea"
               ></textarea>
