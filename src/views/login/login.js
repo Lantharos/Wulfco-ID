@@ -162,7 +162,7 @@ const Login = (props) => {
                 id="email"
                 name="email"
                 required={true}
-                autoFocus={true}
+                
                 autoComplete="email"
                 className="login-textinput input"
               />

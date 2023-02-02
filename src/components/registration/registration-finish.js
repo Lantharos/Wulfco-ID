@@ -136,7 +136,7 @@ const RegistrationFinish = (props) => {
               id="username"
               name="username"
               required="true"
-              autoFocus="true"
+              
               placeholder="john_doe"
               autoComplete="username"
               className="registration-finish-textinput input"

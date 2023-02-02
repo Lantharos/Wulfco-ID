@@ -42,7 +42,7 @@ const RegistrationNext = (props) => {
               id="name"
               name="name"
               required={true}
-              autoFocus={true}
+              
               placeholder={"John Doe"}
               autoComplete="name"
               className="registration-next-textinput input"
@@ -56,7 +56,7 @@ const RegistrationNext = (props) => {
               id="gender"
               name="gender"
               required={true}
-              autoFocus={false}
+              
               placeholder={"Male, Female, ..."}
               autoComplete="sex"
               className="registration-next-textinput1 input"

@@ -50,7 +50,7 @@ const VerifyEmail = (props) => {
               name="code"
               step="0"
               required="true"
-              autoFocus="true"
+              
               placeholder="000000"
               autoComplete="off"
               className="verify-email-textinput input"

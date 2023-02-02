@@ -41,7 +41,7 @@ const RegistrationStart = (props) => {
             id="email"
             name="email"
             required={true}
-            autoFocus={true}
+            
             placeholder={"johndoe@yourdomain.com"}
             autoComplete="email"
             className="registration-start-textinput input"
@@ -58,7 +58,7 @@ const RegistrationStart = (props) => {
             maxLength={20}
             passwordrules="minlength: 10; maxlength: 20; required: lower; required: upper; required: digit; required: [!,@];"
             required={true}
-            autoFocus={false}
+            
             placeholder={"••••••••••••••••••"}
             autoComplete="new-password"
             className="registration-start-textinput1 input"
