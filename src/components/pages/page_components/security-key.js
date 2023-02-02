@@ -3,34 +3,53 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import './security-key.css'
+import cookies from 'react-cookies'
+import hmac from 'crypto-js/hmac-sha256'
+import { ToastContainer, toast } from 'react-toastify';
+
+let config = require('../../../config.json')
+let api_url = config.api_url
 
 const SecurityKey = (props) => {
-  return (
-    <div className={`security-key-container ${props.rootClassName} `}>
-      <div className="security-key-container1">
-        <h1 className="security-key-text">{props.heading}</h1>
-        <button
-          id="deauthorize"
-          type="button"
-          className="security-key-button button"
-        >
-          {props.button}
-        </button>
-      </div>
-    </div>
-  )
-}
+    const removeKey = async() => {
+        console.log("key id: " + props.keyId)
+        let message = toast.loading('Removing...', { theme: "dark" })
+        await fetch(api_url + '/id/security-key?id=' + encodeURIComponent(cookies.load("id")) + "&key=" + encodeURIComponent(props.keyId), {
+            method: "DELETE",
+            headers: {
+                'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
+                'W-Session': cookies.load('session_id'),
+                'W-Loggen': cookies.load('loggen')
+            }
+        }).then((res) => {
+            res.json().then((data) => {
+                if (data.success) {
+                    toast.update(message, { render: 'Removed!', type: 'success', autoClose: 2000, isLoading: false })
+                    props.updateUserData()
+                } else {
+                    toast.update(message, { render: 'Failed to remove!', type: 'error', autoClose: 2000, isLoading: false })
+                }
+            })
+        }).catch((err) => {
+            toast.update(message, { render: 'Failed to remove!', type: 'error', autoClose: 2000, isLoading: false })
+        })
+    }
 
-SecurityKey.defaultProps = {
-  rootClassName: '',
-  button: 'Remove',
-  heading: 'A security key',
-}
-
-SecurityKey.propTypes = {
-  rootClassName: PropTypes.string,
-  button: PropTypes.string,
-  heading: PropTypes.string,
+    return (
+        <div className={`security-key-container`}>
+            <div className="security-key-container1">
+                <h1 className="security-key-text">{props.name}</h1>
+                <button
+                    id="remove_key"
+                    type="button"
+                    className="security-key-button button"
+                    onClick={removeKey}
+                >
+                    Remove
+                </button>
+            </div>
+        </div>
+    )
 }
 
 export default SecurityKey

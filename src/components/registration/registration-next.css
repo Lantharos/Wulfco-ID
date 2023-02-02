@@ -1,34 +1,21 @@
-.continue-registration1-container {
-  width: 100%;
-  display: flex;
-  overflow: auto;
-  min-height: 100vh;
-  align-items: center;
-  flex-direction: column;
-  background-color: #121212;
-}
-.continue-registration1-container1 {
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  width: 458px;
-  bottom: 0px;
-  height: 327px;
+.registration-next-container {
   margin: auto;
+  width: 458px;
+  height: 327px;
   display: flex;
-  position: absolute;
+  position: relative;
   align-items: flex-start;
   border-radius: var(--dl-radius-radius-radius8);
   flex-direction: column;
   justify-content: flex-start;
   background-color: #181818;
 }
-.continue-registration1-form {
+.registration-next-form {
   width: 100%;
   height: 100%;
   position: relative;
 }
-.continue-registration1-text {
+.registration-next-text {
   color: rgb(255, 255, 255);
   width: 100%;
   cursor: default;
@@ -37,7 +24,7 @@
   text-align: center;
   font-family: Roboto;
 }
-.continue-registration1-container2 {
+.registration-next-container1 {
   top: 77px;
   left: 0px;
   right: 0px;
@@ -45,21 +32,21 @@
   margin: auto;
   position: absolute;
 }
-.continue-registration1-container3 {
+.registration-next-container2 {
   width: 100%;
   display: flex;
   align-self: center;
   align-items: flex-start;
   flex-direction: column;
 }
-.continue-registration1-text1 {
+.registration-next-text1 {
   color: rgb(144, 144, 144);
   width: 90%;
   font-size: 18px;
   align-self: center;
   font-family: Roboto;
 }
-.continue-registration1-textinput {
+.registration-next-textinput {
   color: #ffffff;
   width: 90%;
   align-self: center;
@@ -69,7 +56,7 @@
   border-radius: var(--dl-radius-radius-radius8);
   background-color: #4c4c4c;
 }
-.continue-registration1-container4 {
+.registration-next-container3 {
   width: 100%;
   display: flex;
   align-self: center;
@@ -77,14 +64,14 @@
   align-items: flex-start;
   flex-direction: column;
 }
-.continue-registration1-text2 {
+.registration-next-text2 {
   color: rgb(144, 144, 144);
   width: 90%;
   font-size: 18px;
   align-self: center;
   font-family: Roboto;
 }
-.continue-registration1-textinput1 {
+.registration-next-textinput1 {
   color: #ffffff;
   width: 90%;
   align-self: center;
@@ -94,7 +81,7 @@
   border-radius: var(--dl-radius-radius-radius8);
   background-color: #4c4c4c;
 }
-.continue-registration1-button {
+.registration-next-button {
   left: 0px;
   color: #ffffff;
   right: 0px;
@@ -116,13 +103,13 @@
   flex-direction: row;
   background-color: #0069FF;
 }
-.continue-registration1-button:hover {
+.registration-next-button:hover {
   background-color: #1d74f9;
 }
-.continue-registration1-button:active {
+.registration-next-button:active {
   background-color: #0559da;
 }
-.continue-registration1-text3 {
+.registration-next-text3 {
   top: 7px;
   left: 0px;
   right: 0px;
@@ -130,16 +117,24 @@
   position: absolute;
   align-self: center;
 }
+.registration-next-root-class-name {
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  margin: auto;
+  position: absolute;
+}
 @media(max-width: 479px) {
-  .continue-registration1-container1 {
+  .registration-next-container {
     width: 95%;
     height: 333px;
   }
-  .continue-registration1-button {
+  .registration-next-button {
     top: 236px;
     width: 85%;
   }
-  .continue-registration1-text3 {
+  .registration-next-text3 {
     top: 8px;
     left: 16px;
     position: absolute;

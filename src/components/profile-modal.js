@@ -40,7 +40,8 @@ const ProfileModal = (props) => {
                 type="text"
                 id="pronouns_profile"
                 disabled
-                placeholder={props.pronouns}
+                placeholder={"There's nothing here :("}
+                value={props.pronouns || ""}
                 className="profile-modal-textinput input"
               />
             </div>
@@ -51,8 +52,9 @@ const ProfileModal = (props) => {
               <textarea
                 id="about_me_profile"
                 disabled
-                maxlength="190"
-                placeholder={props.about_me}
+                maxLength="200"
+                placeholder={"There's nothing here :("}
+                value={props.about_me || ""}
                 className="profile-modal-textarea textarea"
               ></textarea>
             </div>

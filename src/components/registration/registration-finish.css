@@ -1,25 +1,15 @@
-.continue-registration2-container {
-  width: 100%;
-  display: flex;
-  overflow: auto;
-  min-height: 100vh;
-  align-items: center;
-  flex-direction: column;
-  background-color: #121212;
-}
-.continue-registration2-container1 {
-  top: 0px;
-  left: 0px;
+.registration-finish-container {
+  margin: auto;
   width: 100%;
   height: 100%;
   display: flex;
-  position: absolute;
+  position: relative;
   flex-wrap: wrap;
   align-items: center;
   flex-direction: column;
   justify-content: center;
 }
-.continue-registration2-container2 {
+.registration-finish-container1 {
   width: 661px;
   display: flex;
   flex-wrap: wrap;
@@ -30,7 +20,7 @@
   justify-content: center;
   background-color: #181818;
 }
-.continue-registration2-text {
+.registration-finish-text {
   color: #B9BBBE;
   font-size: 18px;
   align-self: center;
@@ -41,7 +31,7 @@
   font-weight: 700;
   margin-left: 2.5%;
 }
-.continue-registration2-container3 {
+.registration-finish-container2 {
   width: 100%;
   display: flex;
   margin-top: 2%;
@@ -50,7 +40,7 @@
   flex-direction: row;
   justify-content: center;
 }
-.continue-registration2-link {
+.registration-finish-link {
   color: #FFFFFF;
   width: 78px;
   height: 70px;
@@ -64,15 +54,15 @@
   text-decoration: none;
   background-color: #202020;
 }
-.continue-registration2-link:hover {
+.registration-finish-link:hover {
   background-color: #353535;
 }
-.continue-registration2-image {
+.registration-finish-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-.continue-registration2-link1 {
+.registration-finish-link1 {
   color: #FFFFFF;
   width: 78px;
   height: 70px;
@@ -86,15 +76,15 @@
   text-decoration: none;
   background-color: #202020;
 }
-.continue-registration2-link1:hover {
+.registration-finish-link1:hover {
   background-color: #353535;
 }
-.continue-registration2-image1 {
+.registration-finish-image1 {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-.continue-registration2-link2 {
+.registration-finish-link2 {
   color: #FFFFFF;
   width: 78px;
   height: 70px;
@@ -109,16 +99,16 @@
   text-decoration: none;
   background-color: #202020;
 }
-.continue-registration2-link2:hover {
+.registration-finish-link2:hover {
   background-color: #353535;
 }
-.continue-registration2-image2 {
+.registration-finish-image2 {
   width: 56px;
   height: 100%;
   object-fit: cover;
   border-radius: var(--dl-radius-radius-round);
 }
-.continue-registration2-link3 {
+.registration-finish-link3 {
   color: #FFFFFF;
   width: 78px;
   height: 70px;
@@ -133,15 +123,15 @@
   text-decoration: none;
   background-color: #202020;
 }
-.continue-registration2-link3:hover {
+.registration-finish-link3:hover {
   background-color: #353535;
 }
-.continue-registration2-image3 {
+.registration-finish-image3 {
   width: 56px;
   height: 100%;
   object-fit: cover;
 }
-.continue-registration2-link4 {
+.registration-finish-link4 {
   color: #FFFFFF;
   width: 78px;
   height: 70px;
@@ -156,16 +146,16 @@
   text-decoration: none;
   background-color: #202020;
 }
-.continue-registration2-link4:hover {
+.registration-finish-link4:hover {
   background-color: #353535;
 }
-.continue-registration2-image4 {
+.registration-finish-image4 {
   width: 64px;
   height: 64px;
   align-self: center;
   object-fit: cover;
 }
-.continue-registration2-link5 {
+.registration-finish-link5 {
   color: #FFFFFF;
   width: 78px;
   height: 70px;
@@ -180,16 +170,16 @@
   text-decoration: none;
   background-color: #202020;
 }
-.continue-registration2-link5:hover {
+.registration-finish-link5:hover {
   background-color: #353535;
 }
-.continue-registration2-image5 {
+.registration-finish-image5 {
   width: 50px;
   height: 50px;
   align-self: center;
   object-fit: cover;
 }
-.continue-registration2-link6 {
+.registration-finish-link6 {
   color: #FFFFFF;
   width: 78px;
   height: 70px;
@@ -204,16 +194,16 @@
   text-decoration: none;
   background-color: #202020;
 }
-.continue-registration2-link6:hover {
+.registration-finish-link6:hover {
   background-color: #353535;
 }
-.continue-registration2-image6 {
+.registration-finish-image6 {
   width: 50px;
   height: 50px;
   align-self: center;
   object-fit: cover;
 }
-.continue-registration2-container4 {
+.registration-finish-container3 {
   width: 517px;
   height: 259px;
   display: flex;
@@ -223,12 +213,12 @@
   justify-content: center;
   background-color: #181818;
 }
-.continue-registration2-form {
+.registration-finish-form {
   width: 100%;
   height: 100%;
   position: relative;
 }
-.continue-registration2-text1 {
+.registration-finish-text1 {
   color: rgb(255, 255, 255);
   width: 100%;
   cursor: default;
@@ -237,7 +227,7 @@
   text-align: center;
   font-family: Roboto;
 }
-.continue-registration2-container5 {
+.registration-finish-container4 {
   top: 84px;
   right: 23px;
   width: 65%;
@@ -247,14 +237,14 @@
   align-items: flex-start;
   flex-direction: column;
 }
-.continue-registration2-text2 {
+.registration-finish-text2 {
   color: rgb(144, 144, 144);
   width: 90%;
   font-size: 18px;
   align-self: center;
   font-family: Roboto;
 }
-.continue-registration2-textinput {
+.registration-finish-textinput {
   color: #ffffff;
   width: 90%;
   align-self: center;
@@ -264,7 +254,7 @@
   border-radius: var(--dl-radius-radius-radius8);
   background-color: #4c4c4c;
 }
-.continue-registration2-button {
+.registration-finish-button {
   left: 0px;
   color: #ffffff;
   right: 0px;
@@ -286,13 +276,13 @@
   flex-direction: row;
   background-color: #0069FF;
 }
-.continue-registration2-button:hover {
+.registration-finish-button:hover {
   background-color: #1d74f9;
 }
-.continue-registration2-button:active {
+.registration-finish-button:active {
   background-color: #0559da;
 }
-.continue-registration2-text3 {
+.registration-finish-text3 {
   top: 7px;
   left: 0px;
   right: 0px;
@@ -300,14 +290,14 @@
   position: absolute;
   align-self: center;
 }
-.continue-registration2-container6 {
+.registration-finish-container5 {
   top: 63px;
   left: 49px;
   width: 100px;
   height: 100px;
   position: absolute;
 }
-.continue-registration2-button1 {
+.registration-finish-button1 {
   top: 0px;
   left: 0px;
   color: var(--dl-color-maincolors-background);
@@ -320,14 +310,13 @@
   border-radius: var(--dl-radius-radius-round);
   flex-direction: row;
   background-color: transparent;
-  opacity: 0;
 }
-.continue-registration2-text4 {
+.registration-finish-text4 {
   width: 0px;
   height: 0px;
   z-index: -10;
 }
-.continue-registration2-image7 {
+.registration-finish-image7 {
   top: 0px;
   left: 0px;
   width: 100px;
@@ -335,7 +324,7 @@
   object-fit: cover;
   border-radius: var(--dl-radius-radius-round);
 }
-.continue-registration2-container7 {
+.registration-finish-container6 {
   width: 661px;
   display: flex;
   flex-wrap: wrap;
@@ -346,7 +335,7 @@
   justify-content: center;
   background-color: #181818;
 }
-.continue-registration2-text5 {
+.registration-finish-text5 {
   color: rgb(185, 187, 190);
   font-size: 18px;
   align-self: center;
@@ -357,7 +346,7 @@
   font-weight: 700;
   margin-left: 2.5%;
 }
-.continue-registration2-text6 {
+.registration-finish-text6 {
   color: var(--dl-color-maincolors-textcolor);
   font-size: 18px;
   align-self: center;
@@ -370,16 +359,21 @@
   margin-right: 4%;
   margin-bottom: 4%;
 }
+.registration-finish-root-class-name {
+  top: 0px;
+  left: 0px;
+  position: absolute;
+}
 @media(max-width: 479px) {
-  .continue-registration2-container4 {
+  .registration-finish-container3 {
     width: 95%;
     height: 333px;
   }
-  .continue-registration2-button {
+  .registration-finish-button {
     top: 236px;
     width: 85%;
   }
-  .continue-registration2-text3 {
+  .registration-finish-text3 {
     top: 8px;
     left: 16px;
     position: absolute;

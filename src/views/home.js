@@ -65,7 +65,7 @@ const Home = (props) => {
         <h1 className="home-text3">
           With a Wulfco ID, you can use any service and api you wish to use.
         </h1>
-        <Link to="/start-registration" className="home-navlink4 button">
+        <Link to="/create-id" className="home-navlink4 button">
           Create an ID
         </Link>
         <div className="home-links">

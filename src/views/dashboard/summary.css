@@ -83,13 +83,12 @@
   height: 200px;
   display: flex;
   position: relative;
-  align-items: flex-start;
+  align-items: center;
   margin-right: 2%;
   border-radius: var(--dl-radius-radius-radius8);
   background-color: var(--dl-color-maincolors-containercolor);
 }
 .summary-icon2 {
-  fill: var(--dl-color-danger-700);
   width: 143px;
   height: 143px;
   align-self: center;

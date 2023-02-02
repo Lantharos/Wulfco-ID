@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import { Helmet } from 'react-helmet'
 
-import MyID from '../../components/pages/my-i-d'
+import MyId from '../../components/pages/my-id'
 import './account-settings.css'
 import Profile from "../../components/pages/profile";
 import Security from "../../components/pages/security";
@@ -13,47 +13,63 @@ import ConnectedApps from "../../components/pages/connected-apps";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import cookies from 'react-cookies'
+import hmac from 'crypto-js/hmac-sha256'
 
 let config = require('../../config.json')
 let api_url = config.api_url
 
 const AccountSettings = (props) => {
-  let [ selectedPage, setSelectedPage ] = React.useState('my-id')
+  let [ selectedPage, setSelectedPage ] = React.useState("")
   let [ selectedButton, setSelectedButton ] = React.useState(document.getElementById('my-id'))
+  let [ userData, setUserData ] = React.useState({
+    profile: { avatar: "", username: "John Doe", about_me: "This is a test.", pronouns: "they/them", profile_color: "#008cff" },
+    account: { security: { protected: false, security_keys: [] } }
+  })
 
-  const apiHealth = async () => {
-    let response = false
-    await fetch(api_url, {headers: {"X-Reason": "life_check"}}).then((res) => {
-      response = true
-    }).catch((err) => {
-      toast.error("API is down, please try again later", { theme: "dark"})
+  const loadUserData = () => {
+    fetch(`${api_url}/id/get?id=` + encodeURIComponent(cookies.load("id")), {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
+        'W-Session': cookies.load('session_id'),
+        'W-Loggen': cookies.load('loggen')
+      }
+    }).then((res) => {
+      res.json().then((data) => {
+        if (data.success) {
+          setUserData(data.user)
+          console.log(userData)
+        } else {
+          toast.error("Failed to get user data!", { theme: "dark" })
+        }
+      })
     })
+  }
 
-    return response
+  React.useEffect(() => {
+    loadUserData();
+  }, []);
+
+  const switchPage = (page, button) => {
+    setSelectedButton(button)
+    setSelectedPage(page)
   }
 
   const buttonClick = (e) => {
     if (selectedButton) {
-      selectedButton.style.backgroundColor = 'transparent'
-      selectedButton.style.color = '#a6a6a6'
+      selectedButton.className = selectedButton.className.replace("sidebar-button-selected", "sidebar-button")
     } else {
       selectedButton = document.getElementById('my-id')
-      selectedButton.style.backgroundColor = 'transparent'
-      selectedButton.style.color = '#a6a6a6'
+
+      selectedButton.className = selectedButton.className.replace("sidebar-button-selected", "sidebar-button")
     }
 
     const buttonName = e.target.id
     const button = document.getElementById(buttonName)
-    button.style.backgroundColor = 'rgba(43, 149, 255, 0.37)'
-    button.style.color = 'rgb(0, 127, 255)'
+    button.className = selectedButton.className.replace("sidebar-button", "sidebar-button-selected")
 
-    // this.setState({selectedButton: button})
-    // this.setState({selectedPage: buttonName})
-    //
-    setSelectedButton(button)
-    setSelectedPage(buttonName)
-
-    // this.forceUpdate()
+    switchPage(buttonName, button)
   }
 
   function logout() {
@@ -64,10 +80,7 @@ const AccountSettings = (props) => {
         'X-Reason': 'logout'
       },
       body: JSON.stringify({
-        token: cookies.load('token'),
         id: cookies.load('id'),
-        secret: cookies.load('secret'),
-        loggen: cookies.load('loggen'),
         session_id: cookies.load('session_id')
       })
     }).then((res) => {
@@ -87,35 +100,22 @@ const AccountSettings = (props) => {
     })
   }
 
-  async function checkApiStatus() {
-      let res = await apiHealth()
-      if (!res) {
-        document.getElementById('apidown').style.visibility = 'visible'
-        document.getElementById('apidown').style.zIndex = '10'
-      } else {
-        document.getElementById('apidown').style.visibility = 'hidden'
-        document.getElementById('apidown').style.zIndex = '-1'
-      }
-  }
-
   function renderPage() {
-    checkApiStatus()
-
     switch (selectedPage) {
       case 'my-id':
-        return <MyID />
+        return <MyId userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
       case 'profile':
-        return <Profile />
+        return <Profile userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
       case 'security':
-        return <Security />
+        return <Security userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
       case 'authorized-apps':
-        return <AuthorizedApps />
+        return <AuthorizedApps userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
       case 'devices':
-        return <Devices />
+        return <Devices userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
       case 'connections':
-        return <ConnectedApps />
+        return <ConnectedApps userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
       default:
-        return <MyID />
+        return <MyId userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
     }
   }
 
@@ -124,19 +124,6 @@ const AccountSettings = (props) => {
         <ToastContainer />
         <Helmet>
           <title>Account Settings</title>
-          <meta
-              name="description"
-              content="VikkiVuk ID is a place where you can create one account that you will use for all of the services created by VikkiVuk LLC."
-          />
-          <meta property="og:title" content="AccountSettings - VikkiVuk ID" />
-          <meta
-              property="og:description"
-              content="VikkiVuk ID is a place where you can create one account that you will use for all of the services created by VikkiVuk LLC. This enhances your user experience drastically."
-          />
-          <meta
-              property="og:image"
-              content="https://aheioqhobo.cloudimg.io/v7/_playground-bucket-v2.teleporthq.io_/39ebfb3d-48ba-4ad3-b4e3-71d35b211205/e9ec2f33-b7e4-4cd9-a0dc-1d8ee57b364f?org_if_sml=1"
-          />
         </Helmet>
         <Link to="/summary" className="account-settings-logout button">
           &lt;- Summary
@@ -147,20 +134,20 @@ const AccountSettings = (props) => {
             <span className="account-settings-text notselectable">
               USER SETTINGS
             </span>
-              <button className="account-settings-button button" id="my-id" onClick={buttonClick}>My ID</button>
-              <button className="account-settings-button01 button" id="profile" onClick={buttonClick}>
+              <button className="sidebar-button-selected button" id="my-id" onClick={buttonClick}>My ID</button>
+              <button className="sidebar-button button" id="profile" onClick={buttonClick}>
                 Profile
               </button>
-              <button className="account-settings-button02 button" id="security" onClick={buttonClick}>
+              <button className="sidebar-button button" id="security" onClick={buttonClick}>
                 Privacy &amp; Security
               </button>
-              <button className="account-settings-button03 button" id="authorized-apps" onClick={buttonClick}>
+              <button className="sidebar-button button" id="authorized-apps" onClick={buttonClick}>
                 Authorized Apps
               </button>
-              <button className="account-settings-button04 button" id="devices" onClick={buttonClick}>
+              <button className="sidebar-button button" id="devices" onClick={buttonClick}>
                 Devices
               </button>
-              <button className="account-settings-button05 button" id="connections" onClick={buttonClick}>
+              <button className="sidebar-button button" id="connections" onClick={buttonClick}>
                 Connections
               </button>
             </div>
@@ -169,49 +156,49 @@ const AccountSettings = (props) => {
               <span className="account-settings-text1 notselectable">
               FRIENDS
             </span>
-              <button className="account-settings-button06 button" id="friends" onClick={buttonClick}>
+              <button className="sidebar-button button" id="friends" onClick={buttonClick}>
                 Your Friends
               </button>
-              <button className="account-settings-button07 button" id="add-friend" onClick={buttonClick}>
+              <button className="sidebar-button button" id="add-friend" onClick={buttonClick}>
                 Add a Friend
               </button>
-              <button className="account-settings-button08 button" id="pending-invites" onClick={buttonClick}>
+              <button className="sidebar-button button" id="pending-invites" onClick={buttonClick}>
                 Pending Invites
               </button>
-              <button className="account-settings-button09 button" id="blocked" onClick={buttonClick}>
+              <button className="sidebar-button button" id="blocked" onClick={buttonClick}>
                 Blocked
               </button>
-              <button className="account-settings-button10 button" id="followed-profiles" onClick={buttonClick}>
+              <button className="sidebar-button button" id="followed-profiles" onClick={buttonClick}>
                 Followed Profiles
               </button>
             </div>
             <div className="account-settings-billing">
               <div className="account-settings-container2"></div>
               <span className="account-settings-text2 notselectable">
-              BILLING
-            </span>
-              <Link to="/premium" className="account-settings-navlink button">
+                BILLING
+              </span>
+              <Link to="/premium" className="sidebar-premium button">
                 Premium
               </Link>
               <Link
                   to="/coming-soon"
-                  className="account-settings-navlink1 button"
+                  className="sidebar-button button"
               >
                 Subscriptions
               </Link>
               <Link
                   to="/coming-soon"
-                  className="account-settings-navlink2 button"
+                  className="sidebar-button button"
               >
                 Gifts
               </Link>
               <Link
                   to="/coming-soon"
-                  className="account-settings-navlink3 button"
+                  className="sidebar-button button"
               >
                 Billing
               </Link>
-              <button className="account-settings-button05 button" id="my-card" onClick={buttonClick}>
+              <button className="sidebar-button button" id="my-card" onClick={buttonClick}>
                 My Card
               </button>
             </div>
@@ -219,20 +206,20 @@ const AccountSettings = (props) => {
               <div className="account-settings-container3"></div>
               <Link
                   to="/coming-soon"
-                  className="account-settings-navlink4 button"
+                  className="sidebar-button button"
               >
                 What&apos;s New
               </Link>
               <Link
                   to="/coming-soon"
-                  className="account-settings-navlink5 button"
+                  className="sidebar-button button"
               >
                 Developers
               </Link>
               <div className="account-settings-container4"></div>
             </div>
             <div className="account-settings-undefined1">
-              <button id="logout" className="account-settings-button11 button" onClick={logout}>
+              <button id="logout" className="sidebar-button button" onClick={logout}>
                 Logout
               </button>
             </div>
