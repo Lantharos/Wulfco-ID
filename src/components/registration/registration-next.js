@@ -41,7 +41,7 @@ const RegistrationNext = (props) => {
             <input
               id="name"
               name="name"
-              required={true}
+              required
               
               placeholder={"John Doe"}
               autoComplete="name"
@@ -55,7 +55,7 @@ const RegistrationNext = (props) => {
             <input
               id="gender"
               name="gender"
-              required={true}
+              required
               
               placeholder={"Male, Female, ..."}
               autoComplete="sex"
