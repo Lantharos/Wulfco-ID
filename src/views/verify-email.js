@@ -59,7 +59,7 @@ const VerifyEmail = (props) => {
           <button
             id="submit"
             type="button"
-            onclick="this.classList.toggle('submit--loading')"
+            onClick="this.classList.toggle('submit--loading')"
             className="verify-email-button button"
           >
             <span className="button__text verify-email-text3">Verify</span>

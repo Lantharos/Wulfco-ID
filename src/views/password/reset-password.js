@@ -61,8 +61,7 @@ const ResetPassword = (props) => {
               type="password"
               id="lastpass"
               name="lastpass"
-              required="true"
-              
+              required="true"     
               maxlength="20"
               minlength="3"
               placeholder="••••••••••••••••"
@@ -73,7 +72,7 @@ const ResetPassword = (props) => {
           <button
             id="submit"
             type="button"
-            onclick="this.classList.toggle('submit--loading')"
+            onClick="this.classList.toggle('submit--loading')"
             className="reset-password-button button"
           >
             <span className="button__text reset-password-text4">Send Link</span>

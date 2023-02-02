@@ -50,8 +50,7 @@ const Authorize = (props) => {
               type="password"
               id="password"
               name="password"
-              required="true"
-              
+              required="true"              
               maxlength="20"
               minlength="3"
               autoComplete="current-password"

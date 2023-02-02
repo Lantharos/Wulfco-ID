@@ -43,7 +43,6 @@ const ChangePassword = (props) => {
               id="password"
               name="password"
               required="true"
-              
               maxlength="20"
               minlength="3"
               placeholder="• • • • • • • • • "
@@ -59,8 +58,7 @@ const ChangePassword = (props) => {
               type="password"
               id="confirmpassword"
               name="confirmpassword"
-              required="true"
-              
+              required="true"              
               maxlength="20"
               minlength="3"
               placeholder="••••••••••••••••"
@@ -71,7 +69,7 @@ const ChangePassword = (props) => {
           <button
             id="submit"
             type="button"
-            onclick="this.classList.toggle('submit--loading')"
+            onClick="this.classList.toggle('submit--loading')"
             className="change-password-button button"
           >
             <span className="button__text change-password-text4">
