@@ -40,7 +40,7 @@ const RegistrationStart = (props) => {
             type="email"
             id="email"
             name="email"
-            required={true}
+            required
             
             placeholder={"johndoe@yourdomain.com"}
             autoComplete="email"
@@ -57,7 +57,7 @@ const RegistrationStart = (props) => {
             minLength={10}
             maxLength={20}
             passwordrules="minlength: 10; maxlength: 20; required: lower; required: upper; required: digit; required: [!,@];"
-            required={true}
+            required
             
             placeholder={"••••••••••••••••••"}
             autoComplete="new-password"

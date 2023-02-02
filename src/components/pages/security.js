@@ -195,7 +195,7 @@ const Security = (props) => {
           <input
             type="checkbox"
             id="usage_statistics_check"
-            defaultChecked={true}
+            defaultChecked
             className="security-checkbox"
           />
         </div>
@@ -217,7 +217,7 @@ const Security = (props) => {
           <input
             type="checkbox"
             id="usage_statistics_check"
-            defaultChecked={true}
+            defaultChecked
             className="security-checkbox1"
           />
         </div>

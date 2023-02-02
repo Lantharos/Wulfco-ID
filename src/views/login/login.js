@@ -161,7 +161,7 @@ const Login = (props) => {
               <input type="email"
                 id="email"
                 name="email"
-                required={true}
+                required
                 
                 autoComplete="email"
                 className="login-textinput input"
@@ -173,7 +173,7 @@ const Login = (props) => {
                 type="password"
                 id="password"
                 name="password"
-                required={true}
+                required
                 autoComplete="current-password"
                 className="login-textinput1 input"
               />

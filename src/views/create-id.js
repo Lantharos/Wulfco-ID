@@ -87,7 +87,7 @@ const CreateId = (props) => {
                 />
             </Helmet>
 
-            <AnimatePresence initial={true} exitBeforeEnter={true}>
+            <AnimatePresence initial exitBeforeEnter>
                 {stage === 0 && <RegistrationStart handler={switchStage} />}
                 {stage === 1 && <RegistrationNext handler={switchStage} />}
                 {stage === 2 && <RegistrationFinish handler={switchStage} firstname={name.split(" ")[0]} />}
