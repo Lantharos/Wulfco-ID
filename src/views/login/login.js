@@ -17,7 +17,6 @@ const Login = (props) => {
   const apiHealth = async () => {
     let response = false
     await fetch(api_url, {headers: {"W-Reason": "life_check"}}).then((res) => {
-      // enable the login button
       document.getElementById('login').disabled = false
       response = true
     }).catch((err) => {
@@ -31,11 +30,8 @@ const Login = (props) => {
     return response
   }
 
-  // check if logged in
   const checkLogin = async () => {
-    // check if session id and token are set
     if (cookies.load('session_id') && cookies.load('token')) {
-      // check if session id and token are valid
 
     }
   }
@@ -81,31 +77,6 @@ const Login = (props) => {
     })
   }
 
-  let loggingInNotification
-  const getCSRFToken = async() => {
-    let returnwhat = false
-    await fetch(api_url + '/csrf-token', {
-      method: 'get',
-      headers: {"W-For": "ID", "W-Login": "true"}
-    }).then(async(response) => {
-      let data = await response.json().catch((err) => {
-        token = "error"
-        returnwhat = false
-        document.getElementById('csrf-token').value = "error"
-      })
-
-      token = btoa(data.csrfToken)
-      returnwhat = true
-      document.getElementById('csrf-token').value = token
-    }).catch((err) => {
-      token = "error"
-      returnwhat = false
-      document.getElementById('csrf-token').value = "error"
-    })
-
-    //return returnwhat
-  }
-
   const getQRLoginCode = () => {
     if (document.getElementById('qr-login-image').src !== "https://play.teleporthq.io/static/svg/default-img.svg") { return;  }
 
@@ -127,41 +98,32 @@ const Login = (props) => {
     apiHealth().then(async(ret) => {
       if(!ret) { return }
 
-      loggingInNotification = toast.loading('Attempting to login...', { theme: "dark" });
+      let notification = toast.loading('Attempting to login...', { theme: "dark" });
 
-      setTimeout(async () => {
-        // let responseofcsrf = await getCSRFToken()
-        // if (responseofcsrf === false) {toast.update(loggingInNotification, {type: toast.TYPE.ERROR, isLoading: null, autoClose: 5000, closeOnClick: true, closeButton: true, render: "Failed to get CSRF token",});return}
+      fetch(api_url + '/id/login', {method: 'post', headers: {"W-Crypto": "false", "Content-Type": "application/json"}, body: JSON.stringify({email, password})}).then((response) => {
+        response.json().then((data) => {
+          if (data.success) {
+            toast.update(notification, {type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 5000, render: "Successfully logged in! Redirecting...", theme: "dark" })
 
-        const csrfTokenField = data.get('csrf-token')
-        if (token !== csrfTokenField) {toast.update(loggingInNotification, {type: toast.TYPE.ERROR, isLoading: false, autoClose: 5000, render: "Failed to login"});return}
-        fetch(api_url + '/id/login', {method: 'post', headers: {"W-CSRF-Token": token, "W-Crypto": "false"}, body: JSON.stringify({email, password})}).then((response) => {
-          response.json().then((data) => {
-            if (data.status === 200) {
-              toast.update(loggingInNotification, {type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 5000, render: "Successfully logged in! Redirecting...", theme: "dark" })
+            cookies.save('secret', data.session.secret, {path: '/', secure: false})
+            cookies.save('token', data.session.token, {path: '/', secure: false})
+            cookies.save('id', data.uuid, {path: '/', secure: false})
+            cookies.save('loggen', data.session.loggen, {path: '/', secure: false})
+            cookies.save('session_id', data.session.session_id, {path: '/', secure: false})
+            window.location.href = '/summary'
+          } else {
+            toast.update(notification, {type: toast.TYPE.ERROR, render: "Incorrect Email or Password", isLoading: false, autoClose: 5000, theme: "dark"})
 
-              setTimeout(() => {
-                cookies.save('secret', data.secret, {path: '/', secure: false})
-                cookies.save('token', data.token, {path: '/', secure: false})
-                cookies.save('id', data.user_id, {path: '/', secure: false})
-                cookies.save('loggen', data.loggen, {path: '/', secure: false})
-                cookies.save('session_id', data.session_id, {path: '/', secure: false})
-                props.history.push('/summary')
-              }, 3000)
-            } else {
-              toast.update(loggingInNotification, {type: toast.TYPE.ERROR, render: "Incorrect Email or Password", isLoading: false, autoClose: 5000, theme: "dark"})
+            document.getElementById('email').classList.add('error')
+            document.getElementById('password').classList.add('error')
 
-              document.getElementById('email').classList.add('error')
-              document.getElementById('password').classList.add('error')
-
-              setTimeout(() => {
-                document.getElementById('email').classList.remove('error')
-                document.getElementById('password').classList.remove('error')
-              }, 1000);
-            }
-          })
+            setTimeout(() => {
+              document.getElementById('email').classList.remove('error')
+              document.getElementById('password').classList.remove('error')
+            }, 1000);
+          }
         })
-      }, 1500)
+      })
     })
    }
 
@@ -195,28 +157,23 @@ const Login = (props) => {
           >
             <h1 className="login-text notselectable">Log in to your ID</h1>
             <div className="login-container03">
-              <span className="login-text01 notselectable">Email</span>
-              <input
-                  type="email"
+              <label htmlFor={"email"} className="login-text01 notselectable">Email</label>
+              <input type="email"
                 id="email"
                 name="email"
-                required="true"
-                
-                minLength="5"
+                required={true}
+                autoFocus={true}
                 autoComplete="email"
                 className="login-textinput input"
               />
             </div>
             <div className="login-container04">
-              <span className="login-text02 notselectable">Password</span>
+              <label htmlFor={"password"} className="login-text02 notselectable">Password</label>
               <input
                 type="password"
                 id="password"
                 name="password"
-                required="true"
-                
-                maxLength="20"
-                minLength="3"
+                required={true}
                 autoComplete="current-password"
                 className="login-textinput1 input"
               />
@@ -240,7 +197,7 @@ const Login = (props) => {
               <span className="login-text04 notselectable">
                 Don&apos;t have an ID?
               </span>
-              <Link to="/start-registration" className="login-navlink1">
+              <Link to="/create-id" className="login-navlink1">
                 <span>Create one.</span>
               </Link>
             </div>
@@ -287,7 +244,7 @@ const Login = (props) => {
             <button className="login-button1 button" onClick={() => connectMetamask()}>
               <img
                 alt="image"
-                src="/playground_assets/metamask-200h.png"
+                src="/assets/metamask.png"
                 loading="eager"
                 className="login-image1"
               />
@@ -296,7 +253,7 @@ const Login = (props) => {
             <button className="login-button2 button">
               <img
                 alt="image"
-                src="/playground_assets/walletconnect-200h.png"
+                src="/assets/walletconnect.png"
                 loading="eager"
                 className="login-image2"
               />

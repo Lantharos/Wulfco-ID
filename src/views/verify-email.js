@@ -50,7 +50,7 @@ const VerifyEmail = (props) => {
               name="code"
               step="0"
               required="true"
-              
+              autoFocus="true"
               placeholder="000000"
               autoComplete="off"
               className="verify-email-textinput input"
@@ -59,7 +59,7 @@ const VerifyEmail = (props) => {
           <button
             id="submit"
             type="button"
-            onClick="this.classList.toggle('submit--loading')"
+            onclick="this.classList.toggle('submit--loading')"
             className="verify-email-button button"
           >
             <span className="button__text verify-email-text3">Verify</span>
