@@ -51,7 +51,7 @@ const Authorize = (props) => {
               id="password"
               name="password"
               required="true"
-              autoFocus="true"
+              
               maxLength="20"
               minLength="3"
               autoComplete="current-password"

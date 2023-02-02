@@ -201,7 +201,7 @@ const Login = (props) => {
                 id="email"
                 name="email"
                 required="true"
-                autoFocus="true"
+                
                 minLength="5"
                 autoComplete="email"
                 className="login-textinput input"
@@ -214,7 +214,7 @@ const Login = (props) => {
                 id="password"
                 name="password"
                 required="true"
-                autoFocus="true"
+                
                 maxLength="20"
                 minLength="3"
                 autoComplete="current-password"

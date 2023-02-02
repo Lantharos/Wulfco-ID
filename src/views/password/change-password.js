@@ -43,7 +43,7 @@ const ChangePassword = (props) => {
               id="password"
               name="password"
               required="true"
-              autoFocus="true"
+              
               maxLength="20"
               minLength="3"
               placeholder="• • • • • • • • • "
@@ -60,7 +60,7 @@ const ChangePassword = (props) => {
               id="confirmpassword"
               name="confirmpassword"
               required="true"
-              autoFocus="true"
+              
               maxLength="20"
               minLength="3"
               placeholder="••••••••••••••••"

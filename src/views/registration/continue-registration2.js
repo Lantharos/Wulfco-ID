@@ -180,7 +180,7 @@ const ContinueRegistration2 = (props) => {
                 id="username"
                 name="username"
                 required="true"
-                autoFocus="true"
+                
                 placeholder="john_doe"
                 autoComplete="username"
                 className="continue-registration2-textinput input"
