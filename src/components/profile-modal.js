@@ -13,7 +13,7 @@ const ProfileModal = (props) => {
           <img
             id="avatar_profile"
             src={props.profile_picture}
-            alt="image"
+            alt="Avatar"
             className="profile-modal-image"
           />
           <div className="profile-modal-container4">

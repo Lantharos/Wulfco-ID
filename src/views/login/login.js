@@ -204,10 +204,10 @@ const Login = (props) => {
           </form>
           <div className="login-container07">
             <img id="qr-login-image"
-              alt="image"
+              alt="QR Login"
               src="https://play.teleporthq.io/static/svg/default-img.svg"
               className="login-image"
-                 onLoad={() => {getQRLoginCode(); getCSRFToken()}}
+                 onLoad={() => {getQRLoginCode()}}
             />
             <h1 className="login-text06 notselectable">
               <span>
@@ -243,7 +243,7 @@ const Login = (props) => {
           <div className="login-container10">
             <button className="login-button1 button" onClick={() => connectMetamask()}>
               <img
-                alt="image"
+                alt="Metamask"
                 src="/assets/metamask.png"
                 loading="eager"
                 className="login-image1"
@@ -252,7 +252,7 @@ const Login = (props) => {
             </button>
             <button className="login-button2 button">
               <img
-                alt="image"
+                alt="WalletConnect"
                 src="/assets/walletconnect.png"
                 loading="eager"
                 className="login-image2"

@@ -155,7 +155,7 @@ const RegistrationFinish = (props) => {
               <span className="registration-finish-text4"></span>
             </button>
             <img
-              alt="Your Profile Picture"
+              alt="Avatar"
               src={`https://api.dicebear.com/5.x/identicon/svg?seed=${props.firstname}`}
               className="registration-finish-image7"
             />

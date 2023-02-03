@@ -72,7 +72,7 @@ const Summary = (props) => {
             <div className="summary-container1">
                 <img
                     id="pfp"
-                    alt="image"
+                    alt={"Avatar"}
                     src={userData.profile.avatar}
                     className="summary-image"
                 />

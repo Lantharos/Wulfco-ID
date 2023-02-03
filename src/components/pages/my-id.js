@@ -85,7 +85,7 @@ const MyId = (props) => {
           <div className="my-i-d-info1">
             <img
               id="pfp"
-              alt={"Profile Picture"}
+              alt={"Avatar"}
               src={props.userData.profile.avatar}
               className="my-i-d-image"
             />
