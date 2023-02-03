@@ -21,7 +21,8 @@ const Profile = (props) => {
     e.preventDefault()
 
     const message = toast.loading('Saving...', { theme: "dark" })
-    fetch(api_url + '/id/profile?id=' + encodeURIComponent(cookies.load("id")), {
+
+    fetch(`${api_url}/id/profile?id=${encodeURIComponent(cookies.load("id"))}`, {
       method: "PATCH",
       headers: {
         'Content-Type': 'application/json',

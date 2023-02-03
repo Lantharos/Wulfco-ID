@@ -44,7 +44,7 @@ const Login = () => {
 
           const notification = toast.loading("Connecting to Metamask", { theme: "dark" })
 
-          fetch(api_url + '/id/login', {method: 'POST', headers: {'W-Crypto': 'true', 'W-Wallet-Type': walletType}, body: JSON.stringify({walletID, walletType, walletNetwork})}).then((res) => {return res.json()}).then((data) => {
+          fetch(`${api_url}/id/login`, {method: 'POST', headers: {'W-Crypto': 'true', 'W-Wallet-Type': walletType}, body: JSON.stringify({walletID, walletType, walletNetwork})}).then((res) => {return res.json()}).then((data) => {
             toast.update(notification, {render: "Connected to Metamask", type: toast.TYPE.SUCCESS, theme: "dark", autoClose: 2000})
             setTimeout(() => {
               cookies.save('secret', data.secret, {path: '/', secure: false})
@@ -78,7 +78,7 @@ const Login = () => {
 
       const notification = toast.loading('Attempting to login...', { theme: "dark" });
 
-      fetch(api_url + '/id/login', {method: 'post', headers: {"W-Crypto": "false", "Content-Type": "application/json"}, body: JSON.stringify({email, password})}).then((response) => {
+      fetch(`${api_url}/id/login`, {method: 'post', headers: {"W-Crypto": "false", "Content-Type": "application/json"}, body: JSON.stringify({email, password})}).then((response) => {
         response.json().then((data) => {
           if (data.success) {
             toast.update(notification, {type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 5000, render: "Successfully logged in! Redirecting...", theme: "dark" })

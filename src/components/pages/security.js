@@ -59,7 +59,7 @@ const Security = (props) => {
     const attestationObject = base64Encoder.encode(credential.response.attestationObject).toString();
     const clientDataJSON = base64Encoder.encode(credential.response.clientDataJSON).toString();
 
-    await fetch(`${api_url}/id/security-key?id=` + encodeURIComponent(cookies.load("id")), {
+    await fetch(`${api_url}/id/security-key?id=${encodeURIComponent(cookies.load("id"))}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

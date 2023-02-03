@@ -5,6 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd025e02-a35c-4530-81ad-28a880f44016" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/security-key.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/page_components/security-key.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/security.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/security.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/dashboard/account-settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard/account-settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/dashboard/summary.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard/summary.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/login/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/login/login.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

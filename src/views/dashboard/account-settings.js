@@ -27,7 +27,7 @@ const AccountSettings = () => {
   })
 
   const loadUserData = () => {
-    fetch(`${api_url}/id/get?id=` + encodeURIComponent(cookies.load("id")), {
+    fetch(`${api_url}/id/get?id=${encodeURIComponent(cookies.load("id"))}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ const AccountSettings = () => {
     if (selectedButton) {
       selectedButton.className = selectedButton.className.replace("sidebar-button-selected", "sidebar-button")
     } else {
-      selectedButton = document.getElementById('my-id')
+      const selectedButton = document.getElementById('my-id')
 
       selectedButton.className = selectedButton.className.replace("sidebar-button-selected", "sidebar-button")
     }
@@ -73,7 +73,7 @@ const AccountSettings = () => {
   }
 
   function logout() {
-    fetch(api_url + '/id/logout', {
+    fetch(`${api_url}/id/logout`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

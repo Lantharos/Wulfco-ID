@@ -11,7 +11,8 @@ const api_url = config.api_url
 const SecurityKey = (props) => {
     const removeKey = async() => {
         const message = toast.loading('Removing...', { theme: "dark" })
-        await fetch(api_url + '/id/security-key?id=' + encodeURIComponent(cookies.load("id")) + "&key=" + encodeURIComponent(props.keyId), {
+
+        await fetch(`${api_url}/id/security-key?id=${encodeURIComponent(cookies.load("id"))}&key=${encodeURIComponent(props.keyId)}}`, {
             method: "DELETE",
             headers: {
                 'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),

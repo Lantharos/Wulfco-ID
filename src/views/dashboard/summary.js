@@ -20,7 +20,7 @@ const Summary = () => {
 
     const loadUserData = () => {
         const message = toast.loading('Loading...', { theme: "dark" })
-        fetch(`${api_url}/id/get?id=` + encodeURIComponent(cookies.load("id")), {
+        fetch(`${api_url}/id/get?id=${encodeURIComponent(cookies.load("id"))}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
