@@ -67,18 +67,6 @@ const Login = () => {
     })
   }
 
-  const getQRLoginCode = () => {
-    if (document.getElementById('qr-login-image').src !== "https://play.teleporthq.io/static/svg/default-img.svg") { return;  }
-
-    apiHealth().then(() => {
-      fetch(api_url + '/id/qr-login', {method: 'get'}).then((response) => {
-        response.json().then((data) => {
-          document.getElementById('qr-login-image').src = data.qr
-        })
-      })
-    })
-  }
-
   const attemptLogin = (event) => {
     event.preventDefault();
     const data = new FormData(event.target);
