@@ -39,7 +39,7 @@ const AccountSettings = () => {
       res.json().then((data) => {
         if (data.success) {
           setUserData(data.user)
-          console.log(userData)
+          
         } else {
           toast.error("Failed to get user data!", { theme: "dark" })
         }

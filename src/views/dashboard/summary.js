@@ -33,7 +33,7 @@ const Summary = () => {
                 if (data.success) {
                     toast.update(message, { render: 'Loaded!', type: 'success', autoClose: 2000, isLoading: false })
                     setUserData(data.user)
-                    console.log(userData)
+                    
                 } else {
                     toast.update(message, { render: 'Failed to load!', type: 'error', autoClose: 2000, isLoading: false })
                 }
