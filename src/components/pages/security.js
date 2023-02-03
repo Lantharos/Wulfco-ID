@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import SecurityKey from './page_components/security-key'
 import './security.css'
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import cookies from 'react-cookies'
 import hmac from 'crypto-js/hmac-sha256'
 
@@ -50,9 +50,7 @@ const Security = (props) => {
 
     const credential = await navigator.credentials.create({ publicKey });
 
-    // convert ArrayBuffers to base64-encoded strings
     const base64Encoder = new TextEncoder();
-    const base64Decoder = new TextDecoder();
 
     const attestationObject = base64Encoder.encode(credential.response.attestationObject).toString();
     const clientDataJSON = base64Encoder.encode(credential.response.clientDataJSON).toString();
@@ -84,7 +82,7 @@ const Security = (props) => {
                 toast.error('Failed to register security key!', { theme: "dark" })
             }
         })
-    }).catch((err) => {
+    }).catch(() => {
         toast.error('Failed to register security key!', { theme: "dark" })
     })
   }

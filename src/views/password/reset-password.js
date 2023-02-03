@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet'
 
 import './reset-password.css'
 
-const ResetPassword = (props) => {
+const ResetPassword = () => {
   return (
     <div className="reset-password-container">
       <Helmet>

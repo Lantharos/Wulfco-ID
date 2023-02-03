@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet'
 
 import './coming-soon.css'
 
-const ComingSoon = (props) => {
+const ComingSoon = () => {
   return (
     <div className="coming-soon-container">
       <Helmet>
@@ -39,7 +39,7 @@ const ComingSoon = (props) => {
             working hard!
           </span>
         </h1>
-        <Link to="/summary" className="coming-soon-navlink button">
+        <Link to={"/summary"} className="coming-soon-navlink button">
           Go Home
         </Link>
       </div>

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 import { Helmet } from 'react-helmet'
@@ -18,7 +18,7 @@ import hmac from 'crypto-js/hmac-sha256'
 let config = require('../../config.json')
 let api_url = config.api_url
 
-const AccountSettings = (props) => {
+const AccountSettings = () => {
   let [ selectedPage, setSelectedPage ] = React.useState("")
   let [ selectedButton, setSelectedButton ] = React.useState(document.getElementById('my-id'))
   let [ userData, setUserData ] = React.useState({
@@ -95,7 +95,7 @@ const AccountSettings = (props) => {
       } else {
         toast.error("Something went wrong, please try again later", { theme: "dark" })
       }
-    }).catch((err) => {
+    }).catch(() => {
       toast.error("Something went wrong, please try again later", { theme: "dark" })
     })
   }

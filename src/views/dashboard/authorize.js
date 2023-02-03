@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet'
 
 import './authorize.css'
 
-const Authorize = (props) => {
+const Authorize = () => {
   return (
     <div className="authorize-container">
       <Helmet>

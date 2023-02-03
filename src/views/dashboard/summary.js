@@ -12,7 +12,7 @@ import hmac from 'crypto-js/hmac-sha256'
 let config = require('../../config.json')
 let api_url = config.api_url
 
-const Summary = (props) => {
+const Summary = () => {
     let [ userData, setUserData ] = React.useState({
         profile: { avatar: "", username: "John Doe" },
         account: { security: { protected: false } }

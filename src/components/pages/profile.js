@@ -1,11 +1,9 @@
 import React from 'react'
 
-import PropTypes from 'prop-types'
-
 import ProfileModal from '../profile-modal'
 import './profile.css'
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import cookies from 'react-cookies'
 import hmac from 'crypto-js/hmac-sha256'
 import { BlockPicker } from "react-color";
@@ -45,7 +43,7 @@ const Profile = (props) => {
               toast.update(message, { render: 'Failed to save!', type: 'error', autoClose: 2000, isLoading: false })
             }
         })
-    }).catch((err) => {
+    }).catch(() => {
         toast.update(message, { render: 'Failed to save!', type: 'error', autoClose: 2000, isLoading: false })
     })
   }

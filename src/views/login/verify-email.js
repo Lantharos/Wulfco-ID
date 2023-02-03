@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet'
 
 import './verify-email.css'
 
-const VerifyEmail = (props) => {
+const VerifyEmail = () => {
   return (
     <div className="verify-email-container">
       <Helmet>

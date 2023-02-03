@@ -11,7 +11,7 @@ import Premium from './views/dashboard/premium'
 import ComingSoon from './views/coming-soon'
 import ChangePassword from './views/password/change-password'
 import Login from './views/login/login'
-import VerifyEmail from './views/verify-email'
+import VerifyEmail from './views/login/verify-email'
 import Authorize from './views/dashboard/authorize'
 import CreateId from "./views/create-id";
 

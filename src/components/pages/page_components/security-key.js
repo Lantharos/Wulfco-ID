@@ -1,19 +1,16 @@
 import React from 'react'
 
-import PropTypes from 'prop-types'
-
 import './security-key.css'
 import cookies from 'react-cookies'
 import hmac from 'crypto-js/hmac-sha256'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 let config = require('../../../config.json')
 let api_url = config.api_url
 
 const SecurityKey = (props) => {
     const removeKey = async() => {
-        console.log("key id: " + props.keyId)
-        let message = toast.loading('Removing...', { theme: "dark" })
+        const message = toast.loading('Removing...', { theme: "dark" })
         await fetch(api_url + '/id/security-key?id=' + encodeURIComponent(cookies.load("id")) + "&key=" + encodeURIComponent(props.keyId), {
             method: "DELETE",
             headers: {
@@ -30,7 +27,7 @@ const SecurityKey = (props) => {
                     toast.update(message, { render: 'Failed to remove!', type: 'error', autoClose: 2000, isLoading: false })
                 }
             })
-        }).catch((err) => {
+        }).catch(() => {
             toast.update(message, { render: 'Failed to remove!', type: 'error', autoClose: 2000, isLoading: false })
         })
     }

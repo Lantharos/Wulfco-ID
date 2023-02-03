@@ -1,7 +1,5 @@
 import React from 'react'
 
-import PropTypes from 'prop-types'
-
 import './registration-finish.css'
 import cookies from 'react-cookies'
 import { motion } from 'framer-motion'

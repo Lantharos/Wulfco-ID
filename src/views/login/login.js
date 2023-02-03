@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 import { Helmet } from 'react-helmet'
@@ -9,31 +9,21 @@ import { ToastContainer, toast } from 'react-toastify';
 import detectEthereumProvider from '@metamask/detect-provider';
 import cookies from 'react-cookies'
 
-let token = ''
 let config = require('../../config.json')
 let api_url = config.api_url
 
-const Login = (props) => {
+const Login = () => {
   const apiHealth = async () => {
     let response = false
-    await fetch(api_url, {headers: {"W-Reason": "life_check"}}).then((res) => {
+    await fetch(api_url, {headers: {"W-Reason": "life_check"}}).then(() => {
       document.getElementById('login').disabled = false
       response = true
-    }).catch((err) => {
-      console.log(err)
-      // disable the login button
+    }).catch(() => {
       document.getElementById('login').disabled = true
-
       toast.error("API is down, please try again later", { theme: "dark"})
     })
 
     return response
-  }
-
-  const checkLogin = async () => {
-    if (cookies.load('session_id') && cookies.load('token')) {
-
-    }
   }
 
   const connectMetamask = () => {
@@ -65,7 +55,7 @@ const Login = (props) => {
 
               window.history.push('/summary')
             }, 3000)
-          }).catch((err) => {
+          }).catch(() => {
             toast.update(notification, { render: "Failed to connect to Metamask", type: "error", isLoading: false, theme: "dark", autoClose: 2000 })
           })
         } catch (error) {

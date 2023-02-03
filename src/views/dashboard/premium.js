@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet'
 
 import './premium.css'
 
-const Premium = (props) => {
+const Premium = () => {
   return (
     <div className="premium-container">
       <Helmet>
@@ -31,11 +31,6 @@ const Premium = (props) => {
           <span className="premium-text02">
             <span>
               With this you get stuff from base plan and:
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: ' ',
-                }}
-              />
             </span>
             <br></br>
             <span>Lower Ratelimit (1000req/s)</span>
@@ -54,11 +49,6 @@ const Premium = (props) => {
           <span className="premium-text13">
             <span>
               With this you get stuff from the plans and:
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: ' ',
-                }}
-              />
             </span>
             <br></br>
             <span></span>

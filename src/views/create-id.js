@@ -12,7 +12,7 @@ import RegistrationFinish from "../components/registration/registration-finish";
 import config from '../config.json'
 import cookies from "react-cookies";
 
-const CreateId = (props) => {
+const CreateId = () => {
     let [ stage, setStage ] = React.useState(0)
     let [ name, setName ] = React.useState("")
 
