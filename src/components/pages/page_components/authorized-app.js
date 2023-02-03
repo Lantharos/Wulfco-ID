@@ -28,6 +28,7 @@ const AuthorizedApp = (props) => {
             id="appicon"
             src={props.app_icon}
             className="authorized-app-image notselectable"
+            alt={"App Icon"}
           />
           <span id="app_name" className="authorized-app-text notselectable">
             {props.app_name}

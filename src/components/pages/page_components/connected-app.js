@@ -19,6 +19,7 @@ const ConnectedApp = (props) => {
           id="appicon"
           src={props.image_src}
           className="connected-app-image notselectable"
+          alt={"App Icon"}
         />
         <span id="appname" className="connected-app-text notselectable">
           {props.text}

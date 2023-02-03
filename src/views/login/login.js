@@ -197,16 +197,10 @@ const Login = () => {
               alt="QR Login"
               src="https://play.teleporthq.io/static/svg/default-img.svg"
               className="login-image"
-                 onLoad={() => {getQRLoginCode()}}
             />
             <h1 className="login-text06 notselectable">
               <span>
                 Log in with QR
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: ' ',
-                  }}
-                />
               </span>
               <br></br>
               <span>Code</span>
