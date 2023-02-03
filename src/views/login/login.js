@@ -27,8 +27,8 @@ const Login = () => {
   }
 
   const connectMetamask = () => {
-    apiHealth().then(async(res) => {
-      if (!res) { return }
+    apiHealth().then(async(ret) => {
+      if (!ret) { return }
       const provider = await detectEthereumProvider({ mustBeMetaMask: true });
 
       if (provider) {
@@ -69,9 +69,9 @@ const Login = () => {
 
   const attemptLogin = (event) => {
     event.preventDefault();
-    const data = new FormData(event.target);
-    const email = btoa(data.get('email'));
-    const password = btoa(data.get('password'));
+    const formData = new FormData(event.target);
+    const email = btoa(formData.get('email'));
+    const password = btoa(formData.get('password'));
 
     apiHealth().then(async(ret) => {
       if(!ret) { return }
