@@ -16,7 +16,6 @@ const Security = (props) => {
   const mapSecurityKeys = () => {
     if (props.userData.account.security.security_keys) {
       for (let i = 0; i < props.userData.account.security.security_keys.length; i++) {
-        console.log(i)
         return (
           <SecurityKey
             keyId={i}
@@ -25,6 +24,8 @@ const Security = (props) => {
           />
         )
       }
+    } else {
+      return
     }
   }
 
