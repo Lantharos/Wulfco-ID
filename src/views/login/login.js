@@ -73,7 +73,7 @@ const Login = () => {
     const email = btoa(formData.get('email'));
     const password = btoa(formData.get('password'));
 
-    apiHealth().then(async(ret) => {
+    apiHealth().then((ret) => {
       if(!ret) { return }
 
       const notification = toast.loading('Attempting to login...', { theme: "dark" });
