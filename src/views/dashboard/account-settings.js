@@ -134,20 +134,20 @@ const AccountSettings = () => {
             <span className="account-settings-text notselectable">
               USER SETTINGS
             </span>
-              <button className="sidebar-button-selected button" id="my-id" onClick={buttonClick}>My ID</button>
-              <button className="sidebar-button button" id="profile" onClick={buttonClick}>
+              <button className="sidebar-button-selected button" id="my-id" type="button" onClick={buttonClick}>My ID</button>
+              <button className="sidebar-button button" id="profile" type="button" onClick={buttonClick}>
                 Profile
               </button>
-              <button className="sidebar-button button" id="security" onClick={buttonClick}>
+              <button className="sidebar-button button" id="security" type="button" onClick={buttonClick}>
                 Privacy &amp; Security
               </button>
-              <button className="sidebar-button button" id="authorized-apps" onClick={buttonClick}>
+              <button className="sidebar-button button" id="authorized-apps" type="button" onClick={buttonClick}>
                 Authorized Apps
               </button>
-              <button className="sidebar-button button" id="devices" onClick={buttonClick}>
+              <button className="sidebar-button button" id="devices" type="button" onClick={buttonClick}>
                 Devices
               </button>
-              <button className="sidebar-button button" id="connections" onClick={buttonClick}>
+              <button className="sidebar-button button" id="connections" type="button" onClick={buttonClick}>
                 Connections
               </button>
             </div>
@@ -156,19 +156,19 @@ const AccountSettings = () => {
               <span className="account-settings-text1 notselectable">
               FRIENDS
             </span>
-              <button className="sidebar-button button" id="friends" onClick={buttonClick}>
+              <button className="sidebar-button button" id="friends" type="button" onClick={buttonClick}>
                 Your Friends
               </button>
-              <button className="sidebar-button button" id="add-friend" onClick={buttonClick}>
+              <button className="sidebar-button button" id="add-friend" type="button" onClick={buttonClick}>
                 Add a Friend
               </button>
-              <button className="sidebar-button button" id="pending-invites" onClick={buttonClick}>
+              <button className="sidebar-button button" id="pending-invites" type="button" onClick={buttonClick}>
                 Pending Invites
               </button>
-              <button className="sidebar-button button" id="blocked" onClick={buttonClick}>
+              <button className="sidebar-button button" id="blocked" type="button" onClick={buttonClick}>
                 Blocked
               </button>
-              <button className="sidebar-button button" id="followed-profiles" onClick={buttonClick}>
+              <button className="sidebar-button button" id="followed-profiles" type="button" onClick={buttonClick}>
                 Followed Profiles
               </button>
             </div>
@@ -198,7 +198,7 @@ const AccountSettings = () => {
               >
                 Billing
               </Link>
-              <button className="sidebar-button button" id="my-card" onClick={buttonClick}>
+              <button className="sidebar-button button" id="my-card" type="button" onClick={buttonClick}>
                 My Card
               </button>
             </div>
@@ -219,7 +219,7 @@ const AccountSettings = () => {
               <div className="account-settings-container4"></div>
             </div>
             <div className="account-settings-undefined1">
-              <button id="logout" className="sidebar-button button" onClick={logout}>
+              <button id="logout" className="sidebar-button button" type="button" onClick={logout}>
                 Logout
               </button>
             </div>

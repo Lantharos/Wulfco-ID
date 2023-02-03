@@ -62,7 +62,7 @@ const Home = () => {
           </a>
         </div>
       </div>
-      <button className="home-button button">↓</button>
+      <button className="home-button button" type="button">↓</button>
     </div>
   )
 }

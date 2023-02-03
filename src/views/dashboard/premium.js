@@ -39,7 +39,7 @@ const Premium = () => {
             <br></br>
             <span>...prob some stuff i forgot to name</span>
           </span>
-          <button className="premium-button button">
+          <button className="premium-button button" type="button">
             <span className="premium-text10">Subscribe ($4.99)</span>
           </button>
         </div>
@@ -60,7 +60,7 @@ const Premium = () => {
             <br></br>
             <span>...and more!</span>
           </span>
-          <button className="premium-button1 button">
+          <button className="premium-button1 button" type="button">
             <span className="premium-text24">Subscribe ($9.99)</span>
           </button>
         </div>
@@ -76,7 +76,7 @@ const Premium = () => {
             <span>...prob some stuff i forgot to name</span>
             <br></br>
           </span>
-          <button className="premium-button2 button">
+          <button className="premium-button2 button" type="button">
             <span className="premium-text35">Subscribe ($2.99)</span>
           </button>
         </div>

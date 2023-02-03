@@ -213,7 +213,7 @@ const Login = () => {
             </span>
           </div>
           <div className="login-container10">
-            <button className="login-button1 button" onClick={() => connectMetamask()}>
+            <button className="login-button1 button" type="button" onClick={() => connectMetamask()}>
               <img
                 alt="Metamask"
                 src="/assets/metamask.png"
@@ -222,7 +222,7 @@ const Login = () => {
               />
               <h1 className="login-text21 notselectable">Metamask</h1>
             </button>
-            <button className="login-button2 button">
+            <button className="login-button2 button" type="button">
               <img
                 alt="WalletConnect"
                 src="/assets/walletconnect.png"
