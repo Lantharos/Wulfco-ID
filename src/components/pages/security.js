@@ -15,17 +15,20 @@ let api_url = config.api_url
 const Security = (props) => {
   const mapSecurityKeys = () => {
     if (props.userData.account.security.security_keys) {
+      let securityKeys = []
       for (let i = 0; i < props.userData.account.security.security_keys.length; i++) {
-        return (
-          <SecurityKey
-            keyId={i}
-            name={props.userData.account.security.security_keys[i].name}
-            updateUserData={props.updateUserData}
-          />
+        securityKeys.push(
+            <SecurityKey
+                keyId={i}
+                name={props.userData.account.security.security_keys[i].name}
+                updateUserData={props.updateUserData}
+            />
         )
       }
+
+      return securityKeys
     } else {
-      return
+      return null
     }
   }
 
