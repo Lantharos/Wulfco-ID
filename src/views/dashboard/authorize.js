@@ -69,23 +69,8 @@ const Authorize = () => {
             <span>Make sure you trust this app and if</span>
             <br></br>
             <span>
-              you wish to revoke access, you can
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: ' ',
-                }}
-              />
+              you wish to revoke access, you can do so in your account settings.
             </span>
-            <br></br>
-            <span>
-              do
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: ' ',
-                }}
-              />
-            </span>
-            <span>so in your account settings.</span>
           </span>
         </form>
       </div>
