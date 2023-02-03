@@ -20,7 +20,7 @@ const api_url = config.api_url
 
 const AccountSettings = () => {
   const [ selectedPage, setSelectedPage ] = React.useState("")
-  const [ selectedButton, setSelectedButton ] = React.useState(document.getElementById('my-id'))
+  let [ selectedButton, setSelectedButton ] = React.useState(document.getElementById('my-id'))
   const [ userData, setUserData ] = React.useState({
     profile: { avatar: "", username: "John Doe", about_me: "This is a test.", pronouns: "they/them", profile_color: "#008cff" },
     account: { security: { protected: false, security_keys: [] } }
@@ -60,7 +60,7 @@ const AccountSettings = () => {
     if (selectedButton) {
       selectedButton.className = selectedButton.className.replace("sidebar-button-selected", "sidebar-button")
     } else {
-      const selectedButton = document.getElementById('my-id')
+      selectedButton = document.getElementById('my-id')
 
       selectedButton.className = selectedButton.className.replace("sidebar-button-selected", "sidebar-button")
     }
