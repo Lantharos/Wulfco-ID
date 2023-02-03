@@ -83,7 +83,6 @@ AuthorizedApp.defaultProps = {
   app_remove1: 'Go to Storage',
   app_about:
     'App is an app that adds stuff and is used by people and does stuff',
-  button: () => {},
   app_name: 'VikkiVuk ID',
   rootClassName: '',
   app_remove: 'Deauthorize',
