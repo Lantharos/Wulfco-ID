@@ -3,17 +3,15 @@ import React from 'react'
 import './registration-finish.css'
 import cookies from 'react-cookies'
 import { motion } from 'framer-motion'
-let config = require('../../config.json')
-let api_url = config.api_url
+const config = require('../../config.json')
+const api_url = config.api_url
 
 const RegistrationFinish = (props) => {
-  console.log(props)
-  console.log(props.firstname)
   const handleSubmit = (e) => {
     e.preventDefault()
     const data = new FormData(e.target)
 
-    let obj = {}
+    const obj = {}
     data.forEach((value, key) => {
       obj[key] = value
     })

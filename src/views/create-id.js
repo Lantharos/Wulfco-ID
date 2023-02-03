@@ -13,19 +13,19 @@ import config from '../config.json'
 import cookies from "react-cookies";
 
 const CreateId = () => {
-    let [ stage, setStage ] = React.useState(0)
-    let [ name, setName ] = React.useState("")
+    const [ stage, setStage ] = React.useState(0)
+    const [ name, setName ] = React.useState("")
 
     const switchStage = (nextStage, newData) => {
         if (stage === 0) {
-            let message = toast.loading('Creating new session...', { theme: "dark" })
+            const message = toast.loading('Creating new session...', { theme: "dark" })
             sessionStorage.setItem("email", newData.email)
             sessionStorage.setItem("password", newData.password)
             toast.update(message, { render: 'Session created!', type: 'success', autoClose: 2000, isLoading: false })
 
             setStage(nextStage)
         } else if (stage === 1) {
-            let message = toast.loading('Saving...', { theme: "dark" })
+            const message = toast.loading('Saving...', { theme: "dark" })
             setName(newData.name)
             sessionStorage.setItem("name", newData.name)
             sessionStorage.setItem("gender", newData.gender)
@@ -33,7 +33,7 @@ const CreateId = () => {
 
             setStage(nextStage)
         } else if (stage === 2) {
-            let message = toast.loading('Creating your ID...', { theme: "dark" })
+            const message = toast.loading('Creating your ID...', { theme: "dark" })
 
             fetch(`${config.api_url}/id/create`, {
                 method: 'POST',

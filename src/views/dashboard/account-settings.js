@@ -15,13 +15,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import cookies from 'react-cookies'
 import hmac from 'crypto-js/hmac-sha256'
 
-let config = require('../../config.json')
-let api_url = config.api_url
+const config = require('../../config.json')
+const api_url = config.api_url
 
 const AccountSettings = () => {
-  let [ selectedPage, setSelectedPage ] = React.useState("")
-  let [ selectedButton, setSelectedButton ] = React.useState(document.getElementById('my-id'))
-  let [ userData, setUserData ] = React.useState({
+  const [ selectedPage, setSelectedPage ] = React.useState("")
+  const [ selectedButton, setSelectedButton ] = React.useState(document.getElementById('my-id'))
+  const [ userData, setUserData ] = React.useState({
     profile: { avatar: "", username: "John Doe", about_me: "This is a test.", pronouns: "they/them", profile_color: "#008cff" },
     account: { security: { protected: false, security_keys: [] } }
   })

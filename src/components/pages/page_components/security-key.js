@@ -5,8 +5,8 @@ import cookies from 'react-cookies'
 import hmac from 'crypto-js/hmac-sha256'
 import { toast } from 'react-toastify';
 
-let config = require('../../../config.json')
-let api_url = config.api_url
+const config = require('../../../config.json')
+const api_url = config.api_url
 
 const SecurityKey = (props) => {
     const removeKey = async() => {

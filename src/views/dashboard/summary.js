@@ -9,17 +9,17 @@ import { ToastContainer, toast } from 'react-toastify';
 import cookies from 'react-cookies'
 import hmac from 'crypto-js/hmac-sha256'
 
-let config = require('../../config.json')
-let api_url = config.api_url
+const config = require('../../config.json')
+const api_url = config.api_url
 
 const Summary = () => {
-    let [ userData, setUserData ] = React.useState({
+    const [ userData, setUserData ] = React.useState({
         profile: { avatar: "", username: "John Doe" },
         account: { security: { protected: false } }
     })
 
     const loadUserData = () => {
-        let message = toast.loading('Loading...', { theme: "dark" })
+        const message = toast.loading('Loading...', { theme: "dark" })
         fetch(`${api_url}/id/get?id=` + encodeURIComponent(cookies.load("id")), {
             method: 'GET',
             headers: {

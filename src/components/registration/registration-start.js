@@ -9,7 +9,7 @@ const RegistrationStart = (props) => {
     e.preventDefault()
     const data = new FormData(e.target)
 
-    let obj = {}
+    const obj = {}
     data.forEach((value, key) => {
         obj[key] = value
     })

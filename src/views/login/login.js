@@ -9,8 +9,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import detectEthereumProvider from '@metamask/detect-provider';
 import cookies from 'react-cookies'
 
-let config = require('../../config.json')
-let api_url = config.api_url
+const config = require('../../config.json')
+const api_url = config.api_url
 
 const Login = () => {
   const apiHealth = async () => {
@@ -38,11 +38,11 @@ const Login = () => {
 
           await provider.request({method: "wallet_switchEthereumChain", params: [{ chainId: "0x38" }]})
 
-          let walletID = account[0]
-          let walletType = 'metamask'
-          let walletNetwork = 'bsc'
+          const walletID = account[0]
+          const walletType = 'metamask'
+          const walletNetwork = 'bsc'
 
-          let notification = toast.loading("Connecting to Metamask", { theme: "dark" })
+          const notification = toast.loading("Connecting to Metamask", { theme: "dark" })
 
           fetch(api_url + '/id/login', {method: 'POST', headers: {'W-Crypto': 'true', 'W-Wallet-Type': walletType}, body: JSON.stringify({walletID: walletID, walletType: walletType, walletNetwork: walletNetwork})}).then((res) => {return res.json()}).then((data) => {
             toast.update(notification, {render: "Connected to Metamask", type: toast.TYPE.SUCCESS, theme: "dark", autoClose: 2000})
@@ -76,7 +76,7 @@ const Login = () => {
     apiHealth().then(async(ret) => {
       if(!ret) { return }
 
-      let notification = toast.loading('Attempting to login...', { theme: "dark" });
+      const notification = toast.loading('Attempting to login...', { theme: "dark" });
 
       fetch(api_url + '/id/login', {method: 'post', headers: {"W-Crypto": "false", "Content-Type": "application/json"}, body: JSON.stringify({email, password})}).then((response) => {
         response.json().then((data) => {

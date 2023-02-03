@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd025e02-a35c-4530-81ad-28a880f44016" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/components/pages/security.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/security.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/security-key.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/page_components/security-key.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/registration/registration-finish.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/registration/registration-finish.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/registration/registration-next.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/registration/registration-next.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/registration/registration-start.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/registration/registration-start.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

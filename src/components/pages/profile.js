@@ -8,19 +8,19 @@ import cookies from 'react-cookies'
 import hmac from 'crypto-js/hmac-sha256'
 import { BlockPicker } from "react-color";
 
-let config = require('../../config.json')
-let api_url = config.api_url
+const config = require('../../config.json')
+const api_url = config.api_url
 
 const Profile = (props) => {
-  let [ pronouns, setPronouns ] = React.useState(props.userData.profile.pronouns)
-  let [ aboutMe, setAboutMe ] = React.useState(props.userData.profile.about_me)
-  let [ profileColor, setProfileColor ] = React.useState(props.userData.profile.profile_color)
-  let [ showPicker, setShowPicker ] = React.useState(false);
+  const [ pronouns, setPronouns ] = React.useState(props.userData.profile.pronouns)
+  const [ aboutMe, setAboutMe ] = React.useState(props.userData.profile.about_me)
+  const [ profileColor, setProfileColor ] = React.useState(props.userData.profile.profile_color)
+  const [ showPicker, setShowPicker ] = React.useState(false);
 
   const save = (e) => {
     e.preventDefault()
 
-    let message = toast.loading('Saving...', { theme: "dark" })
+    const message = toast.loading('Saving...', { theme: "dark" })
     fetch(api_url + '/id/profile?id=' + encodeURIComponent(cookies.load("id")), {
       method: "PATCH",
       headers: {

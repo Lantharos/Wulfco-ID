@@ -9,13 +9,13 @@ import { toast } from 'react-toastify';
 import cookies from 'react-cookies'
 import hmac from 'crypto-js/hmac-sha256'
 
-let config = require('../../config.json')
-let api_url = config.api_url
+const config = require('../../config.json')
+const api_url = config.api_url
 
 const Security = (props) => {
   const mapSecurityKeys = () => {
     if (props.userData.account.security.security_keys) {
-      let securityKeys = []
+      const securityKeys = []
       for (let i = 0; i < props.userData.account.security.security_keys.length; i++) {
         securityKeys.push(
             <SecurityKey
