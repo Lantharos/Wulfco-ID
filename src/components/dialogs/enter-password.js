@@ -17,7 +17,6 @@ const EnterPassword = (props) => {
                         id="password"
                         name="password"
                         required="true"
-                        autoFocus="true"
                         autoComplete="current-password"
                         className="enter-password-textinput input"
                     />
