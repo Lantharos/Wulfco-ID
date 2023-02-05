@@ -14,7 +14,7 @@ const api_url = config.api_url
 const Profile = (props) => {
   const [ pronouns, setPronouns ] = React.useState(props.userData.profile.pronouns)
   const [ aboutMe, setAboutMe ] = React.useState(props.userData.profile.about_me)
-  const [ profileColor, setProfileColor ] = React.useState(props.userData.profile.profile_color)
+  const [ profileColor, setProfileColor ] = React.useState(props.userData.profile.profile_color || "#1a63b9")
   const [ showPicker, setShowPicker ] = React.useState(false);
 
   const save = (e) => {
@@ -50,18 +50,12 @@ const Profile = (props) => {
   }
 
   const changeColor = (isDefault) => {
-    if (isDefault) {
 
-    } else {
-      // show color picker modal
-        setShowPicker(true);
-    }
   }
 
-  const handleColorPickerChange = (color) => {
-    setProfileColor(color.hex);
-    setShowPicker(false);
-  };
+  const checkIfDefault = (color) => {
+    return color === "#1a63b9";
+  }
 
   return (
     <div className="profile-content">
@@ -90,29 +84,30 @@ const Profile = (props) => {
           <span className="profile-text1 notselectable">PROFILE COLOR</span>
           <div className="profile-container1">
             <div className="profile-container2">
-              <button id="select_default" onClick={changeColor(true)} type="button" className="profile-button button">
-                <svg id="default_color_selected" viewBox="0 0 1024 1024" className="profile-icon">
+              <button id="select_default" onClick={() => setProfileColor("#1a63b9")} type="button" className="profile-button button">
+                <svg id="default_color_selected" style={{opacity: (profileColor === "#1a63b9") ? 1 : 0}} viewBox="0 0 1024 1024" className="profile-icon">
                   <path d="M864 128l-480 480-224-224-160 160 384 384 640-640z"></path>
                 </svg>
               </button>
               <span className="profile-text2">Default</span>
             </div>
             <div className="profile-container3">
-              <button id="pick_custom_color" onClick={changeColor(false)} type="button" className="profile-button1 button">
+              <button id="pick_custom_color" style={{backgroundColor: profileColor}} onClick={() => (showPicker) ? setShowPicker(false) : setShowPicker(true)} type="button" className="profile-button1 button">
                 <svg viewBox="0 0 1024 1024" className="profile-icon2">
                   <path d="M986.51 37.49c-49.988-49.986-131.032-49.986-181.020 0l-172.118 172.118-121.372-121.372-135.764 135.764 106.426 106.426-472.118 472.118c-8.048 8.048-11.468 18.958-10.3 29.456h-0.244v160c0 17.674 14.328 32 32 32h160c0 0 2.664 0 4 0 9.212 0 18.426-3.516 25.456-10.544l472.118-472.118 106.426 106.426 135.764-135.764-121.372-121.372 172.118-172.118c49.986-49.988 49.986-131.032 0-181.020zM173.090 960h-109.090v-109.090l469.574-469.572 109.088 109.088-469.572 469.574z"></path>
                 </svg>
-                <svg id="custom_color_selected" viewBox="0 0 1024 1024" className="profile-icon4">
+                <svg id="custom_color_selected" style={{opacity: (profileColor === "#1a63b9") ? 0 : 1}} viewBox="0 0 1024 1024" className="profile-icon4">
                   <path d="M864 128l-480 480-224-224-160 160 384 384 640-640z"></path>
                 </svg>
               </button>
               <span className="profile-text3">Custom</span>
               {showPicker && (
-                  <BlockPicker
-                      color={profileColor}
-                      onChangeComplete={handleColorPickerChange}
-                      onClose={setShowPicker(false)}
-                  />
+                  <div style={{ position: "absolute", zIndex: 1, top: "350px" }}>
+                    <BlockPicker
+                        color={profileColor}
+                        onChangeComplete={(color) => setProfileColor(color.hex)}
+                    />
+                  </div>
               )}
             </div>
           </div>
@@ -150,7 +145,7 @@ const Profile = (props) => {
       </form>
       <aside className="profile-container6">
         <span className="profile-text7 notselectable">PREVIEW</span>
-        <ProfileModal about_me={aboutMe} pronouns={pronouns} username={props.userData.profile.username} profile_picture={props.userData.profile.avatar}></ProfileModal>
+        <ProfileModal about_me={aboutMe} profile_color={profileColor} pronouns={pronouns} username={props.userData.profile.username} profile_picture={props.userData.profile.avatar}></ProfileModal>
       </aside>
     </div>
   )

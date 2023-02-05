@@ -8,7 +8,7 @@ const ProfileModal = (props) => {
   return (
     <div className="profile-modal-container">
       <div className="profile-modal-container1">
-        <div className="profile-modal-container2"></div>
+        <div style={{backgroundColor: props.profile_color}} className="profile-modal-container2"></div>
         <div className="profile-modal-container3">
           <img
             id="avatar_profile"

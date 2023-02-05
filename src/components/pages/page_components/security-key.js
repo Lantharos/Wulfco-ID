@@ -9,10 +9,10 @@ const config = require('../../../config.json')
 const api_url = config.api_url
 
 const SecurityKey = (props) => {
-    const removeKey = async() => {
+    const removeKey = async(preps) => {
         const message = toast.loading('Removing...', { theme: "dark" })
 
-        await fetch(`${api_url}/id/security-key?id=${encodeURIComponent(cookies.load("id"))}&key=${encodeURIComponent(props.keyId)}}`, {
+        await fetch(`${api_url}/id/security-key?id=${encodeURIComponent(cookies.load("id"))}&key=${encodeURIComponent(preps.keyId)}`, {
             method: "DELETE",
             headers: {
                 'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
@@ -23,7 +23,7 @@ const SecurityKey = (props) => {
             res.json().then((data) => {
                 if (data.success) {
                     toast.update(message, { render: 'Removed!', type: 'success', autoClose: 2000, isLoading: false })
-                    props.updateUserData()
+                    preps.updateUserData()
                 } else {
                     toast.update(message, { render: 'Failed to remove!', type: 'error', autoClose: 2000, isLoading: false })
                 }
@@ -31,6 +31,12 @@ const SecurityKey = (props) => {
         }).catch(() => {
             toast.update(message, { render: 'Failed to remove!', type: 'error', autoClose: 2000, isLoading: false })
         })
+    }
+
+    const promptPassword = () => {
+        props.setEnterPassword({after: async() => {
+            await removeKey(props)
+        }})
     }
 
     return (
@@ -41,7 +47,7 @@ const SecurityKey = (props) => {
                     id="remove_key"
                     type="button"
                     className="security-key-button button"
-                    onClick={removeKey}
+                    onClick={promptPassword}
                 >
                     Remove
                 </button>

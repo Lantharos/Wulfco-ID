@@ -5,7 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd025e02-a35c-4530-81ad-28a880f44016" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/views/dashboard/authorize.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard/authorize.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/dialogs/edit-username.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/dialogs/edit-username.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/dialogs/enter-password.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/dialogs/enter-password.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/dialogs/name-security-key.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/dialogs/name-security-key.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/my-id.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/my-id.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/security-key.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/page_components/security-key.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/security.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/security.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/profile-modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/profile-modal.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +50,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/Projects/Uncategorized/Wulfco ID/public&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Projects/Uncategorized/Wulfco ID/src/components/dialogs&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -56,6 +67,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Projects\Uncategorized\Wulfco ID\src\components\dialogs" />
       <recent name="E:\Projects\Uncategorized\Wulfco ID\public" />
       <recent name="E:\Projects\Uncategorized\VikkiVuk ID\src\components" />
       <recent name="E:\Projects\Uncategorized\VikkiVuk ID\public\playground_assets" />

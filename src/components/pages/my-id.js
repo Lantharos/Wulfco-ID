@@ -2,13 +2,20 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import './my-id.css'
+import EditUsername from "../dialogs/edit-username";
+import {AnimatePresence} from 'framer-motion'
 
 const MyId = (props) => {
+  const [ showEditUsername, setShowEditUsername ] = React.useState(false)
+
   return (
     <div className={`my-i-d-content`}>
       <h1 className="my-i-d-text notselectable">My ID</h1>
       <div className="my-i-d-user-profile">
-        <div id="background" className="my-i-d-background"></div>
+        <AnimatePresence>
+            {showEditUsername && <EditUsername setShowEditUsername={setShowEditUsername} />}
+        </AnimatePresence>
+        <div id="background" className="my-i-d-background" style={{ backgroundColor: (props.userData.profile.profile_color) ? props.userData.profile.profile_color : "#1a63b9" }}></div>
         <div className="my-i-d-content1">
           <div className="my-i-d-wrapper">
             <div className="my-i-d-username-wrapper">
@@ -26,6 +33,7 @@ const MyId = (props) => {
                   id="edit_username"
                   type="button"
                   className="my-i-d-edit button"
+                  onClick={() => setShowEditUsername(true)}
                 >
                   <span className="button__text my-i-d-text1">
                     Edit

@@ -5,14 +5,15 @@ import PropTypes from 'prop-types'
 import SecurityKey from './page_components/security-key'
 import './security.css'
 import 'react-toastify/dist/ReactToastify.css';
-import { toast } from 'react-toastify';
-import cookies from 'react-cookies'
-import hmac from 'crypto-js/hmac-sha256'
+import { AnimatePresence } from "framer-motion";
+import NameSecurityKey from "../dialogs/name-security-key";
+import EnterPassword from "../dialogs/enter-password";
 
-const config = require('../../config.json')
-const api_url = config.api_url
 
 const Security = (props) => {
+  const [ securityKey, setSecurityKey ] = React.useState({})
+  const [ enterPassword, setEnterPassword ] = React.useState({})
+
   const mapSecurityKeys = () => {
     if (props.userData.account.security.security_keys) {
       const securityKeys = []
@@ -22,6 +23,7 @@ const Security = (props) => {
                 keyId={i}
                 name={props.userData.account.security.security_keys[i].name}
                 updateUserData={props.updateUserData}
+                setEnterPassword={setEnterPassword}
             />
         )
       }
@@ -59,36 +61,7 @@ const Security = (props) => {
     const attestationObject = base64Encoder.encode(credential.response.attestationObject).toString();
     const clientDataJSON = base64Encoder.encode(credential.response.clientDataJSON).toString();
 
-    await fetch(`${api_url}/id/security-key?id=${encodeURIComponent(cookies.load("id"))}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
-            'W-Session': cookies.load('session_id'),
-            'W-Loggen': cookies.load('loggen')
-        },
-        body: JSON.stringify({
-          id: base64Encoder.encode(credential.id).toString(),
-          rawId: base64Encoder.encode(credential.rawId).toString(),
-          response: {
-            attestationObject,
-            clientDataJSON
-          },
-          type: credential.type,
-          name: prompt("Enter a name for this security key")
-        })
-    }).then((res) => {
-        res.json().then((data) => {
-            if (data.success) {
-                toast.success('Security key registered!', { theme: "dark" })
-                props.updateUserData()
-            } else {
-                toast.error('Failed to register security key!', { theme: "dark" })
-            }
-        })
-    }).catch(() => {
-        toast.error('Failed to register security key!', { theme: "dark" })
-    })
+    setSecurityKey({id: base64Encoder.encode(credential.id).toString(), rawId: base64Encoder.encode(credential.rawId).toString(), response: {attestationObject, clientDataJSON}, type: credential.type})
   }
 
   return (
@@ -98,8 +71,13 @@ const Security = (props) => {
         <span className="security-text01 notselectable">MULTI-FACTOR AUTHENTICATION</span>
         <div className="security-container01">
           <div className="security-container02">
+            <AnimatePresence>
+              {securityKey.id && <NameSecurityKey setSecurityKey={setSecurityKey} securityKey={securityKey} updateUserData={props.updateUserData} />}
+              {enterPassword.after && <EnterPassword setEnterPassword={setEnterPassword} enterPassword={enterPassword} updateUserData={props.updateUserData} />}
+            </AnimatePresence>
             <div className="security-container03">
               <div className="security-container04">
+
                 <h1 className="security-text02 notselectable">
                   Security Keys
                 </h1>
