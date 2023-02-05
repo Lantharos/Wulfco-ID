@@ -49,14 +49,6 @@ const Profile = (props) => {
     })
   }
 
-  const changeColor = (isDefault) => {
-
-  }
-
-  const checkIfDefault = (color) => {
-    return color === "#1a63b9";
-  }
-
   return (
     <div className="profile-content">
       <h1 className="profile-text notselectable">Profile</h1>
