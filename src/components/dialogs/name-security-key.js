@@ -9,7 +9,55 @@ const config = require('../../config.json')
 const api_url = config.api_url
 
 const NameSecurityKey = (props) => {
+    const checkPassword = async() => {
+        let toReturn = true;
+        return new Promise((resolve) => {
+            const password = document.getElementById('password').value;
+            fetch(`${api_url}/id/verify-password?id=${encodeURIComponent(cookies.load('id'))}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
+                    'W-Session': cookies.load('session_id'),
+                    'W-Loggen': cookies.load('loggen')
+                },
+                body: JSON.stringify({
+                    password
+                })
+            }).then((res) => {
+                res.json().then((data) => {
+                    if (data.success) {
+                        toReturn = true;
+                    } else {
+                        toReturn = false;
+                        toast.error('Incorrect password', { theme: 'dark', autoClose: 2000 });
+                        document.getElementById('password').classList.add('error');
+                        setTimeout(() => {
+                            document.getElementById('password').classList.remove('error');
+                        }, 2000);
+                    }
+                    resolve(toReturn);
+                });
+            }).catch(() => {
+                toReturn = false;
+                toast.error('Failed to check password', { theme: 'dark', autoClose: 2000 });
+                document.getElementById('password').classList.add('error');
+                setTimeout(() => {
+                    document.getElementById('password').classList.remove('error');
+                }, 2000);
+                resolve(toReturn);
+            });
+        });
+    };
+
     const saveKey = async() => {
+        if ((await checkPassword()) === false) {
+            console.log('Incorrect password')
+            return
+        }
+
+        console.log("Saving key...")
+
         const notif = toast.loading('Registering security key...', { theme: "dark" })
         const attestationObject = props.securityKey.response.attestationObject
         const clientDataJSON = props.securityKey.response.clientDataJSON

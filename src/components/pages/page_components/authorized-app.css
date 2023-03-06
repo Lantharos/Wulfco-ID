@@ -62,6 +62,9 @@
 .authorized-app-button1:hover {
   background-color: #3a30c9;
 }
+.hidden {
+  display: none;
+}
 .authorized-app-container2 {
   width: 50%;
   height: auto;

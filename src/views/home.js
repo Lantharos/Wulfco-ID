@@ -34,7 +34,7 @@ const Home = () => {
       </div>
       <div className="home-container10">
         <h1 className="home-text">
-          <span className="home-text1">Everything you need,</span>
+          <span className="home-text1">Everything you need, </span>
           <span className="home-text2">all in one place.</span>
         </h1>
         <h1 className="home-text3">

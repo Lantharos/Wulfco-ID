@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom'
 import './my-id.css'
 import EditUsername from "../dialogs/edit-username";
 import {AnimatePresence} from 'framer-motion'
+import cookies from "react-cookies";
+import hmac from "crypto-js/hmac-sha256";
+import {toast} from "react-toastify";
 
 const MyId = (props) => {
   const [ showEditUsername, setShowEditUsername ] = React.useState(false)
@@ -13,7 +16,7 @@ const MyId = (props) => {
       <h1 className="my-i-d-text notselectable">My ID</h1>
       <div className="my-i-d-user-profile">
         <AnimatePresence>
-            {showEditUsername && <EditUsername setShowEditUsername={setShowEditUsername} />}
+            {showEditUsername && <EditUsername setShowEditUsername={setShowEditUsername} userData={props.userData} updateUserData={props.updateUserData} />}
         </AnimatePresence>
         <div id="background" className="my-i-d-background" style={{ backgroundColor: (props.userData.profile.profile_color) ? props.userData.profile.profile_color : "#1a63b9" }}></div>
         <div className="my-i-d-content1">

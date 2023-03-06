@@ -1,71 +1,163 @@
 import React from 'react'
 
-import PropTypes from 'prop-types'
-
 import Device from './page_components/device'
 import './devices.css'
+import cookies from "react-cookies";
+import hmac from "crypto-js/hmac-sha256";
+import {toast} from "react-toastify";
+import {AnimatePresence} from "framer-motion";
+const config = require('../../config.json')
+const api_url = config.api_url
+import * as platform from 'platform'
+import EnterPassword from "../dialogs/enter-password";
 
 const Devices = (props) => {
+    const [ enterPassword, setEnterPassword ] = React.useState({})
+
+    const parseSessions = () => {
+        const sessions = props.userData.account.sessions
+        const currentSession = sessions.find((session) => session.session_id === cookies.load('session_id'))
+        const otherSessions = sessions.filter((session) => session.session_id !== cookies.load('session_id'))
+        return {currentSession, otherSessions}
+    }
+
+    const getLocation = async (ip) => {
+        const response = await fetch(`https://ipapi.co/${ip}/json`).then(async(res) => {
+            const data = await res.json()
+
+            if (!data.error) {
+                return `${data.city}, ${data.region}, ${data.country_name}`
+            } else {
+                return 'Unknown Location'
+            }
+        })
+
+        return response
+    }
+
+    const mapCurrentSession = () => {
+        const parsedSessions = parseSessions();
+        const [deviceLocation, setDeviceLocation] = React.useState('Loading...');
+        const sessionDetails = platform.parse(parsedSessions.currentSession.user_agent);
+
+        React.useEffect(() => {
+            getLocation(parsedSessions.currentSession.ip).then(location => {
+                setDeviceLocation(location);
+            });
+        }, []);
+
+        return (
+            <Device
+                device_type={sessionDetails.os.family.toUpperCase() + ' • ' + sessionDetails.name.toUpperCase()}
+                device_location={deviceLocation}
+            ></Device>
+        );
+    };
+
+    const mapOtherSessions = () => {
+        const parsedSessions = parseSessions()
+        const [deviceLocation, setDeviceLocation] = React.useState('Loading...');
+
+        React.useEffect(() => {
+            getLocation(parsedSessions.currentSession.ip).then(location => {
+                setDeviceLocation(location);
+            });
+        }, []);
+
+        if (parsedSessions.otherSessions.length === 0) {
+            return (
+                <span className="devices-text11 notselectable">No other devices logged in</span>
+            )
+        } else {
+            return parsedSessions.otherSessions.map((session) => {
+                const sessionDetails = platform.parse(session.user_agent)
+                return (
+                    <Device
+                        device_type={sessionDetails.os.family.toUpperCase() + ' • ' + sessionDetails.name.toUpperCase()}
+                        device_location={deviceLocation}
+                    ></Device>
+                )
+            })
+        }
+    }
+
+    const deleteSessions = async () => {
+        setEnterPassword({after: async() => {
+            const notif = toast.loading('Logging out of all sessions...', {theme: 'dark'})
+
+            await fetch(`${api_url}/id/logout_all`).then(async(res) => {
+                const data = await res.json()
+
+                if (data.status === 'success') {
+                    toast.update(notif, {
+                        render: 'Logged out of all sessions',
+                        type: 'success',
+                        isLoading: false,
+                        theme: 'dark',
+                        autoClose: 5000
+                    })
+                } else {
+                    toast.update(notif, {
+                        render: 'An error occurred',
+                        type: 'error',
+                        isLoading: false,
+                        theme: 'dark',
+                        autoClose: 5000
+                    })
+                }
+            }).catch(() => {
+                toast.update(notif, {
+                    render: 'An error occurred',
+                    type: 'error',
+                    isLoading: false,
+                    theme: 'dark',
+                    autoClose: 5000
+                })
+            })
+        }})
+    }
   return (
     <div className="devices-content">
-      <h1 className="devices-text notselectable">{props.heading}</h1>
+      <h1 className="devices-text notselectable">Devices</h1>
+        <AnimatePresence>
+            {enterPassword.after && <EnterPassword setEnterPassword={setEnterPassword} enterPassword={enterPassword} updateUserData={props.updateUserData} />}
+        </AnimatePresence>
       <span className="devices-text01 notselectable">
         <span>
-          Here are all the devices currently logged in with your VikkiVuk ID.
+          Here are all the devices currently logged in to your Wulfco ID.
           You can log out of each one individually or all the other devices.
         </span>
         <br></br>
         <br></br>
         <br></br>
         <span>
-          If you see an entry you don&apos;t recognize, log out of that device
-          and change your VikkiVuk ID password immediately.
+          If you see an entry you don't recognize, log out of that device
+          and change your Wulfco ID password immediately.
         </span>
         <br></br>
       </span>
       <div className="devices-container">
-        <span className="devices-text08 notselectable">{props.text}</span>
-        <Device rootClassName="device-root-class-name"></Device>
+        <span className="devices-text08 notselectable">CURRENT DEVICE</span>
+        {mapCurrentSession()}
       </div>
       <div className="devices-container1">
-        <span className="devices-text09 notselectable">{props.text1}</span>
-        <Device
-          device_type="ANDROID • VIKKIVUK ANDROID"
-          rootClassName="device-root-class-name1"
-        ></Device>
+        <span className="devices-text09 notselectable">OTHER DEVICES</span>
+        {mapOtherSessions()}
       </div>
       <div className="devices-container2 notselectable">
-        <span className="devices-text10 notselectable">{props.text2}</span>
-        <span className="devices-text11 notselectable">{props.text3}</span>
+        <span className="devices-text10 notselectable">LOG OUT OF ALL KNOWN DEVICES</span>
+        <span className="devices-text11 notselectable">You'll have to log back in on all logged out devices.</span>
         <button
           id="delete_sessions"
           type="button"
-          onClick="this.classList.toggle('submit--loading')"
           className="devices-button button"
+          onClick={deleteSessions}
         >
-          <span>{props.text4}</span>
+          <span>Log out of all sessions</span>
         </button>
       </div>
     </div>
   )
-}
-
-Devices.defaultProps = {
-  text1: 'OTHER DEVICES',
-  text2: 'LOG OUT OF ALL KNOWN DEVICES',
-  text3: "You'll have to log back in on all logged out devices.",
-  text: 'CURRENT DEVICE',
-  text4: 'Log out of all sessions',
-  heading: 'Devices',
-}
-
-Devices.propTypes = {
-  text1: PropTypes.string,
-  text2: PropTypes.string,
-  text3: PropTypes.string,
-  text: PropTypes.string,
-  text4: PropTypes.string,
-  heading: PropTypes.string,
 }
 
 export default Devices

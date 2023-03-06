@@ -13,15 +13,16 @@ const AuthorizedApp = (props) => {
           id="app_deauthorize"
           type="button"
           className="authorized-app-button button"
+          onClick={() => props.deauthorize(props.app_id)}
         >
-          {props.app_remove}
+          Deauthorize
         </button>
         <button
-          id="app_deauthorize"
+          id="storage"
           type="button"
-          className="authorized-app-button1 button"
+          className="authorized-app-button1 hidden button"
         >
-          {props.app_remove1}
+          Go to Storage
         </button>
         <div className="authorized-app-container2">
           <img
@@ -36,7 +37,7 @@ const AuthorizedApp = (props) => {
         </div>
         <div className="authorized-app-container3">
           <span className="authorized-app-text1 notselectable">
-            {props.txt_aboutthisapp}
+            ABOUT THIS APP
           </span>
           <span id="app_about" className="authorized-app-text2 notselectable">
             {props.app_about}
@@ -44,33 +45,9 @@ const AuthorizedApp = (props) => {
         </div>
         <div className="authorized-app-container4">
           <span className="authorized-app-text3 notselectable">
-            {props.txt_permissions}
+            PERMISSIONS
           </span>
-          <AuthorizedAppPermission
-            permission="Access your username and avatar"
-            rootClassName="authorized-app-permission-root-class-name"
-            className=""
-          ></AuthorizedAppPermission>
-          <AuthorizedAppPermission
-            permission="Access your email address"
-            rootClassName="authorized-app-permission-root-class-name3"
-            className=""
-          ></AuthorizedAppPermission>
-          <AuthorizedAppPermission
-            permission="Access your third-party connections"
-            rootClassName="authorized-app-permission-root-class-name2"
-            className=""
-          ></AuthorizedAppPermission>
-          <AuthorizedAppPermission
-            permission="See your friends"
-            rootClassName="authorized-app-permission-root-class-name1"
-            className=""
-          ></AuthorizedAppPermission>
-          <AuthorizedAppPermission
-            permission="Use Cloud Storage"
-            rootClassName="authorized-app-permission-root-class-name4"
-            className=""
-          ></AuthorizedAppPermission>
+          {props.app_permissions.map((permission) => {return (<AuthorizedAppPermission  permission={permission} />)})}
         </div>
       </div>
     </div>
@@ -78,27 +55,12 @@ const AuthorizedApp = (props) => {
 }
 
 AuthorizedApp.defaultProps = {
-  app_icon: 'https://play.teleporthq.io/static/svg/default-img.svg',
-  txt_aboutthisapp: 'ABOUT THIS APP',
-  app_remove1: 'Go to Storage',
-  app_about:
-    'App is an app that adds stuff and is used by people and does stuff',
+  app_icon: 'assets/cloud.png',
+  app_about: 'App is an app that adds stuff and is used by people and does stuff',
   app_name: 'VikkiVuk ID',
-  rootClassName: '',
-  app_remove: 'Deauthorize',
-  txt_permissions: 'PERMISSIONS',
-}
-
-AuthorizedApp.propTypes = {
-  app_icon: PropTypes.string,
-  txt_aboutthisapp: PropTypes.string,
-  app_remove1: PropTypes.string,
-  app_about: PropTypes.string,
-  button: PropTypes.func,
-  app_name: PropTypes.string,
-  rootClassName: PropTypes.string,
-  app_remove: PropTypes.string,
-  txt_permissions: PropTypes.string,
+  app_permissions: [
+    "Read your profile"
+  ]
 }
 
 export default AuthorizedApp

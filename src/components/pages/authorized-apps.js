@@ -1,38 +1,58 @@
 import React from 'react'
 
-import PropTypes from 'prop-types'
-
 import AuthorizedApp from './page_components/authorized-app'
 import './authorized-apps.css'
+import {AnimatePresence} from "framer-motion";
+import ConfirmationDialog from "../dialogs/confirmation-dialog";
 
 const AuthorizedApps = (props) => {
-  return (
-    <div className="authorized-apps-content">
-      <h1 className="authorized-apps-text notselectable">{props.heading}</h1>
-      <div className="authorized-apps-container">
-        <span className="authorized-apps-text1 notselectable">
-          {props.text}
-        </span>
-        <span className="authorized-apps-text2 notselectable">
-          {props.text1}
-        </span>
-      </div>
-      <AuthorizedApp rootClassName="authorized-app-root-class-name1"></AuthorizedApp>
-    </div>
-  )
-}
+    const [confirmDeauthorize, setConfirmDeauthorize] = React.useState({})
 
-AuthorizedApps.defaultProps = {
-  text1:
-    "Here's all the apps that are doing cool stuff behind the scenes to make your experience better, if anything gets too chilly you can remove them at any time.",
-  text: 'APPLICATIONS & CONNECTIONS',
-  heading: 'Authorized Apps',
-}
+    const deauthorizeApp = (app_id) => {
+        const app = props.userData.connections.oauth.find((app) => {
+            return app.app_id === app_id
+        })
 
-AuthorizedApps.propTypes = {
-  text1: PropTypes.string,
-  text: PropTypes.string,
-  heading: PropTypes.string,
+        if (app === undefined) {
+            return
+        }
+
+        setConfirmDeauthorize({
+            after: function() {
+
+            }
+        })
+    }
+
+    const loadApps = () => {
+        if (props.userData.connections.oauth === undefined) {
+            return
+        }
+
+        const apps = props.userData.connections.oauth
+
+        return apps.map((app) => {
+            return <AuthorizedApp app_id={app.app_id} app_name={app.app_name} app_about={app.about_app} deauthorize={deauthorizeApp} app_permissions={app.app_permissions} />
+        })
+    }
+
+    return (
+        <div className="authorized-apps-content">
+            <AnimatePresence>
+                {confirmDeauthorize.after && <ConfirmationDialog title={"Deauthorize Application"} message={"This will remove the link between your ID and the application"} setConfirmDeauthorize={setConfirmDeauthorize} confirmDeauthorize={confirmDeauthorize} /> }
+            </AnimatePresence>
+            <h1 className="authorized-apps-text notselectable">Authorized Apps</h1>
+            <div className="authorized-apps-container">
+            <span className="authorized-apps-text1 notselectable">
+              APPLICATIONS & CONNECTIONS
+            </span>
+                <span className="authorized-apps-text2 notselectable">
+                  Here's all the apps that are doing cool stuff behind the scenes to make your experience better, if anything gets too chilly you can remove them at any time.
+                </span>
+            </div>
+            {loadApps()}
+        </div>
+    )
 }
 
 export default AuthorizedApps

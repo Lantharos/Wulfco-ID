@@ -5,23 +5,63 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd025e02-a35c-4530-81ad-28a880f44016" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/dialogs/edit-username.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/dialogs/edit-username.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/dialogs/enter-password.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/dialogs/enter-password.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/dialogs/name-security-key.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/dialogs/name-security-key.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/epic_games.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/spotify.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/twitter.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/xbox.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/dialogs/confirmation-dialog.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/dialogs/confirmation-dialog.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/pages/add--friend.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/pages/add--friend.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/pages/my-friends.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/pages/my-friends.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/pages/page_components/connection-button.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/pages/page_components/connection-button.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/pages/page_components/friend-request.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/pages/page_components/friend-request.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/pages/page_components/friend.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/pages/page_components/friend.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/discord.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/discord.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/facebook.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/facebook.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/github.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/github.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/reddit.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/reddit.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/steam.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/steam.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/twitch.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/twitch.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/youtube.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/youtube.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dialogs/edit-username.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dialogs/edit-username.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dialogs/enter-password.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dialogs/enter-password.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dialogs/name-security-key.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dialogs/name-security-key.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/authorized-apps.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/authorized-apps.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/connected-apps.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/connected-apps.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/connected-apps.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/connected-apps.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/devices.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/devices.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/pages/my-id.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/my-id.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/security-key.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/page_components/security-key.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/pages/profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/authorized-app-permission.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/page_components/authorized-app-permission.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/authorized-app.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/page_components/authorized-app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/authorized-app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/page_components/authorized-app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/pages/security.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/security.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/profile-modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/profile-modal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/dashboard/account-settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard/account-settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/dashboard/authorize.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard/authorize.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/dashboard/authorize.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard/authorize.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/login/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/login/login.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -40,37 +80,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/Projects/Uncategorized/Wulfco ID/src/components/dialogs&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Problems&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;JavaScript.Libraries&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;E:\\JetBrains\\Toolbox\\apps\\IDEA-U\\ch-0\\223.8214.52\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "dart.analysis.tool.window.visible": "false",
+    "go.import.settings.migrated": "true",
+    "last_opened_file_path": "E:/Projects/Uncategorized/Wulfco ID/src/components/dialogs",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Problems",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "JavaScript.Libraries",
+    "show.migrate.to.gradle.popup": "false",
+    "ts.external.directory.path": "E:\\JetBrains\\Toolbox\\apps\\IDEA-U\\ch-0\\223.8617.56\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\Projects\Uncategorized\Wulfco ID\src\components\dialogs" />
-      <recent name="E:\Projects\Uncategorized\Wulfco ID\public" />
-      <recent name="E:\Projects\Uncategorized\VikkiVuk ID\src\components" />
-      <recent name="E:\Projects\Uncategorized\VikkiVuk ID\public\playground_assets" />
+      <recent name="E:\Projects\Uncategorized\Wulfco ID\src\components\pages\page_components" />
+      <recent name="E:\Projects\Uncategorized\Wulfco ID\src\components\pages" />
+      <recent name="E:\Projects\Uncategorized\Wulfco ID\public\assets" />
+      <recent name="E:\Projects\Uncategorized\Wulfco ID\src\views\dashboard" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\Projects\Uncategorized\Wulfco ID\src\views\login" />

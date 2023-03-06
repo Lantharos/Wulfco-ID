@@ -65,8 +65,10 @@
 .connected-apps-container2 {
   width: 100%;
   display: flex;
+  align-self: center;
   margin-top: 2%;
   align-items: center;
+  padding-left: 1%;
   margin-bottom: 3%;
   flex-direction: row;
   justify-content: flex-start;
@@ -78,7 +80,7 @@
   display: flex;
   text-align: center;
   transition: 0.3s;
-  margin-left: 2.5%;
+  margin-left: 1.5%;
   border-width: 0px;
   border-radius: var(--dl-radius-radius-radius8);
   flex-direction: row;
@@ -104,6 +106,7 @@
   border-width: 0px;
   border-radius: var(--dl-radius-radius-radius8);
   flex-direction: row;
+  justify-content: center;
   text-decoration: none;
   background-color: #202020;
 }
@@ -111,9 +114,10 @@
   background-color: #353535;
 }
 .connected-apps-image01 {
-  width: 100%;
+  width: 56px;
   height: 100%;
   object-fit: cover;
+  border-radius: var(--dl-radius-radius-round);
 }
 .connected-apps-link03 {
   color: #FFFFFF;
@@ -137,7 +141,6 @@
   width: 56px;
   height: 100%;
   object-fit: cover;
-  border-radius: var(--dl-radius-radius-round);
 }
 .connected-apps-link04 {
   color: #FFFFFF;
@@ -181,8 +184,9 @@
   background-color: #353535;
 }
 .connected-apps-image04 {
-  width: 56px;
-  height: 100%;
+  width: 64px;
+  height: 64px;
+  align-self: center;
   object-fit: cover;
 }
 .connected-apps-link06 {
@@ -204,8 +208,8 @@
   background-color: #353535;
 }
 .connected-apps-image05 {
-  width: 64px;
-  height: 64px;
+  width: 50px;
+  height: 50px;
   align-self: center;
   object-fit: cover;
 }
@@ -300,30 +304,6 @@
   background-color: #353535;
 }
 .connected-apps-image09 {
-  width: 50px;
-  height: 50px;
-  align-self: center;
-  object-fit: cover;
-}
-.connected-apps-link11 {
-  color: #FFFFFF;
-  width: 78px;
-  height: 70px;
-  display: flex;
-  text-align: center;
-  transition: 0.3s;
-  margin-left: 1.5%;
-  border-width: 0px;
-  border-radius: var(--dl-radius-radius-radius8);
-  flex-direction: row;
-  justify-content: center;
-  text-decoration: none;
-  background-color: #202020;
-}
-.connected-apps-link11:hover {
-  background-color: #353535;
-}
-.connected-apps-image10 {
   width: 50px;
   height: 50px;
   align-self: center;

@@ -14,6 +14,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import cookies from 'react-cookies'
 import hmac from 'crypto-js/hmac-sha256'
+import AddFriend from "../../components/pages/add--friend";
+import MyFriends from "../../components/pages/my-friends";
 
 const config = require('../../config.json')
 const api_url = config.api_url
@@ -22,8 +24,8 @@ const AccountSettings = () => {
   const [ selectedPage, setSelectedPage ] = React.useState("")
   let [ selectedButton, setSelectedButton ] = React.useState(document.getElementById('my-id'))
   const [ userData, setUserData ] = React.useState({
-    profile: { avatar: "", username: "John Doe", about_me: "This is a test.", pronouns: "they/them", profile_color: "#008cff" },
-    account: { security: { protected: false, security_keys: [] } }
+    profile: { avatar: "", username: "John Doe", about_me: "This is a test.", pronouns: "they/them", profile_color: "#008cff", friends: {friends: [], friend_requests: [], friend_requests_sent: []} },
+    account: { security: { protected: false, security_keys: [] }, sessions: [] }
   })
 
   const loadUserData = () => {
@@ -114,6 +116,10 @@ const AccountSettings = () => {
         return <Devices userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
       case 'connections':
         return <ConnectedApps userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
+      case 'friends':
+        return <MyFriends userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
+      case 'add-friend':
+        return <AddFriend userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
       default:
         return <MyId userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
     }
@@ -157,19 +163,13 @@ const AccountSettings = () => {
               FRIENDS
             </span>
               <button className="sidebar-button button" id="friends" type="button" onClick={buttonClick}>
-                Your Friends
+                My Friends
               </button>
               <button className="sidebar-button button" id="add-friend" type="button" onClick={buttonClick}>
                 Add a Friend
               </button>
-              <button className="sidebar-button button" id="pending-invites" type="button" onClick={buttonClick}>
-                Pending Invites
-              </button>
               <button className="sidebar-button button" id="blocked" type="button" onClick={buttonClick}>
                 Blocked
-              </button>
-              <button className="sidebar-button button" id="followed-profiles" type="button" onClick={buttonClick}>
-                Followed Profiles
               </button>
             </div>
             <div className="account-settings-billing">

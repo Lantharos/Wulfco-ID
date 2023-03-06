@@ -26,46 +26,85 @@ const Login = () => {
     return response
   }
 
-  const connectMetamask = () => {
-    apiHealth().then(async(ret) => {
-      if (!ret) { return }
-      const provider = await detectEthereumProvider({ mustBeMetaMask: true });
-
-      if (provider) {
-        try {
-          const account = await provider.request({ method: 'eth_requestAccounts' })
-          await provider.request({method: "wallet_addEthereumChain", params: [{chainId: "0x38", chainName: "Binance Smart Chain", nativeCurrency: {name: "BNB", symbol: "bnb", decimals: 18}, rpcUrls: ["https://bsc-dataseed.binance.org/"], blockExplorerUrls: ["https://bscscan.com/"]}]})
-
-          await provider.request({method: "wallet_switchEthereumChain", params: [{ chainId: "0x38" }]})
-
-          const walletID = account[0]
-          const walletType = 'metamask'
-          const walletNetwork = 'bsc'
-
-          const notification = toast.loading("Connecting to Metamask", { theme: "dark" })
-
-          fetch(`${api_url}/id/login`, {method: 'POST', headers: {'W-Crypto': 'true', 'W-Wallet-Type': walletType}, body: JSON.stringify({walletID, walletType, walletNetwork})}).then((res) => {return res.json()}).then((data) => {
-            toast.update(notification, {render: "Connected to Metamask", type: toast.TYPE.SUCCESS, theme: "dark", autoClose: 2000})
-            setTimeout(() => {
-              cookies.save('secret', data.secret, {path: '/', secure: false})
-              cookies.save('token', data.token, {path: '/', secure: false})
-              cookies.save('id', data.user_id, {path: '/', secure: false})
-              cookies.save('loggen', data.loggen, {path: '/', secure: false})
-              cookies.save('session_id', data.session_id, {path: '/', secure: true})
-
-              window.history.push('/summary')
-            }, 3000)
-          }).catch(() => {
-            toast.update(notification, { render: "Failed to connect to Metamask", type: "error", isLoading: false, theme: "dark", autoClose: 2000 })
-          })
-        } catch (error) {
-          toast.error('Please connect Metamask to continue', {theme: "dark"})
-        }
-      } else {
-        toast.error('Please install Metamask to continue', {theme: "dark"})
-      }
+  const getIp = async () => {
+    return new Promise((resolve) => {
+      fetch("https://icanhazip.com/").then((res) => res.text()).then((data) => {
+        resolve(data.replace(/\s/g, ''))
+      })
     })
   }
+
+  const getUrlParameter = (sParam) => {
+    const sPageURL = window.location.search.substring(1)
+    const sURLVariables = sPageURL.split('&')
+    let returner = false
+    sURLVariables.forEach((paramName) => {
+      const sParameterName = paramName.split('=')
+      if (sParameterName[0] === sParam) {
+        returner = sParameterName[1]
+      }
+    })
+    return returner
+  }
+
+  const checkForRedirect = () => {
+    const redirect = getUrlParameter('callback')
+    if (redirect) {
+      if (cookies.load('token') && cookies.load('secret') && cookies.load('id') && cookies.load('loggen') && cookies.load('session_id')) {
+        window.location.href =  decodeURIComponent(redirect)
+      } else {
+        cookies.save('redirect', decodeURIComponent(redirect), {path: '/', secure: false, expires: new Date(Date.now() + 1000 * 60 * 60 * 24)})
+      }
+    } else {
+      console.log("no redirect")
+      if (cookies.load('token') && cookies.load('secret') && cookies.load('id') && cookies.load('loggen') && cookies.load('session_id')) {
+        window.location.href = "/summary"
+      }
+    }
+  }
+
+    const connectMetamask = () => {
+      apiHealth().then(async(ret) => {
+        if (!ret) { return }
+        const provider = await detectEthereumProvider({ mustBeMetaMask: true });
+
+        if (provider) {
+          try {
+            const account = await provider.request({ method: 'eth_requestAccounts' })
+            await provider.request({method: "wallet_addEthereumChain", params: [{chainId: "0x38", chainName: "Binance Smart Chain", nativeCurrency: {name: "BNB", symbol: "bnb", decimals: 18}, rpcUrls: ["https://bsc-dataseed.binance.org/"], blockExplorerUrls: ["https://bscscan.com/"]}]})
+
+            await provider.request({method: "wallet_switchEthereumChain", params: [{ chainId: "0x38" }]})
+
+            const walletID = account[0]
+            const walletType = 'metamask'
+            const walletNetwork = 'bsc'
+
+            const notification = toast.loading("Connecting to Metamask", { theme: "dark" })
+
+            fetch(`${api_url}/id/login`, {method: 'POST', headers: {'W-Crypto': 'true', 'W-Wallet-Type': walletType}, body: JSON.stringify({walletID, walletType, walletNetwork})}).then((res) => {return res.json()}).then((data) => {
+              toast.update(notification, {render: "Connected to Metamask", type: toast.TYPE.SUCCESS, theme: "dark", autoClose: 2000})
+              setTimeout(() => {
+                cookies.save('secret', data.secret, {path: '/', secure: false})
+                cookies.save('token', data.token, {path: '/', secure: false})
+                cookies.save('id', data.user_id, {path: '/', secure: false})
+                cookies.save('loggen', data.loggen, {path: '/', secure: false})
+                cookies.save('session_id', data.session_id, {path: '/', secure: true})
+
+                window.history.push('/summary')
+              }, 3000)
+            }).catch(() => {
+              toast.update(notification, { render: "Failed to connect to Metamask", type: "error", isLoading: false, theme: "dark", autoClose: 2000 })
+            })
+          } catch (error) {
+            toast.error('Please connect Metamask to continue', {theme: "dark"})
+          }
+        } else {
+          toast.error('Please install Metamask to continue', {theme: "dark"})
+
+        }
+    })
+  }
+
 
   const attemptLogin = (event) => {
     event.preventDefault();
@@ -73,12 +112,15 @@ const Login = () => {
     const email = btoa(formData.get('email'));
     const password = btoa(formData.get('password'));
 
-    apiHealth().then((ret) => {
+    apiHealth().then(async(ret) => {
       if(!ret) { return }
+
+      const ip = await getIp()
+      console.log(ip)
 
       const notification = toast.loading('Attempting to login...', { theme: "dark" });
 
-      fetch(`${api_url}/id/login`, {method: 'post', headers: {"W-Crypto": "false", "Content-Type": "application/json"}, body: JSON.stringify({email, password})}).then((response) => {
+      fetch(`${api_url}/id/login`, {method: 'post', headers: {"W-Crypto": "false", "Content-Type": "application/json"}, body: JSON.stringify({email, password, ip})}).then((response) => {
         response.json().then((data) => {
           if (data.success) {
             toast.update(notification, {type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 5000, render: "Successfully logged in! Redirecting...", theme: "dark" })
@@ -88,7 +130,13 @@ const Login = () => {
             cookies.save('id', data.uuid, {path: '/', secure: false})
             cookies.save('loggen', data.session.loggen, {path: '/', secure: false})
             cookies.save('session_id', data.session.session_id, {path: '/', secure: false})
-            window.location.href = '/summary'
+
+            if (cookies.load('redirect')) {
+                window.location.href = cookies.load('redirect')
+                cookies.remove('redirect')
+            } else {
+              window.location.href = '/summary'
+            }
           } else {
             toast.update(notification, {type: toast.TYPE.ERROR, render: "Incorrect Email or Password", isLoading: false, autoClose: 5000, theme: "dark"})
 
@@ -232,6 +280,7 @@ const Login = () => {
               <h1 className="login-text22 notselectable">WalletConnect</h1>
             </button>
           </div>
+          {checkForRedirect()}
         </div>
       </div>
     </div>

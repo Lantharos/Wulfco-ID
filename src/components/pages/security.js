@@ -8,7 +8,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AnimatePresence } from "framer-motion";
 import NameSecurityKey from "../dialogs/name-security-key";
 import EnterPassword from "../dialogs/enter-password";
+import cookies from "react-cookies";
+import hmac from "crypto-js/hmac-sha256";
+import {toast} from "react-toastify";
 
+const config = require('../../config.json')
+const api_url = config.api_url
 
 const Security = (props) => {
   const [ securityKey, setSecurityKey ] = React.useState({})
@@ -64,6 +69,58 @@ const Security = (props) => {
     setSecurityKey({id: base64Encoder.encode(credential.id).toString(), rawId: base64Encoder.encode(credential.rawId).toString(), response: {attestationObject, clientDataJSON}, type: credential.type})
   }
 
+  const savePreferences = async(b, w) => {
+    if (w === "share_storage_data") {
+      await fetch(`${api_url}/id/preferences?id=${encodeURIComponent(cookies.load("id"))}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
+          'W-Session': cookies.load('session_id'),
+          'W-Loggen': cookies.load('loggen')
+        },
+        body: JSON.stringify({
+          share_storage_data: b
+        })
+      }).then((res) => {
+        res.json().then((data) => {
+          if (data.success) {
+            toast.success("Successfully updated preferences", {theme: 'dark', autoClose: 2000 })
+            props.updateUserData()
+          } else {
+            toast.error("Failed to update preferences", {theme: 'dark', autoClose: 2000 })
+          }
+        })
+      }).catch((err) => {
+        toast.error("Failed to update preferences", {theme: 'dark', autoClose: 2000 })
+      })
+    } else if (w === "share_analytics") {
+      await fetch(`${api_url}/id/preferences?id=${encodeURIComponent(cookies.load("id"))}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
+          'W-Session': cookies.load('session_id'),
+          'W-Loggen': cookies.load('loggen')
+        },
+        body: JSON.stringify({
+          share_analytics: b
+        })
+      }).then((res) => {
+        res.json().then((data) => {
+          if (data.success) {
+            toast.success("Successfully updated preferences", {theme: 'dark', autoClose: 2000 })
+            props.updateUserData()
+          } else {
+            toast.error("Failed to update preferences", {theme: 'dark', autoClose: 2000 })
+          }
+        })
+      }).catch((err) => {
+        toast.error("Failed to update preferences", {theme: 'dark', autoClose: 2000 })
+      })
+    }
+  }
+
   return (
     <div className="security-content">
       <h1 className="security-text notselectable">Privacy & Security</h1>
@@ -110,7 +167,7 @@ const Security = (props) => {
             <div className="security-container07">
               <div className="security-container08">
                 <h1 className="security-text06 notselectable">
-                  {props.heading6}
+                  Authenticator App
                 </h1>
               </div>
               <span className="security-text07 notselectable">
@@ -125,7 +182,7 @@ const Security = (props) => {
               type="button"
               className="security-save1 button"
             >
-              {props.Save1}
+              Setup
             </button>
           </div>
         </div>
@@ -134,14 +191,14 @@ const Security = (props) => {
             <div className="security-container10">
               <div className="security-container11">
                 <h1 className="security-text09 notselectable">
-                  {props.heading7}
+                  Email Authentication
                 </h1>
                 <h1 className="security-text10 notselectable">
-                  {props.heading8}
+                  LEAST SECURE
                 </h1>
               </div>
               <span className="security-text11 notselectable">
-                {props.text5}
+                Receive a code in your email address to verify it's you trying to log in. This is the least secure option.
               </span>
             </div>
             <button
@@ -149,16 +206,16 @@ const Security = (props) => {
               type="button"
               className="security-save2 button"
             >
-              {props.Save2}
+              Setup
             </button>
           </div>
         </div>
       </div>
       <div className="security-container12 notselectable">
-        <span className="security-text12 notselectable">{props.text1}</span>
+        <span className="security-text12 notselectable">HOW WE USE YOUR DATA</span>
         <div className="security-container13">
           <div className="security-container14">
-            <h1 className="security-text13 notselectable">{props.heading1}</h1>
+            <h1 className="security-text13 notselectable">Share my data with apps using Wulfco Storage</h1>
             <span className="security-text14">
               <span>
                 This setting shares connections, 2fa methods etc... rather than
@@ -167,21 +224,21 @@ const Security = (props) => {
               </span>
               <br></br>
               <span>
-                Wolfie uses those to customize user experience, if you were to
+                Wulfie uses those to customize user experience, if you were to
                 disable this setting you would have to manually enter data.
               </span>
             </span>
           </div>
-          <input
-            type="checkbox"
-            id="usage_statistics_check"
-            defaultChecked
-            className="security-checkbox"
-          />
+          <label className="checkbox security-checkbox">
+            <input type="checkbox" name="share_service_data" defaultChecked={props.userData.account.analytics.share_storage_data} onClick={(checked) => {savePreferences(!props.userData.account.analytics.share_storage_data, "share_storage_data")}}></input>
+            <span className="checkbox">
+              <span></span>
+            </span>
+          </label>
         </div>
         <div className="security-container15">
           <div className="security-container16">
-            <h1 className="security-text18 notselectable">{props.heading2}</h1>
+            <h1 className="security-text18 notselectable">Use data to improve our services</h1>
             <span className="security-text19 notselectable">
               <span>
                 This setting allows us to use and process the information about
@@ -194,16 +251,16 @@ const Security = (props) => {
               </span>
             </span>
           </div>
-          <input
-            type="checkbox"
-            id="usage_statistics_check"
-            defaultChecked
-            className="security-checkbox1"
-          />
+          <label className="checkbox security-checkbox">
+            <input type="checkbox" name="share_analytics_data" defaultChecked={props.userData.account.analytics.share_analytics} onClick={(e) => {savePreferences(!props.userData.account.analytics.share_analytics, "share_analytics")}}></input>
+            <span className="checkbox">
+              <span></span>
+            </span>
+          </label>
         </div>
         <div className="security-container17">
           <div className="security-container18">
-            <h1 className="security-text23 notselectable">{props.heading3}</h1>
+            <h1 className="security-text23 notselectable">Use data to make our services work</h1>
             <span className="security-text24 notselectable">
               <span>
                 We need to store and process some data in order to provide you
@@ -212,7 +269,7 @@ const Security = (props) => {
               </span>
               <br></br>
               <span>
-                By using VikkiVuk Accounts and our services you allow us to
+                By using Wulfco ID and our services you allow us to
                 provide this basic service. You can stop this by deleting your
                 account.
               </span>
@@ -221,64 +278,20 @@ const Security = (props) => {
         </div>
       </div>
       <div className="security-container19 notselectable">
-        <span className="security-text28 notselectable">{props.text2}</span>
-        <span className="security-text29 notselectable">{props.text3}</span>
+        <span className="security-text28 notselectable">MY DATA</span>
+        <span className="security-text29 notselectable">Download what we have stored in the database of you, in the downloaded package you will not receive the data from VikkiVuk Storage, to get the data from Storage you need to download it from each service separately.</span>
         <div className="security-container20">
           <button
             id="request_data"
             type="button"
             className="security-button button"
           >
-            <span>{props.text4}</span>
+            <span>Download my Data</span>
           </button>
         </div>
       </div>
     </div>
   )
-}
-
-Security.defaultProps = {
-  heading3: 'Use data to make our services work',
-  Save: 'New Key',
-  heading: '',
-  text2: 'MY DATA',
-  heading7: 'Email Authentication',
-  heading4: '',
-  Save1: 'Setup',
-  text: '',
-  Save2: 'Setup',
-  heading5: '',
-  heading1: 'Share my data with apps using VikkiVuk Storage',
-  text4: 'Download my Data',
-  heading2: 'Use data to improve our services',
-  text3:
-    'Download what we have stored in the database of you, in the downloaded package you will not receive the data from VikkiVuk Storage, to get the data from Storage you need to download it from each service separately.',
-  heading6: 'Authenticator App',
-  text1: 'HOW WE USE YOUR DATA',
-  text5:
-    "Receive a code in your email address to verify it's you trying to log in. This is the least secure option.",
-  heading8: 'NOT SECURE',
-}
-
-Security.propTypes = {
-  heading3: PropTypes.string,
-  Save: PropTypes.string,
-  heading: PropTypes.string,
-  text2: PropTypes.string,
-  heading7: PropTypes.string,
-  heading4: PropTypes.string,
-  Save1: PropTypes.string,
-  text: PropTypes.string,
-  Save2: PropTypes.string,
-  heading5: PropTypes.string,
-  heading1: PropTypes.string,
-  text4: PropTypes.string,
-  heading2: PropTypes.string,
-  text3: PropTypes.string,
-  heading6: PropTypes.string,
-  text1: PropTypes.string,
-  text5: PropTypes.string,
-  heading8: PropTypes.string,
 }
 
 export default Security
