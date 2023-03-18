@@ -82,8 +82,9 @@ const AccountSettings = () => {
         'X-Reason': 'logout'
       },
       body: JSON.stringify({
-        id: cookies.load('id'),
-        session_id: cookies.load('session_id')
+        uuid: cookies.load('id'),
+        session: cookies.load('session_id'),
+        loggen: cookies.load('loggen')
       })
     }).then((res) => {
       if (res.status === 200) {

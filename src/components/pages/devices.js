@@ -37,32 +37,18 @@ const Devices = (props) => {
 
     const mapCurrentSession = () => {
         const parsedSessions = parseSessions();
-        const [deviceLocation, setDeviceLocation] = React.useState('Loading...');
         const sessionDetails = platform.parse(parsedSessions.currentSession.user_agent);
-
-        React.useEffect(() => {
-            getLocation(parsedSessions.currentSession.ip).then(location => {
-                setDeviceLocation(location);
-            });
-        }, []);
 
         return (
             <Device
                 device_type={sessionDetails.os.family.toUpperCase() + ' • ' + sessionDetails.name.toUpperCase()}
-                device_location={deviceLocation}
+                device_location={`${parsedSessions.currentSession.location.city}, ${parsedSessions.currentSession.location.regionName}, ${parsedSessions.currentSession.location.country}`}
             ></Device>
         );
     };
 
     const mapOtherSessions = () => {
         const parsedSessions = parseSessions()
-        const [deviceLocation, setDeviceLocation] = React.useState('Loading...');
-
-        React.useEffect(() => {
-            getLocation(parsedSessions.currentSession.ip).then(location => {
-                setDeviceLocation(location);
-            });
-        }, []);
 
         if (parsedSessions.otherSessions.length === 0) {
             return (
@@ -74,7 +60,7 @@ const Devices = (props) => {
                 return (
                     <Device
                         device_type={sessionDetails.os.family.toUpperCase() + ' • ' + sessionDetails.name.toUpperCase()}
-                        device_location={deviceLocation}
+                        device_location={`${session.location.city}, ${session.location.regionName}, ${session.location.country}`}
                     ></Device>
                 )
             })
