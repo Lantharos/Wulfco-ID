@@ -28,7 +28,7 @@ const ProfileModal = (props) => {
                 id="username_profile"
                 className="profile-modal-text1 notselectable"
               >
-                {props.discriminator}
+                #{props.discriminator}
               </h1>
             </div>
             <div className="profile-modal-container6"></div>

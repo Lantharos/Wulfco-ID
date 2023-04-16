@@ -1,6 +1,6 @@
 import React from 'react'
 
-import './edit-username.css'
+import './edit-birthday.css'
 import { motion } from 'framer-motion'
 import cookies from "react-cookies";
 import hmac from "crypto-js/hmac-sha256";
@@ -8,7 +8,7 @@ import {toast} from "react-toastify";
 const config = require('../../config.json')
 const api_url = config.api_url
 
-const EditUsername = (props) => {
+const EditBirthday = (props) => {
     const checkPassword = async() => {
         let toReturn = true;
         return new Promise((resolve) => {
@@ -50,12 +50,12 @@ const EditUsername = (props) => {
         });
     };
 
-    const updateUsername = async() => {
+    const updateBirthday = async() => {
         if ((await checkPassword()) === false) {
             return
         }
 
-        const username = document.getElementById('username_new').value;
+        const birthday = document.getElementById('birthday_new').value;
         fetch(`${api_url}/id/account?id=${encodeURIComponent(cookies.load('id'))}`, {
             method: 'POST',
             headers: {
@@ -65,21 +65,22 @@ const EditUsername = (props) => {
                 'W-Loggen': cookies.load('loggen')
             },
             body: JSON.stringify({
-                username,
-                email: props.userData.email
+                username: props.userData.profile.username,
+                email: props.userData.email,
+                birthday
             })
         }).then((res) => {
             res.json().then((data) => {
                 if (data.success) {
-                    toast.success('Username updated', { theme: 'dark', autoClose: 2000 });
+                    toast.success('Birthday updated', { theme: 'dark', autoClose: 2000 });
                     props.setShowEditUsername(false);
                     props.updateUserData()
                 } else {
-                    toast.error('Failed to update username', { theme: 'dark', autoClose: 2000 });
+                    toast.error('Failed to update birthday', { theme: 'dark', autoClose: 2000 });
                 }
             });
         }).catch(() => {
-            toast.error('Failed to update username', { theme: 'dark', autoClose: 2000 });
+            toast.error('Failed to update birthday', { theme: 'dark', autoClose: 2000 });
         });
     }
 
@@ -87,36 +88,44 @@ const EditUsername = (props) => {
         <div>
             <motion.div animate={ { opacity: 1, transition: { duration: 0.2 } } } initial={{ opacity: 0 }} exit={{ opacity: 0, transition: { duration: 0.2 } }} className="edit-username-background"></motion.div>
 
-            <motion.div className="edit-username-container" animate={{height: '357px', width: '457px'}} initial={{height: 0, width: 0}} exit={{opacity:0}}>
-                <h1 className="edit-username-text notselectable">Change your username</h1>
-                <span className="edit-username-text1 notselectable">Enter a new username and your existing password</span>
-                <div className="edit-username-container1">
-                    <span className="edit-username-text2 notselectable">Username</span>
+            <motion.div className="edit-birthday-container" animate={{height: '357px', width: '457px'}} initial={{height: 0, width: 0}} exit={{opacity:0}}>
+                <h1 className="edit-birthday-text notselectable">Change your birthday</h1>
+                <span className="edit-birthday-text1 notselectable">
+                    Enter a new birthday and your existing password
+                </span>
+                <div className="edit-birthday-container1">
+                    <span className="edit-birthday-text2 notselectable">
+                      <span>Birthday</span>
+                      <br></br>
+                    </span>
                     <input
-                        type="text"
-                        id="username_new"
-                        name="username_new"
+                        type="date"
+                        id="birthday_new"
+                        name="birthday_new"
                         required="true"
-                        autoComplete="username"
-                        className="edit-username-textinput input"
+                        autoComplete="bday"
+                        className="edit-birthday-textinput input"
                     />
                 </div>
-                <div className="edit-username-container2">
-                    <span className="edit-username-text3 notselectable">Password</span>
+                <div className="edit-birthday-container2">
+                    <span className="edit-birthday-text5 notselectable">Password</span>
                     <input
                         type="password"
                         id="password"
                         name="password"
                         required="true"
+                        autoFocus="true"
+                        maxlength="20"
+                        minlength="3"
                         autoComplete="current-password"
-                        className="edit-username-textinput1 input"
+                        className="edit-birthday-textinput1 input"
                     />
                 </div>
-                <div className="edit-username-container3">
+                <div className="edit-birthday-container3">
                     <button
-                        id="cancel_username"
+                        id="cancel_edit"
                         type="button"
-                        className="edit-username-save button"
+                        className="edit-birthday-save button"
                         onClick={() => props.setShowEditUsername(false)}
                     >
                         Cancel
@@ -124,8 +133,8 @@ const EditUsername = (props) => {
                     <button
                         id="confirm_username"
                         type="button"
-                        className="edit-username-save1 button"
-                        onClick={() => updateUsername()}
+                        className="edit-birthday-save1 button"
+                        onClick={() => updateBirthday()}
                     >
                         Done
                     </button>
@@ -135,4 +144,4 @@ const EditUsername = (props) => {
     )
 }
 
-export default EditUsername
+export default EditBirthday

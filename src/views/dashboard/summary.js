@@ -18,7 +18,15 @@ const Summary = () => {
         account: { security: { protected: false } }
     })
 
-    const loadUserData = () => {
+    const getIp = async () => {
+        return new Promise((resolve) => {
+            fetch("https://icanhazip.com/").then((res) => res.text()).then((data) => {
+                resolve(data.replace(/\s/g, ''))
+            })
+        })
+    }
+
+    const loadUserData = async () => {
         const message = toast.loading('Loading...', { theme: "dark" })
         fetch(`${api_url}/id/get?id=${encodeURIComponent(cookies.load("id"))}`, {
             method: 'GET',
@@ -26,7 +34,8 @@ const Summary = () => {
                 'Content-Type': 'application/json',
                 'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
                 'W-Session': cookies.load('session_id'),
-                'W-Loggen': cookies.load('loggen')
+                'W-Loggen': cookies.load('loggen'),
+                'W-IP': await getIp()
             }
         }).then((res) => {
             res.json().then((data) => {

@@ -17,7 +17,8 @@ const SecurityKey = (props) => {
             headers: {
                 'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
                 'W-Session': cookies.load('session_id'),
-                'W-Loggen': cookies.load('loggen')
+                'W-Loggen': cookies.load('loggen'),
+                "W-IP": props.ip
             }
         }).then((res) => {
             res.json().then((data) => {

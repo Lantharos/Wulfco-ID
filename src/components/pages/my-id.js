@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom'
 
 import './my-id.css'
 import EditUsername from "../dialogs/edit-username";
+import EditBirthday from "../dialogs/edit-birthday";
 import {AnimatePresence} from 'framer-motion'
-import cookies from "react-cookies";
-import hmac from "crypto-js/hmac-sha256";
-import {toast} from "react-toastify";
 
 const MyId = (props) => {
   const [ showEditUsername, setShowEditUsername ] = React.useState(false)
+  const [ showEditBirthday, setShowEditBirthday ] = React.useState(false)
 
   return (
     <div className={`my-i-d-content`}>
@@ -17,6 +16,7 @@ const MyId = (props) => {
       <div className="my-i-d-user-profile">
         <AnimatePresence>
             {showEditUsername && <EditUsername setShowEditUsername={setShowEditUsername} userData={props.userData} updateUserData={props.updateUserData} />}
+            {showEditBirthday && <EditBirthday setShowEditUsername={setShowEditBirthday} userData={props.userData} updateUserData={props.updateUserData} />}
         </AnimatePresence>
         <div id="background" className="my-i-d-background" style={{ backgroundColor: (props.userData.profile.profile_color) ? props.userData.profile.profile_color : "#1a63b9" }}></div>
         <div className="my-i-d-content1">
@@ -75,12 +75,13 @@ const MyId = (props) => {
                   id="birthday_profile"
                   className="my-i-d-current-birthday notselectable"
                 >
-                  Not set
+                  {props.userData.account.birthday ? `${new Date(props.userData.account.birthday).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}` : "Not set"}
                 </h1>
                 <button
                   id="edit_bday"
                   type="button"
                   className="my-i-d-edit2 button"
+                  onClick={() => setShowEditBirthday(true)}
                 >
                   <span className="button__text my-i-d-text3">
                     Edit

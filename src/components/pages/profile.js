@@ -137,7 +137,7 @@ const Profile = (props) => {
       </form>
       <aside className="profile-container6">
         <span className="profile-text7 notselectable">PREVIEW</span>
-        <ProfileModal about_me={aboutMe} profile_color={profileColor} pronouns={pronouns} username={props.userData.profile.username} profile_picture={props.userData.profile.avatar}></ProfileModal>
+        <ProfileModal about_me={aboutMe} profile_color={profileColor} pronouns={pronouns} username={props.userData.profile.username} discriminator={props.userData.profile.discriminator} profile_picture={props.userData.profile.avatar}></ProfileModal>
       </aside>
     </div>
   )

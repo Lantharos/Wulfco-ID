@@ -18,7 +18,8 @@ const EnterPassword = (props) => {
                 'Content-Type': 'application/json',
                 'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
                 'W-Session': cookies.load('session_id'),
-                'W-Loggen': cookies.load('loggen')
+                'W-Loggen': cookies.load('loggen'),
+                'W-IP': props.ip
             },
             body: JSON.stringify({
                 password

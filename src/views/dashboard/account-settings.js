@@ -28,20 +28,29 @@ const AccountSettings = () => {
     account: { security: { protected: false, security_keys: [] }, sessions: [] }
   })
 
-  const loadUserData = () => {
+  const getIp = async () => {
+    return new Promise((resolve) => {
+      fetch("https://icanhazip.com/").then((res) => res.text()).then((data) => {
+        resolve(data.replace(/\s/g, ''))
+      })
+    })
+  }
+
+  const loadUserData = async () => {
     fetch(`${api_url}/id/get?id=${encodeURIComponent(cookies.load("id"))}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
         'W-Session': cookies.load('session_id'),
-        'W-Loggen': cookies.load('loggen')
+        'W-Loggen': cookies.load('loggen'),
+        "W-IP": await getIp(),
+        'W-Reason': 'get-user-data'
       }
     }).then((res) => {
       res.json().then((data) => {
         if (data.success) {
           setUserData(data.user)
-          
         } else {
           toast.error("Failed to get user data!", { theme: "dark" })
         }
@@ -118,9 +127,9 @@ const AccountSettings = () => {
       case 'connections':
         return <ConnectedApps userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
       case 'friends':
-        return <MyFriends userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
+        return <MyFriends userData={userData} saveUserData={setUserData} updateUserData={loadUserData}/>
       case 'add-friend':
-        return <AddFriend userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
+        return <AddFriend userData={userData} saveUserData={setUserData} updateUserData={loadUserData}/>
       default:
         return <MyId userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
     }

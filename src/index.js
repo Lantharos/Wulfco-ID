@@ -15,6 +15,22 @@ import VerifyEmail from './views/login/verify-email'
 import Authorize from './views/dashboard/authorize'
 import CreateId from "./views/create-id";
 
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDEqlbBEH1hcxaBwouloI8xsmReiXwTfcY",
+    authDomain: "wulfco-id.firebaseapp.com",
+    projectId: "wulfco-id",
+    storageBucket: "wulfco-id.appspot.com",
+    messagingSenderId: "775008964746",
+    appId: "1:775008964746:web:4582f5baa8ef285f63dd73",
+    measurementId: "G-PRL4CSHQZC"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const analytics = getAnalytics(firebaseApp);
+
 const App = () => {
   return (
     <Router>

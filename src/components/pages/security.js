@@ -77,7 +77,8 @@ const Security = (props) => {
           'Content-Type': 'application/json',
           'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
           'W-Session': cookies.load('session_id'),
-          'W-Loggen': cookies.load('loggen')
+          'W-Loggen': cookies.load('loggen'),
+          'W-IP': await props.ip
         },
         body: JSON.stringify({
           share_storage_data: b
@@ -101,7 +102,8 @@ const Security = (props) => {
           'Content-Type': 'application/json',
           'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
           'W-Session': cookies.load('session_id'),
-          'W-Loggen': cookies.load('loggen')
+          'W-Loggen': cookies.load('loggen'),
+          'W-IP': await props.ip
         },
         body: JSON.stringify({
           share_analytics: b
@@ -279,7 +281,7 @@ const Security = (props) => {
       </div>
       <div className="security-container19 notselectable">
         <span className="security-text28 notselectable">MY DATA</span>
-        <span className="security-text29 notselectable">Download what we have stored in the database of you, in the downloaded package you will not receive the data from VikkiVuk Storage, to get the data from Storage you need to download it from each service separately.</span>
+        <span className="security-text29 notselectable">Download what we have stored in the database of you, in the downloaded package you will not receive the data from Wulfco Storage, to get the data from Storage you need to download it from each service separately.</span>
         <div className="security-container20">
           <button
             id="request_data"

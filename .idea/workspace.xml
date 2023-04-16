@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd025e02-a35c-4530-81ad-28a880f44016" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.firebaserc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/workflows/firebase-hosting-pull-request.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/firebase.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/404.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/dialogs/edit-birthday.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/dialogs/edit-birthday.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/pages/devices.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/devices.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dialogs/edit-username.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dialogs/edit-username.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dialogs/enter-password.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dialogs/enter-password.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dialogs/name-security-key.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dialogs/name-security-key.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/my-id.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/my-id.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/security-key.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/page_components/security-key.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/security.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/security.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/profile-modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/profile-modal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/dashboard/account-settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard/account-settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/dashboard/summary.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard/summary.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,8 +67,10 @@
     &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/Projects/Uncategorized/Wulfco ID/src/components/dialogs&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Minecraft/Mods/iCurrency&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -57,7 +79,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Problems&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;JavaScript.Libraries&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.new.ui&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
     &quot;ts.external.directory.path&quot;: &quot;E:\\JetBrains\\Toolbox\\apps\\IDEA-U\\ch-0\\223.8617.56\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
@@ -72,11 +94,11 @@
       <recent name="E:\Projects\Uncategorized\Wulfco ID\src\views\dashboard" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Uncategorized\Wulfco ID\src\components\dialogs" />
       <recent name="E:\Projects\Uncategorized\Wulfco ID\src\views\login" />
       <recent name="E:\Projects\Uncategorized\Wulfco ID\src\views" />
       <recent name="E:\Projects\Uncategorized\Wulfco ID\src\components\registration" />
       <recent name="E:\Projects\Uncategorized\Wulfco ID\public" />
-      <recent name="E:\Projects\Uncategorized\VikkiVuk ID\src\views\login" />
     </key>
   </component>
   <component name="RunManager">
@@ -117,6 +139,14 @@
       <workItem from="1669668713289" duration="962000" />
       <workItem from="1669727751257" duration="2041000" />
       <workItem from="1669897268733" duration="1334000" />
+      <workItem from="1679314857274" duration="21000" />
+      <workItem from="1679315120983" duration="52000" />
+      <workItem from="1679315190683" duration="1294000" />
+      <workItem from="1679662042389" duration="51000" />
+      <workItem from="1679662128758" duration="3154000" />
+      <workItem from="1679674105880" duration="36000" />
+      <workItem from="1681216963127" duration="756000" />
+      <workItem from="1681655684658" duration="4510000" />
     </task>
     <servers />
   </component>
