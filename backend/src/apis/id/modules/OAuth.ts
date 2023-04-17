@@ -1,7 +1,7 @@
 import OAuthApps from "../schemas/OAuthApps";
 import User from "./User";
 import Users from "../schemas/Users";
-import crypto from "crypto";
+import * as crypto from "crypto";
 
 const scopesText = {
     "user": {

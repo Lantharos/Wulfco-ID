@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import id from "./apis/id/id";
 import { initializeApp } from "firebase/app";
@@ -7,20 +7,19 @@ const cors = require("cors")
 const cookieParser = require("cookie-parser")
 dotenv.config({ path: './.env' });
 const app = express();
-const port = 5000;
 
 mongoose.connect(`${process.env.MONGO_URL}`).then(() => {
     console.log(">>> Connected to MongoDB");
 })
 
 const firebaseConfig = {
-    apiKey: process.env.FIREBASE_AKEY,
+    apiKey: process.env.APPFIREBASE_AKEY,
     authDomain: "wulfco-id.firebaseapp.com",
     projectId: "wulfco-id",
     storageBucket: "wulfco-id.appspot.com",
-    messagingSenderId: process.env.FIREBASE_SENDER_ID,
-    appId: process.env.FIREBASE_APP_ID,
-    measurementId: process.env.FIREBASE_MEASUREMENT_ID
+    messagingSenderId: process.env.APPFIREBASE_SENDER_ID,
+    appId: process.env.APPFIREBASE_APP_ID,
+    measurementId: process.env.APPFIREBASE_MEASUREMENT_ID
 };
 
 // @ts-ignore
@@ -70,8 +69,8 @@ app.use('/', async(req: any, res: any) => {
     }
 })
 
-app.listen(port, () => {
-    console.log(`>>> App listening at http://localhost:${port}`);
+app.listen(() => {
+    console.log(`>>> App online`);
 })
 
 

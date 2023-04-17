@@ -1,5 +1,5 @@
 import Users from "../schemas/Users";
-import crypto from "crypto";
+import * as crypto from "crypto";
 import mail from "@sendgrid/mail";
 const bcrypt = require("bcrypt")
 
