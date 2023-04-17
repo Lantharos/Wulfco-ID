@@ -1,56 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AnalysisUIOptions">
-    <option name="SCOPE_TYPE" value="3" />
-  </component>
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd025e02-a35c-4530-81ad-28a880f44016" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.firebaserc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.github/workflows/firebase-hosting-pull-request.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/firebase.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/404.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/dialogs/edit-birthday.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/dialogs/edit-birthday.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dialogs/edit-username.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dialogs/edit-username.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dialogs/enter-password.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dialogs/enter-password.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dialogs/name-security-key.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dialogs/name-security-key.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/pages/my-id.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/my-id.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/security-key.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/page_components/security-key.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/pages/profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/profile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/pages/security.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pages/security.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/profile-modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/profile-modal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/dashboard/account-settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard/account-settings.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/dashboard/summary.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard/summary.js" afterDir="false" />
+    <list default="true" id="29b16515-befb-48e4-9957-4cc079c44636" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/Wulfco ID.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/firestore.indexes.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/firestore.rules" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage.rules" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.deepsource.toml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.firebase/hosting.cHVibGlj.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/VikkiVuk ID.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/craco.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/firebase.json" beforeDir="false" afterPath="$PROJECT_DIR$/firebase.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/404.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/cloud.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/discord.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/epic_games.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/facebook.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/github.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/metamask.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/reddit.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/spotify.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/steam.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/suzl.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/twitch.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/twitter.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/walletconnect.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/xbox.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/youtube.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dialogs/confirmation-dialog.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dialogs/confirmation-dialog.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dialogs/edit-birthday.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dialogs/edit-birthday.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dialogs/edit-username.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dialogs/edit-username.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dialogs/enter-password.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dialogs/enter-password.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dialogs/name-security-key.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dialogs/name-security-key.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/add--friend.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/add--friend.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/authorized-apps.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/authorized-apps.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/balance.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/balance.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/connected-apps.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/connected-apps.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/devices.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/devices.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/my-friends.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/my-friends.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/my-id.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/my-id.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/authorized-app-permission.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/authorized-app-permission.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/authorized-app.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/authorized-app.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/connected-app.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/connected-app.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/connection-button.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/connection-button.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/device.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/device.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/friend-request.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/friend-request.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/friend.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/friend.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/security-key.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/page_components/security-key.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/profile.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/profile.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/security.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pages/security.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/profile-modal.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/profile-modal.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/registration/registration-finish.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/registration/registration-finish.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/registration/registration-next.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/registration/registration-next.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/registration/registration-start.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/registration/registration-start.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/coming-soon.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/coming-soon.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/create-id.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/create-id.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/dashboard/account-settings.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/dashboard/account-settings.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/dashboard/authorize.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/dashboard/authorize.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/dashboard/premium.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/dashboard/premium.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/dashboard/summary.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/dashboard/summary.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/home.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/home.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/login/login.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/login/login.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/login/verify-email.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/login/verify-email.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/password/change-password.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/password/change-password.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/password/reset-password.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/password/reset-password.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="JavaScript File" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="GoLibraries">
-    <option name="indexEntireGoPath" value="true" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2HoM93aClkIJbHYx3L1t2kz6dMp" />
+  <component name="ProjectId" id="2OXxXOe2ZX1JRiT4spC2uM4sHHm" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
@@ -58,121 +135,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Minecraft/Mods/iCurrency&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Problems&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.new.ui&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;E:\\JetBrains\\Toolbox\\apps\\IDEA-U\\ch-0\\223.8617.56\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "D:/Wulfco/Wulfco ID",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\Projects\Uncategorized\Wulfco ID\src\components\dialogs" />
-      <recent name="E:\Projects\Uncategorized\Wulfco ID\src\components\pages\page_components" />
-      <recent name="E:\Projects\Uncategorized\Wulfco ID\src\components\pages" />
-      <recent name="E:\Projects\Uncategorized\Wulfco ID\public\assets" />
-      <recent name="E:\Projects\Uncategorized\Wulfco ID\src\views\dashboard" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Uncategorized\Wulfco ID\src\components\dialogs" />
-      <recent name="E:\Projects\Uncategorized\Wulfco ID\src\views\login" />
-      <recent name="E:\Projects\Uncategorized\Wulfco ID\src\views" />
-      <recent name="E:\Projects\Uncategorized\Wulfco ID\src\components\registration" />
-      <recent name="E:\Projects\Uncategorized\Wulfco ID\public" />
-    </key>
-  </component>
-  <component name="RunManager">
-    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="start" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="npm.start" />
-      </list>
-    </recent_temporary>
-  </component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="fd025e02-a35c-4530-81ad-28a880f44016" name="Changes" comment="" />
-      <created>1668946830787</created>
+      <changelist id="29b16515-befb-48e4-9957-4cc079c44636" name="Changes" comment="" />
+      <created>1681720768711</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1668946830787</updated>
-      <workItem from="1668946832520" duration="18567000" />
-      <workItem from="1669032826646" duration="3008000" />
-      <workItem from="1669047407911" duration="4611000" />
-      <workItem from="1669068515853" duration="1807000" />
-      <workItem from="1669485767072" duration="5310000" />
-      <workItem from="1669583598765" duration="6527000" />
-      <workItem from="1669638141666" duration="4208000" />
-      <workItem from="1669649333535" duration="3940000" />
-      <workItem from="1669658802747" duration="821000" />
-      <workItem from="1669659823245" duration="81000" />
-      <workItem from="1669668713289" duration="962000" />
-      <workItem from="1669727751257" duration="2041000" />
-      <workItem from="1669897268733" duration="1334000" />
-      <workItem from="1679314857274" duration="21000" />
-      <workItem from="1679315120983" duration="52000" />
-      <workItem from="1679315190683" duration="1294000" />
-      <workItem from="1679662042389" duration="51000" />
-      <workItem from="1679662128758" duration="3154000" />
-      <workItem from="1679674105880" duration="36000" />
-      <workItem from="1681216963127" duration="756000" />
-      <workItem from="1681655684658" duration="4510000" />
+      <updated>1681720768711</updated>
+      <workItem from="1681720772819" duration="291000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-  </component>
-  <component name="VgoProject">
-    <integration-enabled>false</integration-enabled>
-    <settings-migrated>true</settings-migrated>
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
   </component>
 </project>

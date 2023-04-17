@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@craco/craco": "^7.0.0",
+    "@craco/craco": "^7.1.0",
     "@metamask/detect-provider": "^2.0.0",
     "@vaadin/checkbox": "^23.3.6",
     "bcrypt": "^5.1.0",
