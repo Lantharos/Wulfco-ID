@@ -12,7 +12,7 @@ const api_url = config.api_url
 const EnterPassword = (props) => {
     const checkPassword = () => {
         const password = document.getElementById('password').value
-        fetch(`${api_url}/id/verify-password?id=${encodeURIComponent(cookies.load('id'))}`, {
+        fetch(`${api_url}/verify-password?id=${encodeURIComponent(cookies.load('id'))}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

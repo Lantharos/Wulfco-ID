@@ -9,12 +9,12 @@ const ComingSoon = () => {
   return (
     <div className="coming-soon-container">
       <Helmet>
-        <title>ComingSoon - VikkiVuk ID</title>
+        <title>Loading - VikkiVuk ID</title>
         <meta
           name="description"
           content="VikkiVuk ID is a place where you can create one account that you will use for all of the services created by VikkiVuk LLC."
         />
-        <meta property="og:title" content="ComingSoon - VikkiVuk ID" />
+        <meta property="og:title" content="Loading - VikkiVuk ID" />
         <meta
           property="og:description"
           content="VikkiVuk ID is a place where you can create one account that you will use for all of the services created by VikkiVuk LLC. This enhances your user experience drastically."

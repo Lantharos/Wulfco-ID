@@ -21,20 +21,6 @@ const Devices = (props) => {
         return {currentSession, otherSessions}
     }
 
-    const getLocation = async (ip) => {
-        const response = await fetch(`https://ipapi.co/${ip}/json`).then(async(res) => {
-            const data = await res.json()
-
-            if (!data.error) {
-                return `${data.city}, ${data.region}, ${data.country_name}`
-            } else {
-                return 'Unknown Location'
-            }
-        })
-
-        return response
-    }
-
     const mapCurrentSession = () => {
         const parsedSessions = parseSessions();
         const sessionDetails = platform.parse(parsedSessions.currentSession.user_agent);
@@ -71,7 +57,7 @@ const Devices = (props) => {
         setEnterPassword({after: async() => {
             const notif = toast.loading('Logging out of all sessions...', {theme: 'dark'})
 
-            await fetch(`${api_url}/id/logout_all`).then(async(res) => {
+            await fetch(`${api_url}/logout_all`).then(async(res) => {
                 const data = await res.json()
 
                 if (data.status === 'success') {

@@ -1,71 +1,50 @@
+import id from "./api/id";
+import * as firebase from "firebase-functions";
 import * as dotenv from 'dotenv';
-import mongoose from 'mongoose';
-import id from "./apis/id/id";
-import { initializeApp } from "firebase/app";
+dotenv.config({ path: './.env' });
+
 const express = require("express")
 const cors = require("cors")
 const cookieParser = require("cookie-parser")
-dotenv.config({ path: './.env' });
 const app = express();
 
-mongoose.connect(`${process.env.MONGO_URL}`).then(() => {
-    console.log(">>> Connected to MongoDB");
-})
-
-const firebaseConfig = {
-    apiKey: process.env.APPFIREBASE_AKEY,
-    authDomain: "wulfco-id.firebaseapp.com",
-    projectId: "wulfco-id",
-    storageBucket: "wulfco-id.appspot.com",
-    messagingSenderId: process.env.APPFIREBASE_SENDER_ID,
-    appId: process.env.APPFIREBASE_APP_ID,
-    measurementId: process.env.APPFIREBASE_MEASUREMENT_ID
-};
-
-// @ts-ignore
-const firebaseApp = initializeApp(firebaseConfig);
-
 const ConvertURLParams = (params: string) => {
-    if (params.includes('-')) {
-        const split = params.split('-')
-        let newParams = split[0]
-        for (let i = 1; i < split.length; i++) {
-            newParams += split[i].charAt(0).toUpperCase() + split[i].slice(1)
-        }
-
-        return newParams
-    } else {
-        return params
+    if (params.charAt(0) === "/") {
+        params = params.slice(1)
     }
+
+    const regex = /-[a-z]/g
+    const matches = params.match(regex)
+    if (matches) {
+        for (const match of matches) {
+            params = params.replace(match, match.charAt(1).toUpperCase())
+        }
+    }
+
+    return params
 }
 
 app.use(cors());
 app.use(cookieParser());
-app.use(express.json());
-app.use('/', async(req: any, res: any) => {
+
+app.use('/', express.json(), async(req: any, res: any) => {
     if (req.headers['w-reason'] === "life_check") {res.sendStatus(200);return}
 
-    if (!req.path.split('/')[1]) { res.sendStatus(400); return; }
+    try {
+        if (!req.path.split('/')[1]) { res.sendStatus(400); return; }
 
-    switch (req.path.split('/')[1]) {
-        case 'id': {
-            if (!req.path.split('/')[2]) { res.sendStatus(400); }
+        const readableParams = ConvertURLParams(req.path.split('/')[1])
 
-            const readableParams = ConvertURLParams(req.path.split('/')[2])
+        // @ts-ignore
+        if (!id[readableParams]) { res.sendStatus(404); return; }
+        // @ts-ignore
+        const returned = await id[readableParams](req)
+        if (returned === "error") { res.sendStatus(500); return; }
 
-            // @ts-ignore
-            if (!id[readableParams]) { res.sendStatus(404); return; }
-            // @ts-ignore
-            const returned = await id[readableParams](req)
-            if (returned === "error") { res.sendStatus(500); return; }
-
-            res.status(returned.status).send(returned)
-            break
-        }
-        default: {
-            res.sendStatus(404)
-            break
-        }
+        res.status(returned.status).send(returned)
+    } catch(e) {
+        console.log(e)
+        res.sendStatus(500)
     }
 })
 
@@ -73,4 +52,4 @@ app.listen(() => {
     console.log(`>>> App online`);
 })
 
-
+export const api = firebase.https.onRequest(app);

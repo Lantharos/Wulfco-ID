@@ -34,7 +34,7 @@ const Authorize = (props) => {
   const authorize = () => {
       setEnterPassword({
           after: function () {
-              fetch(`${api_url}/id/authorize?app=${appData.id}&id=${encodeURIComponent(cookies.load("id"))}`, {
+              fetch(`${api_url}/authorize?app=${appData.id}&id=${encodeURIComponent(cookies.load("id"))}`, {
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json',

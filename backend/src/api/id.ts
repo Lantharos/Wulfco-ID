@@ -16,6 +16,15 @@ export default class ID {
     public static async profile(req: any) { return await User.profile(req) }
     public static async account(req: any) { return await User.account(req) }
     public static async preferences(req: any) { return await User.preferences(req) }
+    public static async avatar(req: any) {
+        if (req.method == "POST") {
+            return await User.updateAvatar(req)
+        } else if (req.method == "DELETE") {
+            return await User.resetAvatar(req)
+        } else {
+            return {status: 400, success: false, message: "Invalid method"}
+        }
+    }
 
     // Security module
     public static async securityKey(req: any) { if (req.method === "POST") { return await Security.registerSecurityKey(req) } else if (req.method === "DELETE") { return await Security.removeSecurityKey(req) } else { return { status: 400, success: false, message: "Invalid method"}} }

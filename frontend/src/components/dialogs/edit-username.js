@@ -13,7 +13,7 @@ const EditUsername = (props) => {
         let toReturn = true;
         return new Promise((resolve) => {
             const password = document.getElementById('password').value;
-            fetch(`${api_url}/id/verify-password?id=${encodeURIComponent(cookies.load('id'))}`, {
+            fetch(`${api_url}/verify-password?id=${encodeURIComponent(cookies.load('id'))}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -56,7 +56,8 @@ const EditUsername = (props) => {
         }
 
         const username = document.getElementById('username_new').value;
-        fetch(`${api_url}/id/account?id=${encodeURIComponent(cookies.load('id'))}`, {
+        const message = toast.loading('Updating username...', { theme: 'dark', autoClose: false })
+        fetch(`${api_url}/account?id=${encodeURIComponent(cookies.load('id'))}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -71,15 +72,16 @@ const EditUsername = (props) => {
         }).then((res) => {
             res.json().then((data) => {
                 if (data.success) {
-                    toast.success('Username updated', { theme: 'dark', autoClose: 2000 });
+                    toast.update(message, { render: "Username updated!", type: "success", isLoading: false, theme: 'dark', autoClose: 2000 });
                     props.setShowEditUsername(false);
                     props.updateUserData()
+
                 } else {
-                    toast.error('Failed to update username', { theme: 'dark', autoClose: 2000 });
+                    toast.update(message, { render: "Failed to update username", type: "error", theme: 'dark', isLoading: false, autoClose: 2000 });
                 }
             });
         }).catch(() => {
-            toast.error('Failed to update username', { theme: 'dark', autoClose: 2000 });
+            toast.update(message, { render: "Failed to update username", type: "error", theme: 'dark', isLoading: false, autoClose: 2000 });
         });
     }
 

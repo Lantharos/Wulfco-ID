@@ -16,11 +16,14 @@ import cookies from 'react-cookies'
 import hmac from 'crypto-js/hmac-sha256'
 import AddFriend from "../../components/pages/add--friend";
 import MyFriends from "../../components/pages/my-friends";
+import {AnimatePresence} from "framer-motion";
+import Loading from "../../components/pages/page_components/loading";
 
 const config = require('../../config.json')
 const api_url = config.api_url
 
 const AccountSettings = () => {
+  const [ loading, setLoading ] = React.useState(true);
   const [ selectedPage, setSelectedPage ] = React.useState("")
   let [ selectedButton, setSelectedButton ] = React.useState(document.getElementById('my-id'))
   const [ userData, setUserData ] = React.useState({
@@ -28,29 +31,22 @@ const AccountSettings = () => {
     account: { security: { protected: false, security_keys: [] }, sessions: [] }
   })
 
-  const getIp = async () => {
-    return new Promise((resolve) => {
-      fetch("https://icanhazip.com/").then((res) => res.text()).then((data) => {
-        resolve(data.replace(/\s/g, ''))
-      })
-    })
-  }
 
   const loadUserData = async () => {
-    fetch(`${api_url}/id/get?id=${encodeURIComponent(cookies.load("id"))}`, {
+    fetch(`${api_url}/get?id=${encodeURIComponent(cookies.load("id"))}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
         'W-Session': cookies.load('session_id'),
         'W-Loggen': cookies.load('loggen'),
-        "W-IP": await getIp(),
         'W-Reason': 'get-user-data'
       }
     }).then((res) => {
       res.json().then((data) => {
         if (data.success) {
           setUserData(data.user)
+          setLoading(false)
         } else {
           toast.error("Failed to get user data!", { theme: "dark" })
         }
@@ -61,6 +57,14 @@ const AccountSettings = () => {
   React.useEffect(() => {
     loadUserData();
   }, []);
+
+  React.useEffect(() => {
+    if (loading) {
+      document.body.classList.add("loading")
+    } else {
+      document.body.classList.remove("loading")
+    }
+  }, [loading])
 
   const switchPage = (page, button) => {
     setSelectedButton(button)
@@ -84,7 +88,7 @@ const AccountSettings = () => {
   }
 
   function logout() {
-    fetch(`${api_url}/id/logout`, {
+    fetch(`${api_url}/logout`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -137,6 +141,9 @@ const AccountSettings = () => {
 
   return (
       <div className="account-settings-container">
+        <AnimatePresence>
+          {loading && ( <Loading /> )}
+        </AnimatePresence>
         <ToastContainer />
         <Helmet>
           <title>Account Settings</title>

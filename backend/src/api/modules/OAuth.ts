@@ -1,7 +1,6 @@
-import OAuthApps from "../schemas/OAuthApps";
 import User from "./User";
-import Users from "../schemas/Users";
 import * as crypto from "crypto";
+import * as database from "../FirebaseHandler";
 
 const scopesText = {
     "user": {
@@ -42,6 +41,7 @@ export default class OAuth {
     public static async getApplication(req: any) {
         const user_id = req.query.id
         if (!user_id) { return {status: 400, success: false, message: "Missing fields"} }
+
         const user = await User.get(req)
         if (!user.success) { return user }
         if (user.user === undefined) { return {status: 400, success: false, message: "Could not find user"} }
@@ -49,17 +49,20 @@ export default class OAuth {
         const app_id = req.query.app
         if (!app_id) { return {status: 400, success: false, message: "Missing fields"} }
 
-        const result = await OAuthApps.findOne({id: app_id})
-        if (!result) { return {status: 400, success: false, message: "Could not find application"} }
+        const rawResult = await database.getOAuthApp(app_id)
+        if (!rawResult) { return {status: 400, success: false, message: "Could not find application"} }
 
-        return {status: 200, success: true, app: result, user_avatar: user.user.profile.avatar}
+        return {status: 200, success: true, rawApp: rawResult, user_avatar: user.user.profile.avatar}
     }
 
     public static async authorize(req: any) {
         const application = await OAuth.getApplication(req)
         if (!application.success) { return application }
         // @ts-ignore
-        if (application?.app === undefined) { return {status: 400, success: false, message: "Could not find application"} }
+        if (!application.rawApp) { return {status: 400, success: false, message: "Could not find application"} }
+        // @ts-ignore
+        const app = application.rawApp.data()
+        if (!app) { return {status: 400, success: false, message: "Could not find application"} }
 
         const scopes = req.body.scopes
         if (!scopes) { return {status: 400, success: false, message: "Missing fields"} }
@@ -72,25 +75,31 @@ export default class OAuth {
         const redirect_uri = req.body.redirect_uri
         if (!redirect_uri) { return {status: 400, success: false, message: "Missing fields"} }
 
+        const user = await User.get(req)
+        if (!user.success) { return user }
+        if (user.user === undefined) { return {status: 400, success: false, message: "Could not find user"} }
+
         const code = crypto.randomBytes(16).toString("hex")
         const code_expires = Date.now() + 60000
 
-        // @ts-ignore
-        if (application.app.codes) {
-            // @ts-ignore
-            const codes = application.app.codes
+        if (app.codes) {
+            const codes = app.codes
             for (const code of codes) {
                 if (code.user === req.query.id) {
-                    // @ts-ignore
-                    await OAuthApps.updateOne({id: application.app.id}, {$pull: {codes: {code: code.code}}})
+                    await database.updateOAuthApp(app.id, { codes: app.codes.pull({ code: code.code }) })
                 }
             }
-        }
 
-        // @ts-ignore
-        await OAuthApps.updateOne({id: application.app.id}, {$push: {codes: {code, code_expires, scopes, state, redirect_uri, user: req.query.id }}})
-        // @ts-ignore
-        await Users.updateOne({id: req.query.id}, {$push: {"connections.oauth": {app_id: application.app.id, app_name: application.app.name, about_app: application.app.description, app_permissions: readableScopes.scopes}}})
+            await database.updateOAuthApp(app.id, { codes: [{ code, code_expires, scopes, state, redirect_uri, user: req.query.id }] })
+        } else {
+            await database.updateOAuthApp(app.id, { codes: [{ code, code_expires, scopes, state, redirect_uri, user: req.query.id }] })
+            if (user.user.connections.oauth) {
+                await database.updateUser(req.query.id, { "connections.oauth": user.user.connections.oauth.push({app_id: app.id, app_name: app.name, about_app: app.description, app_permissions: readableScopes.scopes}) })
+
+            } else {
+                await database.updateUser(req.query.id, { "connections.oauth": [{app_id: app.id, app_name: app.name, about_app: app.description, app_permissions: readableScopes.scopes}] })
+            }
+        }
 
         return {status: 200, success: true, redirect_uri: `${redirect_uri}?code=${code}&state=${state}`}
     }
@@ -104,14 +113,7 @@ export default class OAuth {
         const secret = crypto.randomBytes(32).toString("hex")
         const id = crypto.randomBytes(32).toString("hex")
 
-        const app = await new OAuthApps({
-            name,
-            description,
-            redirects: [redirect_uri],
-            secret,
-            id
-        }).save()
-
+        const app = database.createOAuthApp({ name, description, redirects: [redirect_uri], secret, id })
         return {status: 200, success: true, app}
     }
 

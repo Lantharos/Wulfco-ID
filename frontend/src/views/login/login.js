@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import detectEthereumProvider from '@metamask/detect-provider';
 import cookies from 'react-cookies'
+import hmac from "crypto-js/hmac-sha256";
 
 const config = require('../../config.json')
 const api_url = config.api_url
@@ -26,14 +27,6 @@ const Login = () => {
     return response
   }
 
-  const getIp = async () => {
-    return new Promise((resolve) => {
-      fetch("https://icanhazip.com/").then((res) => res.text()).then((data) => {
-        resolve(data.replace(/\s/g, ''))
-      })
-    })
-  }
-
   const getUrlParameter = (sParam) => {
     const sPageURL = window.location.search.substring(1)
     const sURLVariables = sPageURL.split('&')
@@ -47,18 +40,52 @@ const Login = () => {
     return returner
   }
 
+  const checkIsLoggedIn = (redirect) => {
+    const toastmsg = toast.loading("Found login credentials, checking if valid...", { theme: "dark" })
+    fetch(`${api_url}/get?id=${encodeURIComponent(cookies.load("id"))}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
+        'W-Session': cookies.load('session_id'),
+        'W-Loggen': cookies.load('loggen'),
+        'W-Reason': 'get-user-data'
+      }
+    }).then((res) => {
+      res.json().then((data) => {
+        if (data.success) {
+          toast.update(toastmsg, { render: "Redirecting...", isLoading: false, type: toast.TYPE.SUCCESS, autoClose: 2000 })
+          window.location.href =  decodeURIComponent(redirect)
+        } else {
+          toast.update(toastmsg, { render: "Login credentials invalid, please login.", isLoading: false, type: toast.TYPE.ERROR, autoClose: 2000 })
+          cookies.save("token", "", {path: '/', secure: false})
+          cookies.save("secret", "", {path: '/', secure: false})
+          cookies.save("id", "", {path: '/', secure: false})
+          cookies.save("loggen", "", {path: '/', secure: false})
+          cookies.save("session_id", "", {path: '/', secure: false})
+        }
+      })
+    }).catch(() => {
+      toast.update(toastmsg, { render: "Login credentials invalid, please login.", isLoading: false, type: toast.TYPE.ERROR, autoClose: 2000 })
+      cookies.save("token", "", {path: '/', secure: false})
+      cookies.save("secret", "", {path: '/', secure: false})
+      cookies.save("id", "", {path: '/', secure: false})
+      cookies.save("loggen", "", {path: '/', secure: false})
+      cookies.save("session_id", "", {path: '/', secure: false})
+    })
+  }
+
   const checkForRedirect = () => {
     const redirect = getUrlParameter('callback')
     if (redirect) {
       if (cookies.load('token') && cookies.load('secret') && cookies.load('id') && cookies.load('loggen') && cookies.load('session_id')) {
-        window.location.href =  decodeURIComponent(redirect)
+        checkIsLoggedIn(redirect)
       } else {
         cookies.save('redirect', decodeURIComponent(redirect), {path: '/', secure: false, expires: new Date(Date.now() + 1000 * 60 * 60 * 24)})
       }
     } else {
-      console.log("no redirect")
       if (cookies.load('token') && cookies.load('secret') && cookies.load('id') && cookies.load('loggen') && cookies.load('session_id')) {
-        window.location.href = "/summary"
+        checkIsLoggedIn('/summary')
       }
     }
   }
@@ -81,7 +108,7 @@ const Login = () => {
 
             const notification = toast.loading("Connecting to Metamask", { theme: "dark" })
 
-            fetch(`${api_url}/id/login`, {method: 'POST', headers: {'W-Crypto': 'true', 'W-Wallet-Type': walletType}, body: JSON.stringify({walletID, walletType, walletNetwork})}).then((res) => {return res.json()}).then((data) => {
+            fetch(`${api_url}/login`, {method: 'POST', headers: {'W-Crypto': 'true', 'W-Wallet-Type': walletType}, body: JSON.stringify({walletID, walletType, walletNetwork})}).then((res) => {return res.json()}).then((data) => {
               toast.update(notification, {render: "Connected to Metamask", type: toast.TYPE.SUCCESS, theme: "dark", autoClose: 2000})
               setTimeout(() => {
                 cookies.save('secret', data.secret, {path: '/', secure: false})
@@ -115,12 +142,9 @@ const Login = () => {
     apiHealth().then(async(ret) => {
       if(!ret) { return }
 
-      const ip = await getIp()
-      console.log(ip)
-
       const notification = toast.loading('Attempting to login...', { theme: "dark" });
 
-      fetch(`${api_url}/id/login`, {method: 'post', headers: {"W-Crypto": "false", "Content-Type": "application/json"}, body: JSON.stringify({email, password, ip})}).then((response) => {
+      fetch(`${api_url}/login`, {method: 'post', headers: {"W-Crypto": "false", "Content-Type": "application/json"}, body: JSON.stringify({email, password})}).then((response) => {
         response.json().then((data) => {
           if (data.success) {
             toast.update(notification, {type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 5000, render: "Successfully logged in! Redirecting...", theme: "dark" })

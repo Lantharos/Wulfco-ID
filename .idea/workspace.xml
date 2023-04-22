@@ -5,13 +5,69 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29b16515-befb-48e4-9957-4cc079c44636" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/src/api/FirebaseHandler.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/build/static/css/main.394123a0.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/build/static/css/main.394123a0.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/build/static/js/main.5b73480a.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/build/static/js/main.5b73480a.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/build/static/js/main.5b73480a.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/pages/page_components/loading.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/pages/page_components/loading.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/apis/id/modules/Auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/apis/id/modules/Auth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/apis/id/modules/OAuth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/apis/id/modules/OAuth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/apis/id/modules/User.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/apis/id/modules/User.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/apis/default.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/apis/default.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/apis/id/id.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/apis/id/id.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/id.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/apis/id/modules/Auth.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/apis/id/modules/Auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/modules/Auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/apis/id/modules/OAuth.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/apis/id/modules/OAuth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/modules/OAuth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/apis/id/modules/Security.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/apis/id/modules/Security.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/modules/Security.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/apis/id/modules/User.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/apis/id/modules/User.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/modules/User.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/apis/id/schemas/OAuthApps.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/schemas/OAuthApps.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/apis/id/schemas/OAuthApps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/schemas/OAuthApps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/apis/id/schemas/Users.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/schemas/Users.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/apis/id/schemas/Users.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/schemas/Users.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/index.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/util/schemas/sessionmodel.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/util/schemas/sessionmodel.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/util/schemas/usermodel.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/util/schemas/usermodel.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/tsconfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/firebase.json" beforeDir="false" afterPath="$PROJECT_DIR$/firebase.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/firestore.rules" beforeDir="false" afterPath="$PROJECT_DIR$/firestore.rules" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/asset-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/css/main.1bd923e3.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/css/main.1bd923e3.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.e4620218.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.e4620218.js.LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.e4620218.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dialogs/edit-birthday.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/edit-birthday.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dialogs/edit-username.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/edit-username.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dialogs/enter-password.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/enter-password.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dialogs/name-security-key.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/name-security-key.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/devices.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/devices.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/my-id.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/my-id.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/page_components/security-key.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/page_components/security-key.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/security.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/security.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/coming-soon.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/coming-soon.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/create-id.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/create-id.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/dashboard/account-settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/dashboard/account-settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/dashboard/authorize.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/dashboard/authorize.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/dashboard/summary.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/dashboard/summary.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/login/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/login/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage.rules" beforeDir="false" afterPath="$PROJECT_DIR$/storage.rules" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +96,7 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/Wulfco/Wulfco ID",
+    "last_opened_file_path": "D:/Discord/Bit",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -50,6 +106,32 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Wulfco\Wulfco ID\frontend\src\components\pages\page_components" />
+      <recent name="D:\Wulfco\Wulfco ID\frontend" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Wulfco\Wulfco ID\backend\src\api" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/frontend/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.start" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -58,12 +140,19 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1681720768711</updated>
-      <workItem from="1681720772819" duration="1880000" />
+      <workItem from="1681720772819" duration="9207000" />
+      <workItem from="1681732640847" duration="23066000" />
+      <workItem from="1681817381533" duration="25069000" />
+      <workItem from="1681996279285" duration="838000" />
+      <workItem from="1682165277148" duration="1771000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.rules" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />

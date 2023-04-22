@@ -16,13 +16,15 @@ const Profile = (props) => {
   const [ aboutMe, setAboutMe ] = React.useState(props.userData.profile.about_me)
   const [ profileColor, setProfileColor ] = React.useState(props.userData.profile.profile_color || "#1a63b9")
   const [ showPicker, setShowPicker ] = React.useState(false);
+  const [ resetAvatarHidden, setResetAvatarHidden ] = React.useState(false)
+  const fileInput = React.useRef();
 
   const save = (e) => {
     e.preventDefault()
 
     const message = toast.loading('Saving...', { theme: "dark" })
 
-    fetch(`${api_url}/id/profile?id=${encodeURIComponent(cookies.load("id"))}`, {
+    fetch(`${api_url}/profile?id=${encodeURIComponent(cookies.load("id"))}`, {
       method: "PATCH",
       headers: {
         'Content-Type': 'application/json',
@@ -49,9 +51,96 @@ const Profile = (props) => {
     })
   }
 
+  const changeAvatar = (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+
+    if (!allowedExtensions.exec(file.name)) {
+        toast.error('File must be a .jpg, .jpeg, or .png!', { theme: "dark" })
+        return
+    }
+
+    if (file.size < 2097152) {
+      const reader = new FileReader();
+
+      reader.onload = (e2) => {
+        const base64String = reader.result.split(',')[1];
+        const jsonData = {
+          fileName: file.name,
+          fileSize: file.size,
+          fileType: file.type,
+          data: base64String
+        };
+
+        const message = toast.loading('Uploading...', { theme: "dark" })
+
+        fetch(`${api_url}/avatar?id=${encodeURIComponent(cookies.load("id"))}`, {
+          method: "POST",
+          headers: {
+            'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
+            'W-Session': cookies.load('session_id'),
+            'W-Loggen': cookies.load('loggen')
+          },
+          body: JSON.stringify(jsonData)
+        }).then((res) => {
+          res.json().then((data) => {
+            if (data.success) {
+              toast.update(message, { render: 'Uploaded!', type: 'success', autoClose: 2000, isLoading: false })
+              props.updateUserData()
+            } else {
+              toast.update(message, { render: 'Failed to upload!', type: 'error', autoClose: 2000, isLoading: false })
+            }
+          })
+        }).catch(() => {
+          toast.update(message, { render: 'Failed to upload!', type: 'error', autoClose: 2000, isLoading: false })
+        })
+      };
+
+      reader.readAsDataURL(file);
+    } else {
+      toast.error('File must be less than 2MB!', { theme: "dark" })
+    }
+  }
+
+  const checkHasAvatar = () => {
+    if (props.userData.profile.avatar.includes("dicebear")) {
+      setResetAvatarHidden(false)
+    } else {
+      setResetAvatarHidden(true)
+    }
+  }
+
+  const resetAvatar = () => {
+    const message = toast.loading('Resetting...', { theme: "dark" })
+
+    fetch(`${api_url}/avatar?id=${encodeURIComponent(cookies.load("id"))}`, {
+      method: "DELETE",
+      headers: {
+        'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
+        'W-Session': cookies.load('session_id'),
+        'W-Loggen': cookies.load('loggen')
+      }
+    }).then((res) => {
+      res.json().then((data) => {
+        if (data.success) {
+          toast.update(message, { render: 'Reset!', type: 'success', autoClose: 2000, isLoading: false })
+          props.updateUserData()
+        } else {
+          toast.update(message, { render: 'Failed to reset!', type: 'error', autoClose: 2000, isLoading: false })
+        }
+      })
+    }).catch(() => {
+      toast.update(message, { render: 'Failed to reset!', type: 'error', autoClose: 2000, isLoading: false })
+    })
+  }
+
   return (
     <div className="profile-content">
+      <input ref={fileInput} type="file" accept={".jpeg, .jpg, .png"} className={"hidden"} onChange={changeAvatar}/>
       <h1 className="profile-text notselectable">Profile</h1>
+      {() => checkHasAvatar()}
       <form onSubmit={save} className="profile-form">
         <div className="profile-avatar-change-wrapper">
           <span className="profile-pointer notselectable">AVATAR</span>
@@ -60,13 +149,15 @@ const Profile = (props) => {
               id="change_avatar"
               type="button"
               className="profile-change-avatar button"
+              onClick={() => fileInput.current.click()}
             >
               Change Avatar
             </button>
             <button
               id="reset_avatar"
               type="button"
-              className="profile-reset-avatar button"
+              className={`profile-reset-avatar button ${resetAvatarHidden ? "hidden" : ""}`}
+              onClick={resetAvatar}
             >
               Reset Avatar
             </button>

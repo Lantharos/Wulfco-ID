@@ -1,5 +1,5 @@
-import Users from "../schemas/Users";
 import * as crypto from "crypto";
+import * as database from "../FirebaseHandler";
 import mail from "@sendgrid/mail";
 const bcrypt = require("bcrypt")
 
@@ -14,10 +14,13 @@ export default class User {
             return {status: 400, success: false, message: "Missing headers"}
         }
 
-        const user = await Users.findOne({uuid: user_id})
-        if (!user) {
+        const rawUser = await database.getUser(user_id)
+        if (!rawUser) {
             return {status: 400, success: false, message: "Could not find user"}
         }
+        const user = rawUser.data()
+        if (!user) { return {status: 400, success: false, message: "Could not find user"} }
+
         const session = user.account.sessions.find((session: any) => session.session_id === session_id)
 
         if (!session) {
@@ -31,11 +34,12 @@ export default class User {
             return {status: 401, success: false, message: "Invalid token"}
         }
 
-        const requesterIp = req.headers['w-ip']
-        const location = await fetch(`http://ip-api.com/json/${requesterIp}`)
-        const locationData = await location.json()
+        const requesterIp = req.headers["x-forwarded-for"] || req.connection.remoteAddress
 
         if (req.headers['w-reason'] === 'get-user-data') {
+            const location = await fetch(`http://ip-api.com/json/${requesterIp}`)
+            const locationData = await location.json()
+
             if (locationData.region !== session.location.region) {
                 mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
 
@@ -50,7 +54,7 @@ export default class User {
             }
         }
 
-        return {status: 200, success: true, user}
+        return {status: 200, success: true, user, rawUser}
     }
 
     public static async checkPassword(req: any) {
@@ -77,16 +81,20 @@ export default class User {
         const user = result.user
         if (!user) {return {status: 400, success: false, message: "Could not find user"}}
 
+        const rawUser = result.rawUser
+        if (!rawUser) {return {status: 400, success: false, message: "Could not find user"}}
+
         if (user.email === newEmail && user.profile.username === newUsername && !req.body["birthday"]) {return {status: 400, success: false, message: "No changes were made"}}
         if (req.body["birthday"]) {
             const birthday = Date.parse(req.body["birthday"])
-            await Users.updateOne({uuid: user.uuid}, {"account.birthday": birthday})
+            await database.updateUser(rawUser.id, {"account.birthday": birthday})
         } else {
             if (user.email === newEmail) {
                 const discriminator = Math.floor(Math.random() * 9999)
-                await Users.updateOne({uuid: user.uuid}, {"profile.username": newUsername, "profile.discriminator": discriminator})
+
+                await database.updateUser(rawUser.id, {"profile.username": newUsername, "profile.discriminator": discriminator})
             } else {
-                await Users.updateOne({uuid: user.uuid}, {email: newEmail, "profile.username": newUsername})
+                await database.updateUser(rawUser.id, {email: newEmail, "profile.username": newUsername})
             }
         }
 
@@ -103,14 +111,47 @@ export default class User {
         if (!user) {return {status: 400, success: false, message: "Could not find user"}}
 
         if (share_analytics !== undefined) {
-            await Users.updateOne({uuid: user.uuid}, { "account.analytics.share_analytics": share_analytics })
+            await database.updateUser(result.rawUser.id, {"account.analytics.share_analytics": share_analytics})
             return {status: 200, success: true}
         } else if (share_storage_data !== undefined) {
-            await Users.updateOne({uuid: user.uuid}, { "account.analytics.share_storage_data": share_storage_data })
+            await database.updateUser(result.rawUser.id, {"account.analytics.share_storage_data": share_storage_data})
             return {status: 200, success: true}
         } else {
             return {status: 400, success: false, message: "Missing fields"}
         }
+    }
+
+    public static async updateAvatar(req: any) {
+        const file = req.body
+        if (!file) {return {status: 400, success: false, message: "Missing fields"}}
+
+        const result = await User.get(req)
+        if (!result.success) {return result}
+        const user = result.user
+        if (!user) {return {status: 400, success: false, message: "Could not find user"}}
+        const rawUser = result.rawUser
+        if (!rawUser) {return {status: 400, success: false, message: "Could not find user"}}
+
+        const success = await database.uploadAvatar(rawUser.id, file)
+
+        if (success) {
+            return {status: 200, success: true}
+        } else {
+            return {status: 400, success: false, message: "Could not upload avatar"}
+        }
+    }
+
+    public static async resetAvatar(req: any) {
+        const result = await User.get(req)
+        if (!result.success) {return result}
+        const user = result.user
+        if (!user) {return {status: 400, success: false, message: "Could not find user"}}
+        const rawUser = result.rawUser
+        if (!rawUser) {return {status: 400, success: false, message: "Could not find user"}}
+
+        await database.updateUser(rawUser.id, {"profile.avatar": `https://api.dicebear.com/5.x/identicon/svg?seed=${user.profile.full_name.split(" ")[0]}&backgroundColor=ffdfbf`})
+
+        return {status: 200, success: true}
     }
 
     public static async profile(req: any) {
@@ -118,7 +159,7 @@ export default class User {
         const newProfileColor = req.body["profile_color"]
         const newPronouns = req.body["pronouns"]
 
-        if (!newAboutMe || !newProfileColor || !newPronouns) {
+        if (!newAboutMe && !newProfileColor && !newPronouns) {
             return {status: 400, success: false, message: "Missing fields"}
         }
 
@@ -127,16 +168,12 @@ export default class User {
             return result
         }
 
-        const user = result.user
-        if (!user) {
+        const rawUser = result.rawUser
+        if (!rawUser) {
             return {status: 400, success: false, message: "Could not find user"}
         }
 
-        await Users.updateOne({uuid: user.uuid}, {
-            "profile.about_me": newAboutMe,
-            "profile.profile_color": newProfileColor,
-            "profile.pronouns": newPronouns
-        })
+        await database.updateUser(rawUser.id, {"profile.about_me": newAboutMe || "", "profile.profile_color": newProfileColor || "#008cff", "profile.pronouns": newPronouns || ""})
 
         return {status: 200, success: true}
     }

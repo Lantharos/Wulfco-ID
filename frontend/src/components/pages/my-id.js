@@ -2,9 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import './my-id.css'
+import 'react-toastify/dist/ReactToastify.css';
 import EditUsername from "../dialogs/edit-username";
 import EditBirthday from "../dialogs/edit-birthday";
 import {AnimatePresence} from 'framer-motion'
+import {toast, ToastContainer} from "react-toastify";
 
 const MyId = (props) => {
   const [ showEditUsername, setShowEditUsername ] = React.useState(false)
@@ -59,6 +61,7 @@ const MyId = (props) => {
                   id="edit_email"
                   type="button"
                   className="my-i-d-edit1 button"
+                  onClick={() => toast.info("This feature is not yet implemented", {theme: "dark"})}
                 >
                   <span className="button__text my-i-d-text2">
                     Edit
@@ -109,7 +112,6 @@ const MyId = (props) => {
         <span className="my-i-d-pointer3 notselectable">PASSWORD</span>
         <Link
           to="/reset-password"
-          onclick="this.classList.toggle('submit--loading')"
           className="my-i-d-reset-password button"
         >
           <span className="">Reset Password</span>
@@ -122,6 +124,7 @@ const MyId = (props) => {
           id="delete_data"
           type="button"
           className="my-i-d-delete-i-d button"
+          onClick={() => toast.info("This feature is not yet implemented", {theme: "dark"})}
         >
           <span className="">Delete my Data</span>
         </button>

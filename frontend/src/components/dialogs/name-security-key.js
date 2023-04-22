@@ -13,7 +13,7 @@ const NameSecurityKey = (props) => {
         let toReturn = true;
         return new Promise((resolve) => {
             const password = document.getElementById('password').value;
-            fetch(`${api_url}/id/verify-password?id=${encodeURIComponent(cookies.load('id'))}`, {
+            fetch(`${api_url}/verify-password?id=${encodeURIComponent(cookies.load('id'))}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -53,17 +53,14 @@ const NameSecurityKey = (props) => {
 
     const saveKey = async() => {
         if ((await checkPassword()) === false) {
-            console.log('Incorrect password')
             return
         }
-
-        console.log("Saving key...")
 
         const notif = toast.loading('Registering security key...', { theme: "dark" })
         const attestationObject = props.securityKey.response.attestationObject
         const clientDataJSON = props.securityKey.response.clientDataJSON
 
-        await fetch(`${api_url}/id/security-key?id=${encodeURIComponent(cookies.load("id"))}`, {
+        await fetch(`${api_url}/security-key?id=${encodeURIComponent(cookies.load("id"))}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

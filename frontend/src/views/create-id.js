@@ -16,7 +16,7 @@ const CreateId = () => {
     const [ stage, setStage ] = React.useState(0)
     const [ name, setName ] = React.useState("")
 
-    const switchStage = (nextStage, newData) => {
+    const switchStage = async (nextStage, newData) => {
         if (stage === 0) {
             const message = toast.loading('Creating new session...', { theme: "dark" })
             sessionStorage.setItem("email", newData.email)
@@ -35,10 +35,10 @@ const CreateId = () => {
         } else if (stage === 2) {
             const message = toast.loading('Creating your ID...', { theme: "dark" })
 
-            fetch(`${config.api_url}/id/create`, {
+            fetch(`${config.api_url}/create`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     email: sessionStorage.getItem("email"),

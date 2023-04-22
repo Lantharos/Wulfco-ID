@@ -12,7 +12,7 @@ const SecurityKey = (props) => {
     const removeKey = async(preps) => {
         const message = toast.loading('Removing...', { theme: "dark" })
 
-        await fetch(`${api_url}/id/security-key?id=${encodeURIComponent(cookies.load("id"))}&key=${encodeURIComponent(preps.keyId)}`, {
+        await fetch(`${api_url}/security-key?id=${encodeURIComponent(cookies.load("id"))}&key=${encodeURIComponent(preps.keyId)}`, {
             method: "DELETE",
             headers: {
                 'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),

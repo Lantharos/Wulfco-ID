@@ -1,5 +1,5 @@
 import User from "./User";
-import Users from "../schemas/Users";
+import * as database from "../FirebaseHandler";
 
 export default class Security {
     public static async registerSecurityKey(req: any) {
@@ -17,11 +17,12 @@ export default class Security {
         const credential = { id, rawId, response: { attestationObject, clientDataJSON }, type: req.body.type, name: req.body.name };
 
         const currentUser = result.user
+        const rawUser = result.rawUser
 
-        if (currentUser.account.security.security_keys) {
-            await Users.updateOne({ uuid: result.user.uuid }, { $push: { "account.security.security_keys": credential }, "account.security.protected": true })
+        if (currentUser.account.security && currentUser.account.security.security_keys) {
+            await database.updateUser(rawUser.id, { "account.security.security_keys": currentUser.account.security.security_keys.push(credential), "account.security.protected": true })
         } else {
-            await Users.updateOne({ uuid: result.user.uuid }, { "account.security.security_keys": [credential], "account.security.protected": true })
+            await database.updateUser(rawUser.id, { "account.security.security_keys": [credential], "account.security.protected": true })
         }
 
         return {status: 200, success: true}
@@ -36,9 +37,24 @@ export default class Security {
         if (!result.user) { return {status: 400, success: false, message: "Could not find user"} }
 
         const currentUser = result.user
+        const rawUser = result.rawUser
+
         if (currentUser.account.security.security_keys && currentUser.account.security.security_keys[number]) {
-            await Users.updateOne({uuid: result.user.uuid}, {$pull: {"account.security.security_keys": currentUser.account.security.security_keys[number]}, "account.security.protected": false })
-            return {status: 200, success: true}
+            const securityKeys = currentUser.account.security.security_keys;
+            securityKeys.splice(number, 1);
+            if (securityKeys === 1) {
+                await database.updateUser(rawUser.id, {
+                    "account.security.security_keys": [],
+                    "account.security.protected": false
+                });
+                return {status: 200, success: true}
+            } else {
+                await database.updateUser(rawUser.id, {
+                    "account.security.security_keys": securityKeys,
+                    "account.security.protected": false
+                });
+                return {status: 200, success: true}
+            }
         } else {
             return {status: 400, success: false, message: "Could not find key"}
         }

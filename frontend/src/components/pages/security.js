@@ -20,7 +20,7 @@ const Security = (props) => {
   const [ enterPassword, setEnterPassword ] = React.useState({})
 
   const mapSecurityKeys = () => {
-    if (props.userData.account.security.security_keys) {
+    if (props.userData.account.security && props.userData.account.security.security_keys) {
       const securityKeys = []
       for (let i = 0; i < props.userData.account.security.security_keys.length; i++) {
         securityKeys.push(
@@ -46,7 +46,7 @@ const Security = (props) => {
     const publicKey = {
       challenge,
       rp: {
-        id: "localhost",
+        id: window.location.hostname,
         name: "Wulfco ID"
       },
       user: {
@@ -71,7 +71,7 @@ const Security = (props) => {
 
   const savePreferences = async(b, w) => {
     if (w === "share_storage_data") {
-      await fetch(`${api_url}/id/preferences?id=${encodeURIComponent(cookies.load("id"))}`, {
+      await fetch(`${api_url}/preferences?id=${encodeURIComponent(cookies.load("id"))}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ const Security = (props) => {
         toast.error("Failed to update preferences", {theme: 'dark', autoClose: 2000 })
       })
     } else if (w === "share_analytics") {
-      await fetch(`${api_url}/id/preferences?id=${encodeURIComponent(cookies.load("id"))}`, {
+      await fetch(`${api_url}/preferences?id=${encodeURIComponent(cookies.load("id"))}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
