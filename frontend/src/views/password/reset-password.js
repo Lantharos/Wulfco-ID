@@ -3,8 +3,38 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 
 import './reset-password.css'
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
-const ResetPassword = () => {
+const config = require('../../config.json')
+const api_url = config.api_url
+
+const ResetPassword = (props) => {
+  const resetPassword = () => {
+    const email = document.getElementById('email').value
+    if (email) {
+      const message = toast.loading('Sending email...', { theme: "dark" })
+
+      fetch(`${api_url}/password`, {
+        method: 'POST',
+        body: JSON.stringify({ email: btoa(email) }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            toast.update(message, { render: 'Check your email!', type: 'success', autoClose: 2000, isLoading: false })
+          } else {
+            toast.update(message, { render: 'Something went wrong!', type: 'error', autoClose: 2000, isLoading: false })
+          }
+        }).catch((err) => { toast.update(message, { render: "Something went wrong!", type: "error", autoClose: 2000, isLoading: false}); console.log(err) })
+    } else {
+      toast.info('Please enter your email!', { theme: "dark" })
+    }
+  }
+
   return (
     <div className="reset-password-container">
       <Helmet>
@@ -16,22 +46,21 @@ const ResetPassword = () => {
         <meta property="og:title" content="Reset your password" />
         <meta
           property="og:description"
-          content="VikkiVuk ID is a place where you can create one account that you will use for all of the services created by VikkiVuk LLC. This enhances your user experience drastically."
+          content="Wulfco ID is a place where you can create one ID that you will use for all of the services created by Wulfco LLC."
         />
         <meta
           property="og:image"
-          content="https://aheioqhobo.cloudimg.io/v7/_playground-bucket-v2.teleporthq.io_/39ebfb3d-48ba-4ad3-b4e3-71d35b211205/e9ec2f33-b7e4-4cd9-a0dc-1d8ee57b364f?org_if_sml=1"
+          content="https://aheioqhobo.cloudimg.io/v7/_playground-bucket-v2.teleporthq.io_/39ebfb3d-48ba-4ad3-b4e3-71d35b211205/70dc84ed-902e-47ba-a9d3-d75e24c32e1d?org_if_sml=1"
         />
       </Helmet>
+      <ToastContainer />
       <div className="reset-password-container1">
         <form
           id="form"
           name="login-form"
-          action="/user/reset-password"
-          method="POST"
-          target="self"
           autoComplete="on"
           className="reset-password-form"
+          onSubmit={(e) => { e.preventDefault(); resetPassword() }}
         >
           <h1 className="reset-password-text notselectable">
             Reset your Password
@@ -47,35 +76,18 @@ const ResetPassword = () => {
               id="email"
               name="email"
               required="true"
-              
+              autoFocus="true"
               placeholder="johndoe@yourdomain.com"
-              autoComplete="email"
+              autoComplete="username"
               className="reset-password-textinput input"
-            />
-          </div>
-          <div className="reset-password-container3">
-            <span className="reset-password-text3 notselectable">
-              Last (known) Password
-            </span>
-            <input
-              type="password"
-              id="lastpass"
-              name="lastpass"
-              required="true"     
-              maxLength="20"
-              minLength="3"
-              placeholder="••••••••••••••••"
-              autoComplete="current-password"
-              className="reset-password-textinput1 input"
             />
           </div>
           <button
             id="submit"
-            type="button"
-            onClick="this.classList.toggle('submit--loading')"
+            type="submit"
             className="reset-password-button button"
           >
-            <span className="button__text reset-password-text4">Send Link</span>
+            <span className="button__text reset-password-text3">Send Link</span>
           </button>
         </form>
       </div>

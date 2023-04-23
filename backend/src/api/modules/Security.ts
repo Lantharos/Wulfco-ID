@@ -1,5 +1,8 @@
 import User from "./User";
+import * as crypto from "crypto";
 import * as database from "../FirebaseHandler";
+import mail from "@sendgrid/mail";
+const bcrypt = require("bcrypt")
 
 export default class Security {
     public static async registerSecurityKey(req: any) {
@@ -58,5 +61,51 @@ export default class Security {
         } else {
             return {status: 400, success: false, message: "Could not find key"}
         }
+    }
+
+    public static async resetPassword(req: any) {
+        const email = atob(req.body.email)
+        if (!email) { return {status: 400, success: false, message: "Missing fields"} }
+
+        const rawUser = await database.getUserByEmail(email)
+        if (!rawUser) { return {status: 400, success: false, message: "Could not find user"} }
+
+        const token = crypto.randomBytes(20).toString("hex")
+
+        mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
+
+        await mail.send({
+            to: email,
+            from: "alerts@wulfco.xyz",
+            subject: "Wulfco Password Reset",
+            text: `Hello @${rawUser.data().profile.username}, \n\nYou or someone has requested a password reset using this email, if this was you please click the link below to reset your password. \n\nhttps://id.wulfco.xyz/change-password?token=${token} \n\nIf this was not you please ignore this email.\n\nThanks, \nWulfco Team`
+        })
+
+        await database.updateUser(rawUser.id, { "account.security.pass_reset_token": {token: token, created: Date.now()} })
+
+        return {status: 200, success: true}
+    }
+
+    public static async changePassword(req: any) {
+        const token = req.body.token
+        const newPassword = atob(req.body.password)
+
+        if (!token || !newPassword) { return {status: 400, success: false, message: "Missing fields"} }
+
+        const rawUser = await database.getUserByResetToken(token)
+        if (!rawUser) { return {status: 400, success: false, message: "Could not find user"} }
+
+        const newHashedPassword = await bcrypt.hash(newPassword, 10, null)
+        await database.updateUser(rawUser.id, { "password": newHashedPassword, "account.security.pass_reset_token": null })
+
+        mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
+        await mail.send({
+            to: rawUser.data().email,
+            from: "alerts@wulfco.xyz",
+            subject: "Wulfco Password Changed",
+            text: `Hello @${rawUser.data().profile.username}, \n\nYou or someone has changed your password, if this was you please ignore this email. \n\nIf this was not you please contact us at support@wulfco.xyz. \n\nThanks, \nWulfco Team`
+        })
+
+        return {status: 200, success: true}
     }
 }

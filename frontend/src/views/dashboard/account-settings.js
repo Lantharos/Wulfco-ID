@@ -194,30 +194,24 @@ const AccountSettings = () => {
               <span className="account-settings-text2 notselectable">
                 BILLING
               </span>
-              <Link to="/premium" className="sidebar-premium button">
-                Premium
+              <Link to="/coming-soon" className="sidebar-premium button">
+                <svg viewBox="0 0 1024 1024" className="account-premium-icon">
+                  <path d="M384 0l-384 512h384l-256 512 896-640h-512l384-384z"></path>
+                </svg>
+                <span className="account-settings-text3">Hyper</span>
               </Link>
-              <Link
-                  to="/coming-soon"
-                  className="sidebar-button button"
-              >
+              <Link to="/coming-soon" className="sidebar-button button">
                 Subscriptions
               </Link>
-              <Link
-                  to="/coming-soon"
-                  className="sidebar-button button"
-              >
+              <Link to="/coming-soon" className="sidebar-button button">
                 Gifts
               </Link>
-              <Link
-                  to="/coming-soon"
-                  className="sidebar-button button"
-              >
+              <Link to="/coming-soon" className="sidebar-button button">
                 Billing
               </Link>
-              <button className="sidebar-button button" id="my-card" type="button" onClick={buttonClick}>
+              <Link to="/coming-soon" className="sidebar-button button">
                 My Card
-              </button>
+              </Link>
             </div>
             <div className="account-settings-undefined">
               <div className="account-settings-container3"></div>

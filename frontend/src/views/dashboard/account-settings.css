@@ -29,6 +29,12 @@
   color: #c5c5c5;
   background-color: #1c1c1c;
 }
+.account-premium-icon{
+  fill: #d4ab18;
+  width: 15px;
+  height: 15px;
+  align-self: center;
+}
 .account-settings-main {
   width: 1446px;
   height: auto;
@@ -155,14 +161,18 @@
 .sidebar-premium {
   color: #d4ab18;
   width: 100%;
+  display: flex;
   font-style: normal;
   margin-top: 2%;
   text-align: left;
   transition: 0.3s;
+  align-items: center;
   font-family: Inter;
   font-weight: 500;
   border-width: 0px;
   border-radius: var(--dl-radius-radius-radius8);
+  flex-direction: row;
+  justify-content: flex-start;
   text-decoration: none;
   background-color: transparent;
 }
@@ -249,8 +259,8 @@
   background-color: #121212;
 }
 .account-settings-text3 {
-  color: #ffffff;
-  font-family: Roboto;
+  align-self: center;
+  margin-left: 4%;
 }
 .account-settings-text4 {
   font-family: Roboto;

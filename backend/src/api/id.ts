@@ -28,6 +28,7 @@ export default class ID {
 
     // Security module
     public static async securityKey(req: any) { if (req.method === "POST") { return await Security.registerSecurityKey(req) } else if (req.method === "DELETE") { return await Security.removeSecurityKey(req) } else { return { status: 400, success: false, message: "Invalid method"}} }
+    public static async password(req: any) { if (req.method == "POST") {return await Security.resetPassword(req)} else if (req.method == "PATCH") {return await Security.changePassword(req)} else {return {status: 400, success: false, message: "Invalid method"}} }
 
     // OAuth module
     public static async scopes(req: any) { return await OAuth.getReadableScopes(req) }

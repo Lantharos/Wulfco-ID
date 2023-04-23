@@ -43,6 +43,21 @@ export const getUserByEmail = async (email: string) => {
     }
 }
 
+export const getUserByResetToken = async (token: string) => {
+    try {
+        const q = query(collection(db, "users"), where("account.security.pass_reset_token.token", "==", token));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.size > 0) {
+            return querySnapshot.docs[0]
+        } else {
+            return null;
+        }
+    } catch(e) {
+        console.log(e)
+        return null;
+    }
+}
+
 export const updateUser = async (id: string, data: any) => {
     try {
         await updateDoc(doc(users, id), data);
