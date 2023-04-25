@@ -127,7 +127,7 @@ const EditBirthday = (props) => {
                         id="cancel_edit"
                         type="button"
                         className="edit-birthday-save button"
-                        onClick={() => props.setShowEditUsername(false)}
+                        onClick={() => props.setShowEditBirthday(false)}
                     >
                         Cancel
                     </button>

@@ -27,8 +27,35 @@ export default class ID {
     }
 
     // Security module
-    public static async securityKey(req: any) { if (req.method === "POST") { return await Security.registerSecurityKey(req) } else if (req.method === "DELETE") { return await Security.removeSecurityKey(req) } else { return { status: 400, success: false, message: "Invalid method"}} }
-    public static async password(req: any) { if (req.method == "POST") {return await Security.resetPassword(req)} else if (req.method == "PATCH") {return await Security.changePassword(req)} else {return {status: 400, success: false, message: "Invalid method"}} }
+    public static async securityKey(req: any) {
+        if (req.method === "POST") {
+            return await Security.registerSecurityKey(req)
+        } else if (req.method === "DELETE") {
+            return await Security.removeSecurityKey(req)
+        } else {
+            return { status: 400, success: false, message: "Invalid method"}
+        }
+    }
+    public static async password(req: any) {
+        if (req.method == "POST") {
+            return await Security.resetPassword(req)
+        } else if (req.method == "PATCH") {
+            return await Security.changePassword(req)
+        } else {
+            return {status: 400, success: false, message: "Invalid method"}
+        }
+    }
+    public static async email(req: any) {
+        if (req.query.stage == 1) {
+            return await Security.sendEmailVerification(req)
+        } else if (req.query.stage == 2) {
+            return await Security.verifyEmail(req)
+        } else if (req.query.stage == 3) {
+            return await Security.changeEmail(req)
+        } else {
+            return {status: 400, success: false, message: "Invalid stage"}
+        }
+    }
 
     // OAuth module
     public static async scopes(req: any) { return await OAuth.getReadableScopes(req) }

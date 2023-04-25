@@ -108,4 +108,77 @@ export default class Security {
 
         return {status: 200, success: true}
     }
+
+    public static async sendEmailVerification(req: any) {
+        const rawUser = await User.get(req)
+        if (!rawUser.success) { return rawUser }
+
+        const user = rawUser.user
+
+        const code = Math.floor(100000 + Math.random() * 900000)
+
+        mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
+
+        await mail.send({
+            to: user.email,
+            from: "verify@wulfco.xyz",
+            subject: "Wulfco Email Verification",
+            text: `Hello @${user.profile.username}, \n\nYou or someone has requested a email verification using this email, if this was you please enter the code below to verify your email. \n\n${code} \n\nIf this was not you please ignore this email.\n\nThanks, \nWulfco Team`
+        })
+
+        await database.updateUser(rawUser.rawUser.id, { "account.security.email_verification": {token: code, created: Date.now()} })
+
+        return {status: 200, success: true}
+    }
+
+    public static async verifyEmail(req: any) {
+        const code = req.body.code
+        if (!code) { return {status: 400, success: false, message: "Missing fields"} }
+
+        const rawUser = await User.get(req)
+        if (!rawUser.success) { return rawUser }
+
+        const user = rawUser.user
+
+        if (user.account.security.email_verification.token == code) {
+            await database.updateUser(rawUser.rawUser.id, { "account.security.email_verification": null })
+            return {status: 200, success: true}
+        } else {
+            return {status: 400, success: false, message: "Invalid code"}
+        }
+    }
+
+    public static async changeEmail(req: any) {
+        const newEmail = atob(req.body.email)
+        const password = atob(req.body.password)
+
+        if (!newEmail || !password) { return {status: 400, success: false, message: "Missing fields"} }
+
+        const rawUser = await User.get(req)
+        if (!rawUser.success) { return rawUser }
+
+        const user = rawUser.user
+
+        const validPassword = await bcrypt.compare(password, user.password, null)
+        if (!validPassword) { return {status: 400, success: false, message: "Invalid password"} }
+
+        mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
+        await mail.send({
+            to: user.email,
+            from: "alerts@wulfco.xyz",
+            subject: "Wulfco Email Changed",
+            text: `Hello @${user.profile.username}, \n\nYou or someone has changed your email, if this was you please ignore this email. \n\nIf this was not you please contact us at support@wulfco.xyz. \n\nThanks, \nWulfco Team`
+        })
+
+        await mail.send({
+            to: newEmail,
+            from: "alerts@wulfco.xyz",
+            subject: "Wulfco Email Transferred",
+            text: `Hello @${user.profile.username}, \n\nYou or someone has transferred the email to this account, if this was you please ignore this email. \n\nIf this was not you please contact us at support@wulfco.xyz. \n\nThanks, \nWulfco Team`
+        })
+
+        await database.updateUser(rawUser.rawUser.id, { "email": newEmail })
+
+        return {status: 200, success: true}
+    }
 }

@@ -58,7 +58,6 @@ const RegistrationStart = (props) => {
             maxLength={20}
             passwordrules="minlength: 10; maxlength: 20; required: lower; required: upper; required: digit; required: [!,@];"
             required
-            
             placeholder={"••••••••••••••••••"}
             autoComplete="new-password"
             className="registration-start-textinput1 input"

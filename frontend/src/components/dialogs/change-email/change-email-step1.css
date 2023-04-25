@@ -1,0 +1,94 @@
+.change-email-step1-container {
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  width: 457px;
+  bottom: 0px;
+  height: 311px;
+  margin: auto;
+  display: flex;
+  z-index: 1;
+  position: absolute;
+  align-self: center;
+  box-shadow: 0px 0px 10px 10px #0c0c0c;
+  align-items: center;
+  border-radius: 14px;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: #1c1c1c;
+}
+.change-email-step1-text {
+  color: var(--dl-color-maincolors-headingcolor);
+  font-size: 1.5em;
+  margin-top: 6%;
+}
+.change-email-step1-text01 {
+  font-size: 16px;
+  margin-top: 2%;
+  text-align: center;
+}
+.change-email-step1-save {
+  color: rgb(255, 255, 255);
+  width: 80%;
+  height: auto;
+  font-size: 20px;
+  align-self: center;
+  font-style: normal;
+  margin-top: 8%;
+  text-align: center;
+  transition: 0.3s;
+  font-family: Roboto;
+  font-weight: 500;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius8);
+  background-color: rgb(0, 105, 255);
+}
+.change-email-step1-save:hover {
+  background-color: #1d74f9;
+}
+.change-email-step1-save1 {
+  color: var(--dl-color-maincolors-headingcolor);
+  width: 80%;
+  height: auto;
+  font-size: 20px;
+  align-self: center;
+  font-style: normal;
+  margin-top: 2%;
+  text-align: center;
+  transition: 0.3s;
+  font-family: Roboto;
+  font-weight: 400;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius8);
+  background-color: transparent;
+}
+.change-email-step1-save1:hover {
+  color: #a8a8a8;
+  background-color: transparent;
+}
+@media(max-width: 1200px) {
+  .change-email-step1-container {
+    height: 426px;
+    opacity: 1;
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+  }
+  .change-email-step1-text {
+    color: var(--dl-color-maincolors-headingcolor);
+    font-size: 1.8em;
+    align-self: center;
+    margin-top: 5%;
+  }
+  .change-email-step1-text01 {
+    font-size: 20px;
+    align-self: center;
+    margin-top: 2%;
+  }
+}
+@media(max-width: 991px) {
+  .change-email-step1-container {
+    opacity: 1;
+    z-index: 100;
+  }
+}

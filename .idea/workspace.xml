@@ -5,25 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29b16515-befb-48e4-9957-4cc079c44636" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/build/static/css/main.87d50070.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/build/static/css/main.87d50070.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/change-email/change-email-step1.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/change-email/change-email-step1.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/change-email/change-email-step2.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/change-email/change-email-step2.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/change-email/change-email-step3.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/change-email/change-email-step3.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/api/FirebaseHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/FirebaseHandler.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/api/id.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/id.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/api/modules/Security.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/modules/Security.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/build/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/asset-manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/build/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/css/main.394123a0.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/css/main.394123a0.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.5b73480a.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.5b73480a.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.5b73480a.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/dashboard/account-settings.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/dashboard/account-settings.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/dashboard/account-settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/dashboard/account-settings.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/password/change-password.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/password/change-password.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/password/reset-password.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/password/reset-password.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/password/reset-password.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/password/reset-password.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/css/main.f0fd33c9.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/css/main.f0fd33c9.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.d8b6ac70.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.d8b6ac70.js.LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.d8b6ac70.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dialogs/edit-birthday.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/edit-birthday.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/my-id.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/my-id.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/registration/registration-start.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/registration/registration-start.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,6 +70,7 @@
       <recent name="D:\Wulfco\Wulfco ID\frontend" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Wulfco\Wulfco ID\frontend\src\components\dialogs\change-email" />
       <recent name="D:\Wulfco\Wulfco ID\frontend\src\views\password" />
       <recent name="D:\Wulfco\Wulfco ID\backend\src\api" />
     </key>
@@ -102,7 +105,9 @@
       <workItem from="1681817381533" duration="25069000" />
       <workItem from="1681996279285" duration="838000" />
       <workItem from="1682165277148" duration="12367000" />
-      <workItem from="1682280358467" duration="7142000" />
+      <workItem from="1682280358467" duration="7702000" />
+      <workItem from="1682347146613" duration="594000" />
+      <workItem from="1682430287753" duration="4828000" />
     </task>
     <servers />
   </component>
