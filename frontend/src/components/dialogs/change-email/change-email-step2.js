@@ -60,6 +60,7 @@ const ChangeEmailStep2 = (props) => {
                     <a
                         rel="noreferrer noopener"
                         className="change-email-step2-link"
+                        style={{cursor: "pointer"}}
                         onClick={() => props.resendCode()}
                     >
                         Didn&apos;t receive a code? Resend it.
