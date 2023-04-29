@@ -115,7 +115,7 @@ const EditBirthday = (props) => {
                         id="password"
                         name="password"
                         required="true"
-                        autoFocus="true"
+                        
                         maxlength="20"
                         minlength="3"
                         autoComplete="current-password"

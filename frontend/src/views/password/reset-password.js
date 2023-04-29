@@ -76,7 +76,7 @@ const ResetPassword = (props) => {
               id="email"
               name="email"
               required="true"
-              autoFocus="true"
+              
               placeholder="johndoe@yourdomain.com"
               autoComplete="username"
               className="reset-password-textinput input"
