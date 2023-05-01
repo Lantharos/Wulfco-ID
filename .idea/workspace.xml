@@ -5,21 +5,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29b16515-befb-48e4-9957-4cc079c44636" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/build/static/js/main.8ed1a84c.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/build/static/js/main.8ed1a84c.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/build/static/js/main.8ed1a84c.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/api/modules/Connections.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/build/static/js/main.5db78efd.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/build/static/js/main.5db78efd.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/api/id.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/id.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/api/modules/Auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/modules/Auth.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/build/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/asset-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/favicon.ico" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/build/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.73245c0b.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.73245c0b.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.73245c0b.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/dialogs/change-email/change-email-step2.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/change-email/change-email-step2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.8ed1a84c.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.8ed1a84c.js.LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/static/js/main.5db78efd.js.LICENSE.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.8ed1a84c.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/connected-apps.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/connected-apps.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/devices.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/devices.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/page_components/connection-button.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/page_components/connection-button.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/dashboard/account-settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/dashboard/account-settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/login/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/login/login.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -59,6 +76,7 @@
       <recent name="D:\Wulfco\Wulfco ID\frontend" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Wulfco\Wulfco ID\frontend\public" />
       <recent name="D:\Wulfco\Wulfco ID\frontend\src\components\dialogs\change-email" />
       <recent name="D:\Wulfco\Wulfco ID\frontend\src\views\password" />
       <recent name="D:\Wulfco\Wulfco ID\backend\src\api" />
@@ -97,6 +115,11 @@
       <workItem from="1682280358467" duration="7702000" />
       <workItem from="1682347146613" duration="594000" />
       <workItem from="1682430287753" duration="8620000" />
+      <workItem from="1682721575771" duration="743000" />
+      <workItem from="1682766231346" duration="2890000" />
+      <workItem from="1682779176045" duration="17916000" />
+      <workItem from="1682888993681" duration="2850000" />
+      <workItem from="1682937228908" duration="6126000" />
     </task>
     <servers />
   </component>

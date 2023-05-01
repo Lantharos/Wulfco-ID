@@ -57,35 +57,29 @@ const Devices = (props) => {
         setEnterPassword({after: async() => {
             const notif = toast.loading('Logging out of all sessions...', {theme: 'dark'})
 
-            await fetch(`${api_url}/logout_all`).then(async(res) => {
+            await fetch(`${api_url}/logout-all?id=${encodeURIComponent(cookies.load("id"))}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
+                    'W-Session': cookies.load('session_id'),
+                    'W-Loggen': cookies.load('loggen')
+                }
+            }).then(async(res) => {
                 const data = await res.json()
 
-                if (data.status === 'success') {
-                    toast.update(notif, {
-                        render: 'Logged out of all sessions',
-                        type: 'success',
-                        isLoading: false,
-                        theme: 'dark',
-                        autoClose: 5000
-                    })
+                if (data.success) {
+                    cookies.remove('token')
+                    cookies.remove('id')
+                    cookies.remove('secret')
+                    cookies.remove('loggen')
+                    cookies.remove('session_id')
+                    toast.update(notif, {render: 'Logged out of all sessions', type: 'success', isLoading: false, theme: 'dark', autoClose: 5000})
+                    window.location.href = '/login'
                 } else {
-                    toast.update(notif, {
-                        render: 'An error occurred',
-                        type: 'error',
-                        isLoading: false,
-                        theme: 'dark',
-                        autoClose: 5000
-                    })
+                    toast.update(notif, {render: 'An error occurred', type: 'error', isLoading: false, theme: 'dark', autoClose: 5000})
                 }
-            }).catch(() => {
-                toast.update(notif, {
-                    render: 'An error occurred',
-                    type: 'error',
-                    isLoading: false,
-                    theme: 'dark',
-                    autoClose: 5000
-                })
-            })
+            }).catch(() => {toast.update(notif, {render: 'An error occurred', type: 'error', isLoading: false, theme: 'dark', autoClose: 5000})})
         }})
     }
   return (

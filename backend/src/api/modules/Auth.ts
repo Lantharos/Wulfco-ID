@@ -1,5 +1,6 @@
 import * as crypto from "crypto";
 import * as database from "../FirebaseHandler";
+import User from "./User";
 const bcrypt = require("bcrypt")
 
 export default class Auth {
@@ -93,6 +94,17 @@ export default class Auth {
 
         user.account.sessions.splice(user.account.sessions.indexOf(session), 1)
         await database.updateUser(user.id, user)
+
+        return {status: 200, success: true}
+    }
+
+    public static async logoutAll(req: any) {
+        const rawuser = await User.get(req)
+        if (!rawuser.success) {return {status: 404, success: false, error: "User not found"}}
+
+        if (rawuser.user.account.sessions.length === 0) {return {status: 404, success: false, error: "User not logged in"}}
+
+        await database.updateUser(rawuser.rawUser.id, { "account.sessions": [] })
 
         return {status: 200, success: true}
     }

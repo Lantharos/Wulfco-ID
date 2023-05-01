@@ -2,12 +2,14 @@ import Auth from "./modules/Auth";
 import User from "./modules/User";
 import Security from "./modules/Security";
 import OAuth from "./modules/OAuth";
+import Connections from "./modules/Connections";
 
 export default class ID {
     // Auth module
     public static async login(req: any) { return await Auth.login(req) }
     public static qrLogin() { return Auth.qrLogin() }
     public static async logout(req: any) { return await Auth.logout(req) }
+    public static async logoutAll(req: any) { return await Auth.logoutAll(req) }
     public static async create(req: any) { return await Auth.create(req) }
 
     // User module
@@ -69,6 +71,17 @@ export default class ID {
             return await OAuth.deleteApplication(req)
         } else if (req.method == "PATCH") {
             return await OAuth.editApplication(req)
+        } else {
+            return {status: 400, success: false, message: "Invalid method"}
+        }
+    }
+
+    // Connections module
+    public static async connections(req: any) {
+        const reason = req.query.function
+
+        if (reason == "get") {
+            return await Connections.getLinkingURL(req)
         } else {
             return {status: 400, success: false, message: "Invalid method"}
         }

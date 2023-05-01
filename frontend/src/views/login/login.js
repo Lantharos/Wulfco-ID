@@ -21,7 +21,7 @@ const Login = () => {
       response = true
     }).catch(() => {
       document.getElementById('login').disabled = true
-      toast.error("API is down, please try again later", { theme: "dark"})
+      toast.error("Failed to reach the API, please try again later", { theme: "dark"})
     })
 
     return response
@@ -138,11 +138,10 @@ const Login = () => {
     const formData = new FormData(event.target);
     const email = btoa(formData.get('email'));
     const password = btoa(formData.get('password'));
+    const notification = toast.loading('Attempting to login...', { theme: "dark" });
 
     apiHealth().then(async(ret) => {
       if(!ret) { return }
-
-      const notification = toast.loading('Attempting to login...', { theme: "dark" });
 
       fetch(`${api_url}/login`, {method: 'post', headers: {"W-Crypto": "false", "Content-Type": "application/json"}, body: JSON.stringify({email, password})}).then((response) => {
         response.json().then((data) => {

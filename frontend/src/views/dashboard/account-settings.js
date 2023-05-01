@@ -31,7 +31,6 @@ const AccountSettings = () => {
     account: { security: { protected: false, security_keys: [] }, sessions: [] }
   })
 
-
   const loadUserData = async () => {
     fetch(`${api_url}/get?id=${encodeURIComponent(cookies.load("id"))}`, {
       method: 'GET',
