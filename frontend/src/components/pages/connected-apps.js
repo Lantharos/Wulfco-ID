@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import cookies from 'react-cookies'
 import hmac from 'crypto-js/hmac-sha256'
+import ConnectedApp from "./page_components/connected-app";
 
 const config = require('../../config.json')
 const api_url = config.api_url
@@ -30,6 +31,29 @@ const ConnectedApps = (props) => {
         toast.update(message, { type: 'error', render: 'Failed to generate URL', theme: 'dark', isLoading: false, autoClose: 2000 })
       }
     }).catch(() => { toast.update(message, { type: 'error', render: 'Failed to generate URL', theme: 'dark', isLoading: false, autoClose: 2000 }) })
+  }
+
+  const mapConnections = () => {
+    if (props.userData.connections) {
+      const connections = []
+      for (let key in props.userData.connections) {
+        const connection = props.userData.connections[key]
+        if (!(key === "oauth") && !connection.pending) {
+          const appName = key.charAt(0).toUpperCase() + key.slice(1)
+          connections.push(
+              <ConnectedApp
+                  image_src={"assets/" + key + ".png"}
+                  appName={appName}
+                  username={connection.username}
+              />
+          )
+        }
+      }
+
+      return connections
+    } else {
+      return null
+    }
   }
 
   return (
@@ -74,13 +98,14 @@ const ConnectedApps = (props) => {
           </span>
           </div>
           <a
-              href={"https://discord.com/api/oauth2/authorize?client_id=975161504703840258&redirect_uri=https%3A%2F%2Flocalhost%3A5000%2Fid%2Fconnections%2Fdiscord%2Fimport&response_type=code&scope=identify%20connections"}
+              href={"https://discord.com/api/oauth2/authorize?client_id=975161504703840258&redirect_uri=https%3A%2F%2Fus-central1-wulfco-id.cloudfunctions.net%2Fapi%2Fconnections%3Ffunction%3Dimport%26service%3Ddiscord&response_type=code&scope=identify%20connections"}
               id="import"
               className="connected-apps-save button"
           >
             Import my connections from Discord
           </a>
         </div>
+        {mapConnections()}
       </div>
   )
 }

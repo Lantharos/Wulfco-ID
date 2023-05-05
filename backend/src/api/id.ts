@@ -80,8 +80,15 @@ export default class ID {
     public static async connections(req: any) {
         const reason = req.query.function
 
-        if (reason == "get") {
+        if (reason === "get") {
             return await Connections.getLinkingURL(req)
+        } else if (reason === "callback") {
+            const resp = await Connections.callback(req)
+            if (resp.status == 200) {
+                return { status: 200, success: true, redirect: "https://id.wulfco.xyz/login" }
+            } else {
+                return resp
+            }
         } else {
             return {status: 400, success: false, message: "Invalid method"}
         }

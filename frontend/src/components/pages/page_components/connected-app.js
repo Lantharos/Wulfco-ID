@@ -6,14 +6,14 @@ import './connected-app.css'
 
 const ConnectedApp = (props) => {
   return (
-    <div className={`connected-app-container ${props.rootClassName} `}>
+    <div className={`connected-app-container`}>
       <div className="connected-app-container1">
         <button
           id="disconnect"
           type="button"
           className="connected-app-button button"
         >
-          {props.button}
+          X
         </button>
         <img
           id="appicon"
@@ -22,10 +22,10 @@ const ConnectedApp = (props) => {
           alt={"App Icon"}
         />
         <span id="appname" className="connected-app-text notselectable">
-          {props.text}
+          {props.appName}
         </span>
         <span id="appusername" className="connected-app-text1 notselectable">
-          {props.text1}
+          {props.username}
         </span>
       </div>
     </div>
@@ -34,18 +34,14 @@ const ConnectedApp = (props) => {
 
 ConnectedApp.defaultProps = {
   image_src: 'https://play.teleporthq.io/static/svg/default-img.svg',
-  rootClassName: '',
-  text1: '{appusername}',
-  text: '{appname}',
-  button: 'X',
+  username: '{appusername}',
+  appName: '{appname}'
 }
 
 ConnectedApp.propTypes = {
   image_src: PropTypes.string,
-  rootClassName: PropTypes.string,
-  text1: PropTypes.string,
-  text: PropTypes.string,
-  button: PropTypes.string,
+  username: PropTypes.string,
+  appName: PropTypes.string
 }
 
 export default ConnectedApp

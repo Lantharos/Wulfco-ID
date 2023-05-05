@@ -41,6 +41,11 @@ app.use('/', express.json(), async(req: any, res: any) => {
         const returned = await id[readableParams](req)
         if (returned === "error") { res.sendStatus(500); return; }
 
+        if (returned.redirect) {
+            res.redirect(returned.redirect)
+            return
+        }
+
         res.status(returned.status).send(returned)
     } catch(e) {
         console.log(e)
