@@ -179,11 +179,7 @@ const Security = (props) => {
                 </span>
               </span>
             </div>
-            <button
-              id="setup_authapp"
-              type="button"
-              className="security-save1 button"
-            >
+            <button id="setup_authapp" type="button" className="security-save1 button" onClick={() => { toast.info("This feature is not available yet", {theme: 'dark', autoClose: 2000 }) }}>
               Setup
             </button>
           </div>
@@ -203,11 +199,7 @@ const Security = (props) => {
                 Receive a code in your email address to verify it's you trying to log in. This is the least secure option.
               </span>
             </div>
-            <button
-              id="setup_emailauth"
-              type="button"
-              className="security-save2 button"
-            >
+            <button id="setup_emailauth" type="button" className="security-save2 button" onClick={() => {toast.info("This feature is not available yet", { theme: 'dark' })}}>
               Setup
             </button>
           </div>
@@ -283,11 +275,7 @@ const Security = (props) => {
         <span className="security-text28 notselectable">MY DATA</span>
         <span className="security-text29 notselectable">Download what we have stored in the database of you, in the downloaded package you will not receive the data from Wulfco Storage, to get the data from Storage you need to download it from each service separately.</span>
         <div className="security-container20">
-          <button
-            id="request_data"
-            type="button"
-            className="security-button button"
-          >
+          <button id="request_data" type="button" className="security-button button" onClick={() => {toast.info("This feature is not available yet", { theme: 'dark' })}}>
             <span>Download my Data</span>
           </button>
         </div>

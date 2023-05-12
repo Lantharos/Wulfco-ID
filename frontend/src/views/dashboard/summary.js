@@ -145,14 +145,9 @@ const Summary = () => {
                             <h1 className="summary-text09">Alerts</h1>
                             <span className="summary-text10">See what&apos;s up.</span>
                         </div>
-                        <a
-                            href="https://accounts.vikkivuk.xyz/r/home?check=false"
-                            target="_blank"
-                            rel="noreferrer noopener"
-                            className="summary-logout button"
-                        >
+                        <button className="summary-logout button" onClick={() => { toast.info("This feature is not available yet.", { theme: 'dark' }) }}>
                             -&gt;
-                        </a>
+                        </button>
                     </div>
                 </div>
                 <div className="summary-container5">
@@ -164,14 +159,9 @@ const Summary = () => {
                         <span>on our support site.</span>
                     </span>
                     </div>
-                    <a
-                        href="https://id.vikkivuk.xyz/r/help"
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="summary-logout1 button"
-                    >
+                    <button className="summary-logout1 button" onClick={() => { toast.info("This feature is not available yet.", { theme: 'dark' }) }}>
                         -&gt;
-                    </a>
+                    </button>
                 </div>
 
                 <button
@@ -185,19 +175,19 @@ const Summary = () => {
                         <span className="summary-text21">Sorry but...</span>
                     </h1>
                     <h1 className="summary-text22">
-          <span>
-            So sorry, but currently we only support Desktop or any Desktop Sized
-            Screen,
-          </span>
-                        <br></br>
-                        <span>
-            this is due to overflow and rendering issues, this might be removed
-            in the future.
-          </span>
+                      <span>
+                        So sorry, but currently we only support Desktop or any Desktop Sized
+                        Screen,
+                      </span>
+                      <br></br>
+                      <span>
+                        this is due to overflow and rendering issues, this might be removed
+                        in the future.
+                      </span>
                     </h1>
                     <a
-                        href="https://accounts.vikkivuk.xyz/r/home?check=false"
-                        target="_blank"
+                        href="/"
+                        target="_self"
                         rel="noreferrer noopener"
                         className="summary-link button"
                     >

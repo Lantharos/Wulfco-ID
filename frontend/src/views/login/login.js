@@ -272,40 +272,40 @@ const Login = () => {
             </span>
           </div>
         </div>
-        <div className="login-container08">
-          <div className="login-container09">
-            <h1 className="login-text15 notselectable">
-              <span>Have a crypto wallet?</span>
-              <br></br>
-            </h1>
-            <span className="login-text18 notselectable">
-              <span>Use it to login or register.</span>
-              <br></br>
-            </span>
-          </div>
-          <div className="login-container10">
-            <button className="login-button1 button" type="button" onClick={() => connectMetamask()}>
-              <img
-                alt="Metamask"
-                src="/assets/metamask.png"
-                loading="eager"
-                className="login-image1"
-              />
-              <h1 className="login-text21 notselectable">Metamask</h1>
-            </button>
-            <button className="login-button2 button" type="button">
-              <img
-                alt="WalletConnect"
-                src="/assets/walletconnect.png"
-                loading="eager"
-                className="login-image2"
-              />
-              <h1 className="login-text22 notselectable">WalletConnect</h1>
-            </button>
-          </div>
-          {checkForRedirect()}
-        </div>
+        {/*<div className="login-container08">*/}
+        {/*  <div className="login-container09">*/}
+        {/*    <h1 className="login-text15 notselectable">*/}
+        {/*      <span>Have a crypto wallet?</span>*/}
+        {/*      <br></br>*/}
+        {/*    </h1>*/}
+        {/*    <span className="login-text18 notselectable">*/}
+        {/*      <span>Use it to login or register.</span>*/}
+        {/*      <br></br>*/}
+        {/*    </span>*/}
+        {/*  </div>*/}
+        {/*  <div className="login-container10">*/}
+        {/*    <button className="login-button1 button" type="button" onClick={() => connectMetamask()}>*/}
+        {/*      <img*/}
+        {/*        alt="Metamask"*/}
+        {/*        src="/assets/metamask.png"*/}
+        {/*        loading="eager"*/}
+        {/*        className="login-image1"*/}
+        {/*      />*/}
+        {/*      <h1 className="login-text21 notselectable">Metamask</h1>*/}
+        {/*    </button>*/}
+        {/*    <button className="login-button2 button" type="button">*/}
+        {/*      <img*/}
+        {/*        alt="WalletConnect"*/}
+        {/*        src="/assets/walletconnect.png"*/}
+        {/*        loading="eager"*/}
+        {/*        className="login-image2"*/}
+        {/*      />*/}
+        {/*      <h1 className="login-text22 notselectable">WalletConnect</h1>*/}
+        {/*    </button>*/}
+        {/*  </div>*/}
+        {/*</div>*/}
       </div>
+      {checkForRedirect()}
     </div>
   )
 }

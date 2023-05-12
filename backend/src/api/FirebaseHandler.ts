@@ -1,7 +1,7 @@
 import {initializeApp} from "firebase/app";
 
 import {addDoc, collection, doc, getDoc, getDocs, getFirestore, query, updateDoc, where} from "firebase/firestore";
-import {getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage";
+import {getStorage, ref, uploadBytes, getDownloadURL, listAll, deleteObject} from "firebase/storage";
 
 const firebaseApp = initializeApp({
     apiKey: process.env.APPFIREBASE_AKEY,
@@ -87,6 +87,14 @@ export const uploadAvatar = async (id: string, file: any) => {
         await uploadBytes(storageRef, buffer);
 
         const avatarURL = await getDownloadURL(storageRef)
+
+        const listRef = ref(storage, `avatars/${id}`);
+        const list = await listAll(listRef);
+        if (list.items.length > 3) {
+            for (let i = 0; i < list.items.length - 3; i++) {
+                await deleteObject(list.items[i]);
+            }
+        }
 
         await updateDoc(doc(users, id), {"profile.avatar": avatarURL});
 
