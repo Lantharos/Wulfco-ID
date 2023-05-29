@@ -1,11 +1,11 @@
 import id from "./api/id";
 import * as firebase from "firebase-functions";
-import * as dotenv from 'dotenv';
+import dotenv from 'dotenv';
+import express from "express";
+import cookieParser from "cookie-parser";
 dotenv.config({ path: './.env' });
 
-const express = require("express")
 const cors = require("cors")
-const cookieParser = require("cookie-parser")
 const app = express();
 
 const ConvertURLParams = (params: string) => {

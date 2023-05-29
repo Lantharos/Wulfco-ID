@@ -9,11 +9,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import detectEthereumProvider from '@metamask/detect-provider';
 import cookies from 'react-cookies'
 import hmac from "crypto-js/hmac-sha256";
+import QRCodeStyling from 'qr-code-styling';
 
 const config = require('../../config.json')
 const api_url = config.api_url
 
 const Login = () => {
+  const qrRef = React.useRef(null)
+
   const apiHealth = async () => {
     let response = false
     await fetch(api_url, {headers: {"W-Reason": "life_check"}}).then(() => {
@@ -176,6 +179,87 @@ const Login = () => {
     })
    }
 
+  const setQR = () => {
+    const qr = new QRCodeStyling({
+      width: 208,
+      height: 208,
+      data: "Hello World!!!!!!!!!!!",
+      margin: 8,
+      qrOptions: {
+        typeNumber: 0,
+        mode: "Byte",
+        errorCorrectionLevel: "Q"
+      },
+      imageOptions: {
+        hideBackgroundDots: true,
+        imageSize: 0.5,
+        margin: 0
+      },
+      dotsOptions: {
+        type: "extra-rounded",
+        gradient: {
+          type: "linear",
+          colorStops: [
+            {
+              offset: 0,
+              color: "#000000"
+            },
+            {
+              offset: 1,
+              color: "#000000"
+            }
+          ],
+          rotation: 0
+        }
+      },
+      backgroundOptions: {
+        color: "#FFFFFF"
+      },
+      image: "assets/strike.png",
+      cornersSquareOptions: {
+        type: "extra-rounded",
+        gradient: {
+          type: "linear",
+          rotation: 0,
+          colorStops: [
+            {
+              offset: 0,
+              color: "#ff4444"
+            },
+            {
+              offset: 1,
+              color: "#ff2344"
+            }
+          ]
+        }
+      },
+      cornersDotOptions: {
+        type: "dot",
+        gradient: {
+          type: "linear",
+          rotation: 0,
+          colorStops: [
+            {
+              offset: 0,
+              color: "#ff4444"
+            },
+            {
+              offset: 1,
+              color: "#ff2344"
+            }
+          ]
+        }
+      }
+    });
+
+    qr.append(qrRef.current);
+  }
+
+  React.useEffect(() => {
+    setQR()
+    checkForRedirect()
+  }, [])
+
   return (
     <div className="login-container">
       <ToastContainer />
@@ -252,11 +336,7 @@ const Login = () => {
             </div>
           </form>
           <div className="login-container07">
-            <img id="qr-login-image"
-              alt="QR Login"
-              src="https://play.teleporthq.io/static/svg/default-img.svg"
-              className="login-image"
-            />
+            <div ref={qrRef} className={"login-image"} />
             <h1 className="login-text06 notselectable">
               <span>
                 Log in with QR
@@ -305,7 +385,6 @@ const Login = () => {
         {/*  </div>*/}
         {/*</div>*/}
       </div>
-      {checkForRedirect()}
     </div>
   )
 }

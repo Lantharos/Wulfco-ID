@@ -28,6 +28,21 @@ export const getUser = async (id: string) => {
     }
 }
 
+export const getUserByUsername = async (username: string) => {
+    try {
+        const q = query(collection(db, "users"), where("profile.username", "==", username));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.size > 0) {
+            return querySnapshot.docs[0]
+        } else {
+            return null;
+        }
+    } catch(e) {
+        console.log(e)
+        return null;
+    }
+}
+
 export const getUserByEmail = async (email: string) => {
     try {
         const q = query(collection(db, "users"), where("email", "==", email));

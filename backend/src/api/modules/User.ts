@@ -1,7 +1,7 @@
-import * as crypto from "crypto";
+import crypto from "crypto";
+import bcrypt from "bcrypt";
 import * as database from "../FirebaseHandler";
 import mail from "@sendgrid/mail";
-const bcrypt = require("bcrypt")
 
 export default class User {
     public static async get(req: any) {

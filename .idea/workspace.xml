@@ -5,17 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29b16515-befb-48e4-9957-4cc079c44636" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/build/static/js/main.b00f94ad.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/api/modules/Friends.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/build/assets/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/assets/logo.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/api/FirebaseHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/FirebaseHandler.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/api/id.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/id.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/build/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/asset-manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/build/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.7f2da52e.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/static/js/main.b00f94ad.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.7f2da52e.js.LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/static/js/main.b00f94ad.js.LICENSE.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.7f2da52e.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/security.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/security.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/dashboard/summary.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/dashboard/summary.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/login/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/login/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.d05c223a.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.d05c223a.js.LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.d05c223a.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/my-friends.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/my-friends.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/page_components/friend.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/page_components/friend.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,27 +45,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Discord/Bit&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;D:\\Wulfco\\Wulfco ID\\backend\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "D:/Wulfco/Wulfco ID/frontend/public/assets",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Problems",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "show.migrate.to.gradle.popup": "false",
+    "ts.external.directory.path": "D:\\Wulfco\\Wulfco ID\\backend\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Wulfco\Wulfco ID\frontend\public\assets" />
       <recent name="D:\Wulfco\Wulfco ID\frontend\src\components\pages\page_components" />
       <recent name="D:\Wulfco\Wulfco ID\frontend" />
     </key>
@@ -115,7 +123,12 @@
       <workItem from="1683295651107" duration="8001000" />
       <workItem from="1683894808337" duration="274000" />
       <workItem from="1683895169423" duration="1057000" />
-      <workItem from="1683926473959" duration="817000" />
+      <workItem from="1683926473959" duration="2447000" />
+      <workItem from="1684068165191" duration="65000" />
+      <workItem from="1684068278345" duration="642000" />
+      <workItem from="1684555690807" duration="3802000" />
+      <workItem from="1684692918689" duration="163000" />
+      <workItem from="1684695008323" duration="131000" />
     </task>
     <servers />
   </component>

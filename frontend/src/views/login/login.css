@@ -310,7 +310,7 @@
 }
 .login-text21 {
   color: var(--dl-color-maincolors-headingcolor);
-  width: auto%;
+  width: auto;
   cursor: pointer;
   font-size: 1.2em;
   text-align: left;
@@ -345,7 +345,7 @@
 }
 .login-text22 {
   color: var(--dl-color-maincolors-headingcolor);
-  width: auto%;
+  width: auto;
   cursor: pointer;
   font-size: 1.2em;
   text-align: left;

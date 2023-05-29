@@ -3,6 +3,7 @@ import User from "./modules/User";
 import Security from "./modules/Security";
 import OAuth from "./modules/OAuth";
 import Connections from "./modules/Connections";
+import Friends from "./modules/Friends";
 
 export default class ID {
     // Auth module
@@ -89,6 +90,35 @@ export default class ID {
             } else {
                 return resp
             }
+        } else {
+            return {status: 400, success: false, message: "Invalid method"}
+        }
+    }
+
+    // Friends module
+    public static async friends(req: any) {
+        if (req.method === "POST") {
+            return await Friends.addFriend(req)
+        } else if (req.method === "DELETE") {
+            return await Friends.removeFriend(req)
+        } else {
+            return {status: 400, success: false, message: "Invalid method"}
+        }
+    }
+    public static async friendRequests(req: any) {
+        if (req.method === "POST") {
+            return await Friends.acceptFriend(req)
+        } else if (req.method === "DELETE") {
+            return await Friends.declineFriend(req)
+        } else {
+            return {status: 400, success: false, message: "Invalid method"}
+        }
+    }
+    public static async block(req: any) {
+        if (req.method === "POST") {
+            return await Friends.block(req)
+        } else if (req.method === "DELETE") {
+            return await Friends.unblock(req)
         } else {
             return {status: 400, success: false, message: "Invalid method"}
         }

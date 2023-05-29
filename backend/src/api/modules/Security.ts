@@ -1,8 +1,8 @@
 import User from "./User";
-import * as crypto from "crypto";
+import crypto from "crypto";
 import * as database from "../FirebaseHandler";
 import mail from "@sendgrid/mail";
-const bcrypt = require("bcrypt")
+import bcrypt from "bcrypt";
 
 export default class Security {
     public static async registerSecurityKey(req: any) {

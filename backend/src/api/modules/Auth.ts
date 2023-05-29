@@ -1,7 +1,7 @@
-import * as crypto from "crypto";
+import crypto from "crypto";
 import * as database from "../FirebaseHandler";
 import User from "./User";
-const bcrypt = require("bcrypt")
+import bcrypt from "bcrypt";
 
 export default class Auth {
     public static async login(req: any) {
@@ -72,7 +72,7 @@ export default class Auth {
     }
 
     public static qrLogin() {
-        return {qr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Hello%20World", status: 200, success: true}
+        return { status: 200, success: true, data: "Unavailable" }
     }
 
     public static async logout(req: any) {

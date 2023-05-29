@@ -1,5 +1,5 @@
 import User from "./User";
-import * as crypto from "crypto";
+import crypto from "crypto";
 import * as database from "../FirebaseHandler";
 
 const scopesText = {

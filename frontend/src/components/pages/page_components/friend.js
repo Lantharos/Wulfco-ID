@@ -25,12 +25,14 @@ Friend.defaultProps = {
   avatar: 'https://play.teleporthq.io/static/svg/default-img.svg',
   username: 'john_doe',
   discriminator: '0000',
+  id: "0",
   rootClassName: '',
 }
 
 Friend.propTypes = {
   avatar: PropTypes.string,
   username: PropTypes.string,
+  id: PropTypes.string,
   rootClassName: PropTypes.string,
 }
 
