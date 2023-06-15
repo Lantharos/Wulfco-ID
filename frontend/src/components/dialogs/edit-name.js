@@ -1,6 +1,6 @@
 import React from 'react'
 
-import './edit-username.css'
+import './edit-birthday.css'
 import { motion } from 'framer-motion'
 import cookies from "react-cookies";
 import hmac from "crypto-js/hmac-sha256";
@@ -8,9 +8,8 @@ import {toast} from "react-toastify";
 const config = require('../../config.json')
 const api_url = config.api_url
 
-const EditUsername = (props) => {
-    const [username, setUsername] = React.useState(props.userData.profile.username)
-    const [discriminator, setDiscriminator] = React.useState(props.userData.profile.discriminator)
+const EditName = (props) => {
+    const [name, setName] = React.useState(props.userData.profile.full_name)
 
     const checkPassword = async() => {
         let toReturn = true;
@@ -53,12 +52,12 @@ const EditUsername = (props) => {
         });
     };
 
-    const updateUsername = async() => {
+    const updateName = async() => {
         if ((await checkPassword()) === false) {
             return
         }
 
-        const message = toast.loading('Updating username...', { theme: 'dark', autoClose: false })
+        const message = toast.loading('Updating name...', { theme: 'dark', autoClose: false })
         fetch(`${api_url}/account?id=${encodeURIComponent(cookies.load('id'))}`, {
             method: 'POST',
             headers: {
@@ -68,23 +67,22 @@ const EditUsername = (props) => {
                 'W-Loggen': cookies.load('loggen')
             },
             body: JSON.stringify({
-                username,
-                discriminator,
-                email: props.userData.email
+                username: props.userData.profile.username,
+                email: props.userData.email,
+                name
             })
         }).then((res) => {
             res.json().then((data) => {
                 if (data.success) {
-                    toast.update(message, { render: "Username updated!", type: "success", isLoading: false, theme: 'dark', autoClose: 2000 });
-                    props.setShowEditUsername(false);
+                    toast.update(message, { render: 'Updated name', type: 'success', theme: 'dark', isLoading: false, autoClose: 2000 });
+                    props.setShowEditName(false);
                     props.updateUserData()
-
                 } else {
-                    toast.update(message, { render: "Failed to update username", type: "error", theme: 'dark', isLoading: false, autoClose: 2000 });
+                    toast.update(message, { render: 'Failed to update name', type: 'error', theme: 'dark', isLoading: false, autoClose: 2000 });
                 }
             });
         }).catch(() => {
-            toast.update(message, { render: "Failed to update username", type: "error", theme: 'dark', isLoading: false, autoClose: 2000 });
+            toast.update(message, { render: 'Failed to update name', type: 'error', theme: 'dark', isLoading: false, autoClose: 2000 });
         });
     }
 
@@ -92,66 +90,55 @@ const EditUsername = (props) => {
         <div>
             <motion.div animate={ { opacity: 1, transition: { duration: 0.2 } } } initial={{ opacity: 0 }} exit={{ opacity: 0, transition: { duration: 0.2 } }} className="edit-username-background"></motion.div>
 
-            <motion.div className="edit-username-container" animate={{height: '357px', width: '457px'}} initial={{height: 0, width: 0}} exit={{opacity:0}}>
-                <h1 className="edit-username-text notselectable">Change your username</h1>
-                <span className="edit-username-text1 notselectable">Enter a new username and your existing password</span>
-                <div className="edit-username-container1">
-                    <span className="edit-username-text2 notselectable">Username</span>
-                    <div className="edit-username-container2">
-                        <input
-                            type="text"
-                            id="username_new"
-                            name="username_new"
-                            required="true"
-                            autoComplete="username"
-                            contentEditable={true}
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            className="edit-username-textinput input"
-                        />
-                        <input
-                            type="number"
-                            id="discriminator_new"
-                            name="discriminator_new"
-                            required="true"
-                            disabled={true}
-                            minLength={4}
-                            maxLength={4}
-                            autoComplete="discriminator"
-                            className="edit-username-textinput1 input"
-                            value={discriminator}
-                            onChange={(e) => setDiscriminator(e.target.value)}
-                        />
-                    </div>
+            <motion.div className="edit-birthday-container" animate={{height: '357px', width: '457px'}} initial={{height: 0, width: 0}} exit={{opacity:0}}>
+                <h1 className="edit-birthday-text notselectable">Change your name</h1>
+                <span className="edit-birthday-text1 notselectable">
+                    Enter a new name and your existing password
+                </span>
+                <div className="edit-birthday-container1">
+                    <span className="edit-birthday-text2 notselectable">
+                      <span>Full Name</span>
+                      <br></br>
+                    </span>
+                    <input
+                        type="text"
+                        id="name_new"
+                        name="name_new"
+                        required="true"
+                        autoComplete="name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="edit-birthday-textinput input"
+                    />
                 </div>
-                <div className="edit-username-container3">
-                    <span className="edit-username-text3 notselectable">Password</span>
+                <div className="edit-birthday-container2">
+                    <span className="edit-birthday-text5 notselectable">Password</span>
                     <input
                         type="password"
                         id="password"
                         name="password"
                         required="true"
-                        autoFocus="true"
-                        maxLength="20"
-                        minLength="3"
+                        
+                        maxlength="20"
+                        minlength="3"
                         autoComplete="current-password"
-                        className="edit-username-textinput2 input"
+                        className="edit-birthday-textinput1 input"
                     />
                 </div>
-                <div className="edit-username-container4">
+                <div className="edit-birthday-container3">
                     <button
-                        id="cancel_username"
+                        id="cancel_edit"
                         type="button"
-                        className="edit-username-save button"
-                        onClick={() => props.setShowEditUsername(false)}
+                        className="edit-birthday-save button"
+                        onClick={() => props.setShowEditName(false)}
                     >
                         Cancel
                     </button>
                     <button
                         id="confirm_username"
                         type="button"
-                        className="edit-username-save1 button"
-                        onClick={() => updateUsername()}
+                        className="edit-birthday-save1 button"
+                        onClick={() => updateName()}
                     >
                         Done
                     </button>
@@ -161,4 +148,4 @@ const EditUsername = (props) => {
     )
 }
 
-export default EditUsername
+export default EditName

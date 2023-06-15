@@ -1,9 +1,23 @@
+.edit-username-background {
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  bottom: 0;
+  height: 100%;
+  display: flex;
+  z-index: 1;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
 .edit-username-container {
   top: 0px;
   left: 0px;
   right: 0px;
   width: 457px;
-  bottom: 0;
+  bottom: 0px;
   height: 357px;
   margin: auto;
   display: flex;
@@ -16,20 +30,6 @@
   flex-direction: column;
   justify-content: flex-start;
   background-color: #1c1c1c;
-}
-.edit-username-background {
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    bottom: 0;
-    height: 100%;
-    display: flex;
-    z-index: 1;
-    position: fixed;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5);
 }
 .edit-username-text {
   color: var(--dl-color-maincolors-headingcolor);
@@ -57,17 +57,34 @@
   align-self: center;
   font-family: Roboto;
 }
+.edit-username-container2 {
+  width: 100%;
+  display: flex;
+  margin-top: 2%;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+}
 .edit-username-textinput {
   color: #ffffff;
-  width: 90%;
+  width: 65%;
   align-self: center;
-  margin-top: 2%;
   font-family: Roboto;
   border-width: 0px;
   border-radius: var(--dl-radius-radius-radius8);
   background-color: #4c4c4c;
 }
-.edit-username-container2 {
+.edit-username-textinput1 {
+  color: #ffffff;
+  width: 20%;
+  align-self: center;
+  font-family: Roboto;
+  margin-left: 5%;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius8);
+  background-color: #4c4c4c;
+}
+.edit-username-container3 {
   width: 422px;
   display: flex;
   align-self: center;
@@ -84,7 +101,7 @@
   align-self: center;
   font-family: Roboto;
 }
-.edit-username-textinput1 {
+.edit-username-textinput2 {
   color: #ffffff;
   width: 90%;
   align-self: center;
@@ -94,7 +111,7 @@
   border-radius: var(--dl-radius-radius-radius8);
   background-color: #4c4c4c;
 }
-.edit-username-container3 {
+.edit-username-container4 {
   left: 0px;
   width: 100%;
   bottom: 0px;
@@ -164,7 +181,7 @@
     align-self: center;
     margin-top: 2%;
   }
-  .edit-username-container3 {
+  .edit-username-container4 {
     margin-top: 5%;
     border-width: 0px;
     border-radius: 14px;

@@ -5,19 +5,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29b16515-befb-48e4-9957-4cc079c44636" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/api/modules/Friends.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/build/assets/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/assets/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/build/assets/roblox.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/build/static/css/main.c5afd6ba.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/build/static/css/main.c5afd6ba.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/assets/roblox.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/edit-name.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/pages/blocked.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/api/FirebaseHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/FirebaseHandler.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/api/id.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/id.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/api/modules/Connections.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/modules/Connections.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/api/modules/Friends.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/modules/Friends.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/api/modules/User.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/modules/User.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/build/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/asset-manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/build/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.d05c223a.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.d05c223a.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.d05c223a.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/css/main.95e2f9ea.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/css/main.95e2f9ea.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.c5c69504.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.c5c69504.js.LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.c5c69504.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dialogs/edit-birthday.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/edit-birthday.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dialogs/edit-username.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/edit-username.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dialogs/edit-username.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/edit-username.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/add--friend.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/add--friend.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/add--friend.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/add--friend.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/connected-apps.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/connected-apps.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/my-friends.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/my-friends.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/my-friends.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/my-friends.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/my-id.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/my-id.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/my-id.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/my-id.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/page_components/friend-request.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/page_components/friend-request.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/page_components/friend.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/page_components/friend.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/dashboard/account-settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/dashboard/account-settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/dashboard/summary.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/dashboard/summary.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,11 +72,12 @@
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/Wulfco/Wulfco ID/frontend/public/assets",
+    "last_opened_file_path": "D:/Wulfco/Wulfco ID/frontend/src/components/pages",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -71,9 +94,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Wulfco\Wulfco ID\frontend\src\components\pages" />
+      <recent name="D:\Wulfco\Wulfco ID\frontend\src\components\dialogs" />
+      <recent name="D:\Wulfco\Wulfco ID\frontend\src\components" />
       <recent name="D:\Wulfco\Wulfco ID\frontend\public\assets" />
       <recent name="D:\Wulfco\Wulfco ID\frontend\src\components\pages\page_components" />
-      <recent name="D:\Wulfco\Wulfco ID\frontend" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Wulfco\Wulfco ID\frontend\public" />
@@ -82,7 +107,17 @@
       <recent name="D:\Wulfco\Wulfco ID\backend\src\api" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="npm.start (1)">
+    <configuration name="start (1)" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/backend/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/frontend/package.json" />
       <command value="run" />
@@ -95,6 +130,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.start (1)" />
         <item itemvalue="npm.start" />
       </list>
     </recent_temporary>
@@ -129,6 +165,17 @@
       <workItem from="1684555690807" duration="3802000" />
       <workItem from="1684692918689" duration="163000" />
       <workItem from="1684695008323" duration="131000" />
+      <workItem from="1685372784861" duration="9668000" />
+      <workItem from="1685456274024" duration="57000" />
+      <workItem from="1685890324610" duration="19000" />
+      <workItem from="1685891620172" duration="1982000" />
+      <workItem from="1686236122061" duration="3251000" />
+      <workItem from="1686335012962" duration="306000" />
+      <workItem from="1686496808268" duration="2047000" />
+      <workItem from="1686577501301" duration="7353000" />
+      <workItem from="1686588675896" duration="550000" />
+      <workItem from="1686751141301" duration="3299000" />
+      <workItem from="1686844489017" duration="7205000" />
     </task>
     <servers />
   </component>

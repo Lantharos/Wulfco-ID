@@ -23,6 +23,7 @@ const Summary = () => {
     const [loading, setLoading] = React.useState(true);
 
     function logout() {
+        const message = toast.loading('Logging out...', { theme: 'dark', autoClose: false })
         fetch(`${api_url}/logout`, {
             method: 'POST',
             headers: {
@@ -36,6 +37,7 @@ const Summary = () => {
             })
         }).then((res) => {
             if (res.status === 200) {
+                toast.dismiss(message)
                 cookies.remove('token')
                 cookies.remove('id')
                 cookies.remove('secret')

@@ -74,7 +74,7 @@ const EditBirthday = (props) => {
             res.json().then((data) => {
                 if (data.success) {
                     toast.update(message, { render: 'Updated birthday', type: 'success', theme: 'dark', isLoading: false, autoClose: 2000 });
-                    props.setShowEditUsername(false);
+                    props.setShowEditBirthday(false);
                     props.updateUserData()
                 } else {
                     toast.update(message, { render: 'Failed to update birthday', type: 'error', theme: 'dark', isLoading: false, autoClose: 2000 });

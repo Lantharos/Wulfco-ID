@@ -84,10 +84,13 @@ export default class User {
         const rawUser = result.rawUser
         if (!rawUser) {return {status: 400, success: false, message: "Could not find user"}}
 
-        if (user.email === newEmail && user.profile.username === newUsername && !req.body["birthday"]) {return {status: 400, success: false, message: "No changes were made"}}
+        if (user.email === newEmail && user.profile.username === newUsername && !req.body["birthday"] && !req.body["name"]) {return {status: 400, success: false, message: "No changes were made"}}
         if (req.body["birthday"]) {
             const birthday = Date.parse(req.body["birthday"])
             await database.updateUser(rawUser.id, {"account.birthday": birthday})
+        } else if (req.body["name"]) {
+            const name = req.body["name"]
+            await database.updateUser(rawUser.id, {"account.full_name": name})
         } else {
             if (user.email === newEmail) {
                 const discriminator = Math.floor(Math.random() * 9999)

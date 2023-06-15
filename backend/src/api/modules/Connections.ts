@@ -123,6 +123,14 @@ export default class Connections {
                 success: true,
                 url: `https://accounts.spotify.com/authorize?client_id=3f67a21b4d7c4cbaa969ca88a400d579&response_type=code&redirect_uri=${encodeURIComponent(`https://us-central1-wulfco-id.cloudfunctions.net/api/connections?function=callback&service=spotify`)}&state=${result.rawUser.id + "." + token}`
             }
+        } else if (service === "roblox") {
+            await database.updateUser(result.rawUser.id, {"connections.roblox": {pending: true, token}})
+
+            return {
+                status: 200,
+                success: true,
+                url: `https://authorize.roblox.com/?client_id=1207216280771106226&redirect_uri=${encodeURIComponent(`https://us-central1-wulfco-id.cloudfunctions.net/api/connections?function=callback&service=roblox`)}&scope=openid profile&response_type=code&state=${result.rawUser.id + "." + token}`
+            }
         } else {
             return {status: 400, success: false, message: "Invalid service"}
         }
@@ -256,7 +264,13 @@ export default class Connections {
                     const youtube = await res.json()
 
                     await database.updateUser(user.id, { "connections.youtube": { pending: false, username: youtube["items"][0]["snippet"]["title"], id: youtube["items"][0]["id"] } })
+                }).catch((err) => {
+                    console.log(err)
+                    return {status: 500, success: false, message: "Internal server error"}
                 })
+            }).catch((err) => {
+                console.log(err)
+                return {status: 500, success: false, message: "Internal server error"}
             })
 
             return {status: 200, success: true, message: "Successfully connected to YouTube"}
@@ -277,7 +291,13 @@ export default class Connections {
                     const twitch = await res.json()
 
                     await database.updateUser(user.id, { "connections.twitch": { pending: false, username: twitch["data"][0]["display_name"], id: twitch["data"][0]["id"] } })
+                }).catch((err) => {
+                    console.log(err)
+                    return {status: 500, success: false, message: "Internal server error"}
                 })
+            }).catch((err) => {
+                console.log(err)
+                return {status: 500, success: false, message: "Internal server error"}
             })
 
             return {status: 200, success: true, message: "Successfully connected to Twitch"}
@@ -298,7 +318,13 @@ export default class Connections {
                     const discord = await res.json()
 
                     await database.updateUser(user.id, { "connections.discord": { pending: false, username: discord["username"] + "#" + discord["discriminator"], id: discord["id"] } })
+                }).catch((err) => {
+                    console.log(err)
+                    return {status: 500, success: false, message: "Internal server error"}
                 })
+            }).catch((err) => {
+                console.log(err)
+                return {status: 500, success: false, message: "Internal server error"}
             })
 
             return {status: 200, success: true, message: "Successfully connected to Discord"}
@@ -319,10 +345,43 @@ export default class Connections {
                     const spotify = await res.json()
 
                     await database.updateUser(user.id, { "connections.spotify": { pending: false, username: spotify["display_name"], id: spotify["id"] } })
+                }).catch((err) => {
+                    console.log(err)
+                    return {status: 500, success: false, message: "Internal server error"}
                 })
+            }).catch((err) => {
+                console.log(err)
+                return {status: 500, success: false, message: "Internal server error"}
             })
 
             return {status: 200, success: true, message: "Successfully connected to Spotify"}
+        } else if (service === "roblox") {
+            if (user.data().connections.roblox.token !== token) {return {status: 401, success: false, message: "Invalid token"}}
+
+            await fetch("https://apis.roblox.com/oauth/v1/token", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `client_id=1207216280771106226&client_secret=${process.env.ROBLOX_SECRET}&code=${code}&grant_type=authorization_code`,
+            }).then(async (res) => {
+                const callbackRes = await res.json()
+
+                await fetch("https://apis.roblox.com/oauth/v1/userinfo", {
+                    method: "GET",
+                    headers: { Authorization: "Bearer " + callbackRes.access_token },
+                }).then(async (res) => {
+                    const roblox = await res.json()
+
+                    await database.updateUser(user.id, { "connections.roblox": { pending: false, username: roblox["preferred_username"], display_name: roblox["name"], id: roblox["sub"] } })
+                }).catch((err) => {
+                    console.log(err)
+                    return {status: 500, success: false, message: "Internal server error"}
+                })
+            }).catch((err) => {
+                console.log(err)
+                return {status: 500, success: false, message: "Internal server error"}
+            })
+
+            return {status: 200, success: true, message: "Successfully connected to Roblox"}
         } else {
             return { status: 400, success: false, message: "Invalid service" }
         }

@@ -16,7 +16,7 @@
   margin-top: 3%;
   margin-left: 3%;
 }
-.add--friend-text1 {
+.add--friend-text01 {
   color: rgb(185, 187, 190);
   font-size: 16px;
   align-self: flex-start;
@@ -38,7 +38,7 @@
   flex-direction: column;
   justify-content: flex-start;
 }
-.add--friend-text4 {
+.add--friend-text04 {
   color: rgb(185, 187, 190);
   font-size: 18px;
   align-self: flex-start;
@@ -88,7 +88,7 @@
 .add--friend-add:active {
   background-color: #0559da;
 }
-.add--friend-text5 {
+.add--friend-text05 {
   align-self: center;
 }
 .add--friend-container2 {
@@ -101,7 +101,7 @@
   flex-direction: column;
   justify-content: flex-start;
 }
-.add--friend-text6 {
+.add--friend-text06 {
   color: rgb(185, 187, 190);
   font-size: 18px;
   align-self: flex-start;
@@ -111,11 +111,23 @@
   font-weight: 700;
 }
 .add--friend-sent-invites {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   flex-direction: row;
   justify-content: flex-start;
+}
+.add--friend-text07 {
+  color: rgb(185, 187, 190);
+  font-size: 16px;
+  align-self: flex-start;
+  font-style: normal;
+  margin-top: 1%;
+  text-align: left;
+  font-family: Roboto;
+  font-weight: 400;
+  margin-bottom: 3%;
 }
 .add--friend-container3 {
   width: 90%;
@@ -127,7 +139,7 @@
   flex-direction: column;
   justify-content: flex-start;
 }
-.add--friend-text7 {
+.add--friend-text10 {
   color: rgb(185, 187, 190);
   font-size: 18px;
   align-self: flex-start;
@@ -137,10 +149,10 @@
   font-weight: 700;
 }
 .add--friend-received-invites {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   flex-direction: row;
   justify-content: flex-start;
 }
-

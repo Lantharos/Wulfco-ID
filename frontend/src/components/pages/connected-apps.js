@@ -84,6 +84,7 @@ const ConnectedApps = (props) => {
             <ConnectionButton genURL={redirectToLink} platform="twitch" image_src={"assets/twitch.png"} image_alt={"Twitch"}></ConnectionButton>
             <ConnectionButton genURL={redirectToLink} platform="discord" image_src={"assets/discord.png"} image_alt={"Discord"}></ConnectionButton>
             <ConnectionButton genURL={redirectToLink} platform="spotify" image_src={"assets/spotify.png"} image_alt={"Spotify"}></ConnectionButton>
+            <ConnectionButton genURL={redirectToLink} platform="roblox" image_src={"assets/roblox.png"} image_alt={"Roblox"}></ConnectionButton>
             {/*<ConnectionButton genURL={redirectToLink} platform="epic_games" image_src={"assets/epic_games.png"} image_alt={"Epic Games"}></ConnectionButton>*/}
             {/*<ConnectionButton genURL={redirectToLink} platform="xbox" image_src={"assets/xbox.png"} image_alt={"Xbox"}></ConnectionButton>*/}
           </div>

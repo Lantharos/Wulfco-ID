@@ -18,6 +18,7 @@ import AddFriend from "../../components/pages/add--friend";
 import MyFriends from "../../components/pages/my-friends";
 import {AnimatePresence} from "framer-motion";
 import Loading from "../../components/pages/page_components/loading";
+import Blocked from "../../components/pages/blocked";
 
 const config = require('../../config.json')
 const api_url = config.api_url
@@ -87,6 +88,7 @@ const AccountSettings = () => {
   }
 
   function logout() {
+    const message = toast.loading("Logging out...", { theme: "dark" })
     fetch(`${api_url}/logout`, {
       method: 'POST',
       headers: {
@@ -100,6 +102,7 @@ const AccountSettings = () => {
       })
     }).then((res) => {
       if (res.status === 200) {
+        toast.dismiss(message)
         cookies.remove('token')
         cookies.remove('id')
         cookies.remove('secret')
@@ -133,6 +136,8 @@ const AccountSettings = () => {
         return <MyFriends userData={userData} saveUserData={setUserData} updateUserData={loadUserData}/>
       case 'add-friend':
         return <AddFriend userData={userData} saveUserData={setUserData} updateUserData={loadUserData}/>
+      case 'blocked':
+        return <Blocked userData={userData} saveUserData={setUserData} updateUserData={loadUserData}/>
       default:
         return <MyId userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
     }

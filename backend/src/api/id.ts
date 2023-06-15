@@ -14,7 +14,14 @@ export default class ID {
     public static async create(req: any) { return await Auth.create(req) }
 
     // User module
-    public static async get(req: any) { return await User.get(req) }
+    public static async get(req: any) {
+        const resp = await User.get(req)
+        if (resp.success) {
+            return {status: 200, success: true, user: resp.user}
+        } else {
+            return resp
+        }
+    }
     public static async verifyPassword(req: any) { return await User.checkPassword(req) }
     public static async profile(req: any) { return await User.profile(req) }
     public static async account(req: any) { return await User.account(req) }
@@ -110,6 +117,8 @@ export default class ID {
             return await Friends.acceptFriend(req)
         } else if (req.method === "DELETE") {
             return await Friends.declineFriend(req)
+        } else if (req.method === "PATCH") {
+            return await Friends.cancelRequest(req)
         } else {
             return {status: 400, success: false, message: "Invalid method"}
         }

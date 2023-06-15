@@ -28,9 +28,9 @@ export const getUser = async (id: string) => {
     }
 }
 
-export const getUserByUsername = async (username: string) => {
+export const getUserByUsername = async (username: string, discriminator: number) => {
     try {
-        const q = query(collection(db, "users"), where("profile.username", "==", username));
+        const q = query(collection(db, "users"), where("profile.username", "==", username), where("profile.discriminator", "==", discriminator));
         const querySnapshot = await getDocs(q);
         if (querySnapshot.size > 0) {
             return querySnapshot.docs[0]
