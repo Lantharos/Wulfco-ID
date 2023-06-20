@@ -66,6 +66,15 @@ export default class ID {
             return {status: 400, success: false, message: "Invalid stage"}
         }
     }
+    public static async emailAuth(req: any) {
+        if (req.method == "POST") {
+            return await Security.enableEmailAuth(req)
+        } else if (req.method == "DELETE") {
+            return await Security.disableEmailAuth(req)
+        } else {
+            return {status: 400, success: false, message: "Invalid method"}
+        }
+    }
 
     // OAuth module
     public static async scopes(req: any) { return await OAuth.getReadableScopes(req) }

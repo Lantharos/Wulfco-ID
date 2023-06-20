@@ -123,6 +123,54 @@ const Security = (props) => {
     }
   }
 
+  const enableEmailAuth = async() => {
+    if (props.userData.account.security.email) {
+      const message = toast.loading("Disabling email authentication...", {theme: 'dark', autoClose: false})
+      await fetch(`${api_url}/email-auth?id=${encodeURIComponent(cookies.load("id"))}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
+          'W-Session': cookies.load('session_id'),
+          'W-Loggen': cookies.load('loggen')
+        }
+      }).then((res) => {
+        res.json().then((data) => {
+          if (data.success) {
+            toast.update(message, {render: "Successfully disabled email authentication", type: "success", theme: 'dark', isLoading: false, autoClose: 2000})
+            props.updateUserData()
+          } else {
+            toast.update(message, {render: "Failed to disabled email authentication", type: "error", theme: 'dark', isLoading: false, autoClose: 2000})
+          }
+        })
+      }).catch((err) => {
+        toast.update(message, {render: "Failed to disabled email authentication", type: "error", theme: 'dark', isLoading: false, autoClose: 2000})
+      })
+    } else {
+      const message = toast.loading("Enabling email authentication...", {theme: 'dark', autoClose: false})
+      await fetch(`${api_url}/email-auth?id=${encodeURIComponent(cookies.load("id"))}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
+          'W-Session': cookies.load('session_id'),
+          'W-Loggen': cookies.load('loggen')
+        }
+      }).then((res) => {
+        res.json().then((data) => {
+          if (data.success) {
+            toast.update(message, {render: "Successfully enabled email authentication", type: "success", theme: 'dark', isLoading: false, autoClose: 2000})
+            props.updateUserData()
+          } else {
+            toast.update(message, {render: "Failed to enable email authentication", type: "error", theme: 'dark', isLoading: false, autoClose: 2000})
+          }
+        })
+      }).catch((err) => {
+        toast.update(message, {render: "Failed to enable email authentication", type: "error", theme: 'dark', isLoading: false, autoClose: 2000})
+      })
+    }
+  }
+
   return (
     <div className="security-content">
       <h1 className="security-text notselectable">Privacy & Security</h1>
@@ -199,8 +247,8 @@ const Security = (props) => {
                 Receive a code in your email address to verify it's you trying to log in. This is the least secure option.
               </span>
             </div>
-            <button id="setup_emailauth" type="button" className="security-save2 button" onClick={() => {toast.info("This feature is not available yet", { theme: 'dark' })}}>
-              Setup
+            <button id="setup_emailauth" type="button" className="security-save2 button" onClick={enableEmailAuth}>
+              {props.userData.account.security.email ? "Disable" : "Enable"}
             </button>
           </div>
         </div>

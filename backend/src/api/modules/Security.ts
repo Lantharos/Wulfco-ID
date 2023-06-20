@@ -3,6 +3,7 @@ import crypto from "crypto";
 import * as database from "../FirebaseHandler";
 import mail from "@sendgrid/mail";
 import bcrypt from "bcrypt";
+import firebase from "firebase/compat/app";
 
 export default class Security {
     public static async registerSecurityKey(req: any) {
@@ -23,7 +24,9 @@ export default class Security {
         const rawUser = result.rawUser
 
         if (currentUser.account.security && currentUser.account.security.security_keys) {
-            await database.updateUser(rawUser.id, { "account.security.security_keys": currentUser.account.security.security_keys.push(credential), "account.security.protected": true })
+            currentUser.account.security.security_keys.push(credential)
+
+            await database.updateUser(rawUser.id, { "account.security.security_keys": currentUser.account.security.security_keys, "account.security.protected": true })
         } else {
             await database.updateUser(rawUser.id, { "account.security.security_keys": [credential], "account.security.protected": true })
         }
@@ -96,7 +99,7 @@ export default class Security {
         if (!rawUser) { return {status: 400, success: false, message: "Could not find user"} }
 
         const newHashedPassword = await bcrypt.hash(newPassword, 10, null)
-        await database.updateUser(rawUser.id, { "password": newHashedPassword, "account.security.pass_reset_token": null })
+        await database.updateUser(rawUser.id, { "password": newHashedPassword, "account.security.pass_reset_token": firebase.firestore.FieldValue.delete() })
 
         mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
         await mail.send({
@@ -141,7 +144,7 @@ export default class Security {
         const user = rawUser.user
 
         if (user.account.security.email_verification.token == code) {
-            await database.updateUser(rawUser.rawUser.id, { "account.security.email_verification": null })
+            await database.updateUser(rawUser.rawUser.id, { "account.security.email_verification": firebase.firestore.FieldValue.delete() })
             return {status: 200, success: true}
         } else {
             return {status: 400, success: false, message: "Invalid code"}
@@ -178,6 +181,24 @@ export default class Security {
         })
 
         await database.updateUser(rawUser.rawUser.id, { "email": newEmail })
+
+        return {status: 200, success: true}
+    }
+
+    public static async enableEmailAuth(req: any) {
+        const rawUser = await User.get(req)
+        if (!rawUser.success) { return rawUser }
+
+        await database.updateUser(rawUser.rawUser.id, { "account.security.email": true, "account.security.protected": true })
+
+        return {status: 200, success: true}
+    }
+
+    public static async disableEmailAuth(req: any) {
+        const rawUser = await User.get(req)
+        if (!rawUser.success) { return rawUser }
+
+        await database.updateUser(rawUser.rawUser.id, { "account.security.email": false, "account.security.protected": false })
 
         return {status: 200, success: true}
     }
