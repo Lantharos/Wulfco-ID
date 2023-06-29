@@ -4,8 +4,13 @@ import * as database from "../FirebaseHandler";
 import mail from "@sendgrid/mail";
 import bcrypt from "bcrypt";
 import firebase from "firebase/compat/app";
+import speakeasy from "speakeasy";
 
 export default class Security {
+    private static isProtected(user: any) {
+        return user.account.security.security_keys.length >= 1 || user.account.security.totp.enabled || user.account.security.email;
+    }
+
     public static async registerSecurityKey(req: any) {
         const id = Buffer.from(req.body.id, "base64").toString("hex")
         const rawId = Buffer.from(req.body.rawId, "base64").toString("hex")
@@ -48,16 +53,17 @@ export default class Security {
         if (currentUser.account.security.security_keys && currentUser.account.security.security_keys[number]) {
             const securityKeys = currentUser.account.security.security_keys;
             securityKeys.splice(number, 1);
+            currentUser.account.security.security_keys = securityKeys;
             if (securityKeys === 1) {
                 await database.updateUser(rawUser.id, {
                     "account.security.security_keys": [],
-                    "account.security.protected": false
+                    "account.security.protected": this.isProtected(currentUser)
                 });
                 return {status: 200, success: true}
             } else {
                 await database.updateUser(rawUser.id, {
                     "account.security.security_keys": securityKeys,
-                    "account.security.protected": false
+                    "account.security.protected": this.isProtected(currentUser)
                 });
                 return {status: 200, success: true}
             }
@@ -198,7 +204,53 @@ export default class Security {
         const rawUser = await User.get(req)
         if (!rawUser.success) { return rawUser }
 
-        await database.updateUser(rawUser.rawUser.id, { "account.security.email": false, "account.security.protected": false })
+        rawUser.user.account.security.email = false
+
+        await database.updateUser(rawUser.rawUser.id, { "account.security.email": false, "account.security.protected": this.isProtected(rawUser.user) })
+
+        return {status: 200, success: true}
+    }
+
+    public static async getTOTP(req: any) {
+        const rawUser = await User.get(req)
+        if (!rawUser.success) { return rawUser }
+
+        const secret = await speakeasy.generateSecret({
+            length: 16,
+            name: rawUser.user.profile.username,
+            issuer: "Wulfco ID"
+        })
+
+        await database.updateUser(rawUser.rawUser.id, { "account.security.totp": {secret: secret.base32, enabled: false}, "account.security.protected": true })
+
+        return {status: 200, success: true, secret: secret.base32, qr: `${secret.otpauth_url}&issuer=Wulfco%20ID`}
+    }
+
+    public static async enableTOTP(req: any) {
+        const rawUser = await User.get(req)
+        if (!rawUser.success) { return rawUser }
+
+        const token = req.body.token
+        if (!token) { return {status: 400, success: false, message: "Missing fields"} }
+
+        const verified = await speakeasy.totp.verify({
+            secret: rawUser.user.account.security.totp.secret,
+            encoding: "base32",
+            token: token
+        })
+
+        if (!verified) { return {status: 400, success: false, message: "Invalid token"} }
+
+        await database.updateUser(rawUser.rawUser.id, { "account.security.totp.enabled": true })
+
+        return {status: 200, success: true}
+    }
+
+    public static async disableTOTP(req: any) {
+        const rawUser = await User.get(req)
+        if (!rawUser.success) { return rawUser }
+
+        await database.updateUser(rawUser.rawUser.id, { "account.security.totp.enabled": false, "account.security.protected": this.isProtected(rawUser.user) })
 
         return {status: 200, success: true}
     }

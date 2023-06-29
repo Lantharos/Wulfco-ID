@@ -75,6 +75,17 @@ export default class ID {
             return {status: 400, success: false, message: "Invalid method"}
         }
     }
+    public static async totp(req: any) {
+        if (req.method === 'GET') {
+            return await Security.getTOTP(req)
+        } else if (req.method === 'POST') {
+            return await Security.enableTOTP(req)
+        } else if (req.method === 'DELETE') {
+            return await Security.disableTOTP(req)
+        } else {
+            return {status: 400, success: false, message: "Invalid method"}
+        }
+    }
 
     // OAuth module
     public static async scopes(req: any) { return await OAuth.getReadableScopes(req) }

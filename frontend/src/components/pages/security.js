@@ -11,6 +11,7 @@ import EnterPassword from "../dialogs/enter-password";
 import cookies from "react-cookies";
 import hmac from "crypto-js/hmac-sha256";
 import {toast} from "react-toastify";
+import SetupTOTP from "../dialogs/setup-totp";
 
 const config = require('../../config.json')
 const api_url = config.api_url
@@ -18,6 +19,7 @@ const api_url = config.api_url
 const Security = (props) => {
   const [ securityKey, setSecurityKey ] = React.useState({})
   const [ enterPassword, setEnterPassword ] = React.useState({})
+  const [ showTOTPSetup, setShowTOTPSetup ] = React.useState(false)
 
   const mapSecurityKeys = () => {
     if (props.userData.account.security && props.userData.account.security.security_keys) {
@@ -175,6 +177,9 @@ const Security = (props) => {
     <div className="security-content">
       <h1 className="security-text notselectable">Privacy & Security</h1>
       <div className="security-container notselectable">
+        <AnimatePresence>
+          {showTOTPSetup && <SetupTOTP setShowTOTPSetup={setShowTOTPSetup} userData={props.userData} updateUserData={props.updateUserData} />}
+        </AnimatePresence>
         <span className="security-text01 notselectable">MULTI-FACTOR AUTHENTICATION</span>
         <div className="security-container01">
           <div className="security-container02">
@@ -227,7 +232,53 @@ const Security = (props) => {
                 </span>
               </span>
             </div>
-            <button id="setup_authapp" type="button" className="security-save1 button" onClick={() => { toast.info("This feature is not available yet", {theme: 'dark', autoClose: 2000 }) }}>
+            <button id="setup_authapp" type="button" className="security-save1 button" onClick={() => { setEnterPassword({after: () => {
+              if (props.userData.account.security.totp.enabled) {
+                const message = toast.loading("Disabling TOTP...", {theme: 'dark', autoClose: false})
+                fetch(`${api_url}/totp?id=${encodeURIComponent(cookies.load("id"))}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
+                        'W-Session': cookies.load('session_id'),
+                        'W-Loggen': cookies.load('loggen')
+                    }
+                }).then((res) => {
+                    res.json().then((data) => {
+                        if (data.success) {
+                            toast.update(message, {render: "Successfully disabled TOTP", type: "success", theme: 'dark', isLoading: false, autoClose: 2000})
+                            props.updateUserData()
+                        } else {
+                            toast.update(message, {render: "Failed to disable TOTP", type: "error", theme: 'dark', isLoading: false, autoClose: 2000})
+                        }
+                    })
+                }).catch((err) => {
+                    toast.update(message, {render: "Failed to disable TOTP", type: "error", theme: 'dark', isLoading: false, autoClose: 2000})
+                })
+              } else {
+                setShowTOTPSetup(true)
+              }
+            }}) }}>
+              {(!!props.userData.account.security.totp.enabled) ? "Disable" : "Setup"}
+            </button>
+          </div>
+        </div>
+        <div className="security-onetap-app">
+          <div className="security-ocontainer06">
+            <div className="security-container07">
+              <div className="security-container08">
+                <h1 className="security-text06 notselectable">
+                  OneTap
+                </h1>
+              </div>
+              <span className="security-text07 notselectable">
+                <span>
+                  OneTap is the easiest way to login, you
+                  just need to click a button on your phone.
+                </span>
+              </span>
+            </div>
+            <button id="setup_onetap" type="button" className="security-save1 button" onClick={() => { toast.info("This feature is not available yet", {theme: 'dark', autoClose: 2000 }) }}>
               Setup
             </button>
           </div>
