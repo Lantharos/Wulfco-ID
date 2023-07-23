@@ -50,7 +50,7 @@ const Blocked = (props) => {
                     toast.update(message, { render: 'Blocked!', type: 'success', theme: 'dark', isLoading: false, autoClose: 2000 })
                     props.updateUserData()
                 } else {
-                    toast.update(message, { render: data.error, type: 'error', theme: 'dark',isLoading: false,  autoClose: 2000 })
+                    toast.update(message, { render: 'Failed to block.', type: 'error', theme: 'dark',isLoading: false,  autoClose: 2000 })
                 }
             });
         }).catch(() => {

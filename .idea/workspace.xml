@@ -5,28 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29b16515-befb-48e4-9957-4cc079c44636" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/build/assets/authenticator.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/build/assets/phone.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/build/static/css/main.cbd09d91.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/build/static/css/main.cbd09d91.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/assets/authenticator.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/assets/phone.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/setup-totp.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/setup-totp.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/api/id.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/id.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/api/modules/Security.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/modules/Security.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/asset-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/css/main.c5afd6ba.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/css/main.c5afd6ba.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.d53223f8.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.d53223f8.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.d53223f8.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/security.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/security.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/security.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/security.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/blocked.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/blocked.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +44,7 @@
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/Wulfco/Wulfco ID/frontend/public/assets",
+    "last_opened_file_path": "C:/Users/49152/OneDrive/Dokumente/vikkivuk/Wulfco-ID",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -166,6 +146,7 @@
       <workItem from="1686914585958" duration="20000" />
       <workItem from="1687290892382" duration="2847000" />
       <workItem from="1688052765964" duration="9844000" />
+      <workItem from="1690067975824" duration="1291000" />
     </task>
     <servers />
   </component>
