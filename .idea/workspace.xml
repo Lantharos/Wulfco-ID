@@ -5,59 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29b16515-befb-48e4-9957-4cc079c44636" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/api/modules/Payments.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/build/assets/mastercard.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/build/assets/visa.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/build/static/css/main.68e8e388.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/build/static/css/main.68e8e388.css.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/build/static/js/main.3688e141.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/build/static/js/main.3688e141.js.LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/build/static/js/main.3688e141.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/assets/mastercard.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/assets/visa.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/new-payment-method/add-card-address.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/new-payment-method/add-card-address.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/new-payment-method/add-card.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/new-payment-method/add-card.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/new-payment-method/add-payment-method.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/new-payment-method/add-payment-method.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/new-payment-method/add-paypal.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/dialogs/new-payment-method/add-paypal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/pages/billing.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/pages/billing.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/pages/gifts.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/pages/gifts.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/pages/page_components/payment-method.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/pages/page_components/payment-method.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/pages/page_components/transaction.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/pages/page_components/transaction.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/api/FirebaseHandler.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/FirebaseHandler.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/api/id.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/id.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/api/modules/Auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/modules/Auth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/api/modules/Security.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/modules/Security.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/api/modules/User.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/modules/User.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/firestore.rules" beforeDir="false" afterPath="$PROJECT_DIR$/firestore.rules" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/build/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/asset-manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/build/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/css/main.cbd09d91.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/css/main.cbd09d91.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.a6365b81.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.a6365b81.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.a6365b81.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/my-id.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/my-id.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/my-id.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/my-id.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/create-id.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/create-id.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/dashboard/account-settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/dashboard/account-settings.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/login/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/login/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/login/verify-email.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/login/verify-email.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.e388cbe5.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.e388cbe5.js.LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.e388cbe5.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/billing.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/billing.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,31 +39,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/vikkivuk/Wulfco-ID/frontend/src/components/pages/page_components",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Problems",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "show.migrate.to.gradle.popup": "false",
-    "ts.external.directory.path": "C:\\vikkivuk\\Wulfco-ID\\backend\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/vikkivuk/Wulfco-ID/frontend/src/components/pages/page_components&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Problems&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\vikkivuk\\Wulfco-ID\\backend\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\vikkivuk\Wulfco-ID\frontend\src\components\pages\page_components" />
@@ -198,7 +152,8 @@
       <workItem from="1687290892382" duration="2847000" />
       <workItem from="1688052765964" duration="9844000" />
       <workItem from="1690067975824" duration="1291000" />
-      <workItem from="1690130969660" duration="35617000" />
+      <workItem from="1690130969660" duration="36059000" />
+      <workItem from="1690333815508" duration="387000" />
     </task>
     <servers />
   </component>

@@ -48,9 +48,7 @@ const Billing = (props) => {
             const date = new Date(transaction.created * 1000)
             const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
 
-            transaction.amount = transaction.amount / 100
-
-            return <Transaction key={index} date={formattedDate} name={transaction.description} amount={transaction.amount + transaction.currency.toUpperCase()}></Transaction>
+            return <Transaction key={index} date={formattedDate} name={transaction.description} amount={(transaction.amount / 100) + transaction.currency.toUpperCase()}></Transaction>
         })
     }
 
