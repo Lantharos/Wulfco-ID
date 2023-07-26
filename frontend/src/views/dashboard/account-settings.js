@@ -19,6 +19,8 @@ import MyFriends from "../../components/pages/my-friends";
 import {AnimatePresence} from "framer-motion";
 import Loading from "../../components/pages/page_components/loading";
 import Blocked from "../../components/pages/blocked";
+import Billing from "../../components/pages/billing";
+import Gifts from "../../components/pages/gifts";
 
 const config = require('../../config.json')
 const api_url = config.api_url
@@ -133,11 +135,15 @@ const AccountSettings = () => {
       case 'connections':
         return <ConnectedApps userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
       case 'friends':
-        return <MyFriends userData={userData} saveUserData={setUserData} updateUserData={loadUserData}/>
+        return <MyFriends userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
       case 'add-friend':
-        return <AddFriend userData={userData} saveUserData={setUserData} updateUserData={loadUserData}/>
+        return <AddFriend userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
       case 'blocked':
-        return <Blocked userData={userData} saveUserData={setUserData} updateUserData={loadUserData}/>
+        return <Blocked userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
+      case 'billing':
+        return <Billing userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
+      case 'gifts':
+        return <Gifts userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
       default:
         return <MyId userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
     }
@@ -207,15 +213,12 @@ const AccountSettings = () => {
               <Link to="/coming-soon" className="sidebar-button button">
                 Subscriptions
               </Link>
-              <Link to="/coming-soon" className="sidebar-button button">
-                Gifts
-              </Link>
-              <Link to="/coming-soon" className="sidebar-button button">
+              <button className="sidebar-button button" id="gifts" type="button" onClick={buttonClick}>
+                Gift Inventory
+              </button>
+              <button className="sidebar-button button" id="billing" type="button" onClick={buttonClick}>
                 Billing
-              </Link>
-              <Link to="/coming-soon" className="sidebar-button button">
-                My Card
-              </Link>
+              </button>
             </div>
             <div className="account-settings-undefined">
               <div className="account-settings-container3"></div>

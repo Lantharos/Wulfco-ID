@@ -56,7 +56,7 @@ const CreateId = () => {
                         cookies.save('id', data.uuid, {path: '/', secure: false})
                         cookies.save('loggen', data.session.loggen, {path: '/', secure: false})
                         cookies.save('session_id', data.session.session_id, {path: '/', secure: false})
-                        window.location.href = '/summary'
+                        window.location.href = '/onecode?type=registration'
                     } else {
                         toast.update(message, { render: 'Failed to create ID!', type: 'error', autoClose: 2000, isLoading: false })
                     }

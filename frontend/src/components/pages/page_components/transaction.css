@@ -1,0 +1,32 @@
+.transaction-container {
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  position: relative;
+  align-items: center;
+  margin-bottom: 2%;
+}
+.transaction-text {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  margin-left: 3%;
+}
+.transaction-image {
+  width: 36px;
+  object-fit: cover;
+  margin-left: 7.2%;
+  border-radius: var(--dl-radius-radius-radius8);
+}
+.transaction-text1 {
+  font-size: 1.5em;
+  margin-left: 1%;
+}
+.transaction-text2 {
+  top: 5px;
+  right: 32px;
+  position: absolute;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+}

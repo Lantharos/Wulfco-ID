@@ -1,0 +1,33 @@
+.payment-method-container {
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  margin-bottom: 3%;
+}
+.payment-method-image {
+  width: 64px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: var(--dl-radius-radius-radius8);
+}
+.payment-method-container1 {
+  flex: 0 0 auto;
+  width: 963px;
+  display: flex;
+  align-items: flex-start;
+  margin-left: 2%;
+  flex-direction: column;
+}
+.payment-method-text {
+  font-size: 1.5em;
+}
+.payment-method-button {
+  color: #ffffff;
+  font-size: 24px;
+  font-family: Roboto;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius8);
+  background-color: #4E5058;
+}

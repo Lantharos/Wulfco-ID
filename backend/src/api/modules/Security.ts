@@ -6,6 +6,8 @@ import bcrypt from "bcrypt";
 import firebase from "firebase/compat/app";
 import speakeasy from "speakeasy";
 
+mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
+
 export default class Security {
     private static isProtected(user: any) {
         return user.account.security.security_keys.length >= 1 || user.account.security.totp.enabled || user.account.security.email;
@@ -79,18 +81,15 @@ export default class Security {
         const rawUser = await database.getUserByEmail(email)
         if (!rawUser) { return {status: 400, success: false, message: "Could not find user"} }
 
-        const token = crypto.randomBytes(20).toString("hex")
-
-        mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
+        await database.createResetRequest(rawUser.id)
+        const date = new Date(Date.now() + (7 * 24 * 60 * 60 * 1000))
 
         await mail.send({
-            to: email,
-            from: "alerts@wulfco.xyz",
+            to: rawUser.data().email,
+            from: "no-reply@wulfco.xyz",
             subject: "Wulfco Password Reset",
-            text: `Hello @${rawUser.data().profile.username}, \n\nYou or someone has requested a password reset using this email, if this was you please click the link below to reset your password. \n\nhttps://id.wulfco.xyz/change-password?token=${token} \n\nIf this was not you please ignore this email.\n\nThanks, \nWulfco Team`
+            text: `Hello @${rawUser.data().profile.username}, \n\nYou or someone has requested a password reset using this email, if this was, you expect an email in 7 days (${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}) with a link to reset your password. \n\nIf this was not you please contact us at support@wulfco.xyz. \n\nThanks, \nWulfco Team`
         })
-
-        await database.updateUser(rawUser.id, { "account.security.pass_reset_token": {token: token, created: Date.now()} })
 
         return {status: 200, success: true}
     }

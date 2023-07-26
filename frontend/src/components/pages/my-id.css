@@ -308,6 +308,36 @@
   margin-top: 2%;
   font-weight: 500;
 }
+.my-id-verify-age {
+  color: #ffffff;
+  width: 173px;
+  display: flex;
+  position: relative;
+  font-size: 20px;
+  align-self: center;
+  font-style: normal;
+  text-align: center;
+  transition: 0.3s;
+  align-items: center;
+  font-family: Roboto;
+  font-weight: 500;
+  border-width: 0px;
+  margin-right: 2%;
+  border-radius: var(--dl-radius-radius-radius8);
+  flex-direction: column;
+  justify-content: center;
+  background-color: #0069FF;
+}
+.my-id-verify-age:hover {
+  background-color: #1d74f9;
+}
+.my-id-verify-age:active {
+  background-color: #0559da;
+}
+.my-id-text04 {
+  align-self: center;
+  text-align: center;
+}
 .my-id-edit3 {
   color: #ffffff;
   width: auto;
@@ -333,7 +363,7 @@
 .my-id-edit3:active {
   background-color: #0559da;
 }
-.my-id-text04 {
+.my-id-text05 {
   align-self: center;
   text-align: center;
 }
@@ -363,13 +393,13 @@
   border-width: 10px;
   border-radius: var(--dl-radius-radius-round);
 }
-.my-id-text05 {
+.my-id-text06 {
   color: white;
   align-self: center;
   margin-top: 4%;
   margin-left: 3%;
 }
-.my-id-text06 {
+.my-id-text07 {
   color: var(--dl-color-maincolors-textcolor2);
   align-self: center;
   margin-top: 4%;

@@ -5,6 +5,7 @@
   "dependencies": {
     "@craco/craco": "^7.1.0",
     "@metamask/detect-provider": "^2.0.0",
+    "@stripe/stripe-js": "^1.54.1",
     "@vaadin/checkbox": "^23.3.6",
     "bcrypt": "^5.1.0",
     "crypto-js": "^4.1.1",

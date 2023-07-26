@@ -2,6 +2,9 @@ import crypto from "crypto";
 import bcrypt from "bcrypt";
 import * as database from "../FirebaseHandler";
 import mail from "@sendgrid/mail";
+import Payments from "./Payments";
+
+mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
 
 export default class User {
     public static async get(req: any) {
@@ -20,6 +23,8 @@ export default class User {
         }
         const user = rawUser.data()
         if (!user) { return {status: 400, success: false, message: "Could not find user"} }
+
+        if (!user.account.email || !user.account.email.verified) { return {status: 401, success: false, message: "Email not verified"} }
 
         const session = user.account.sessions.find((session: any) => session.session_id === session_id)
 
@@ -41,8 +46,6 @@ export default class User {
             const locationData = await location.json()
 
             if (locationData.region !== session.location.region) {
-                mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
-
                 await mail.send({
                     to: user.email,
                     from: "alerts@wulfco.xyz",
@@ -53,6 +56,18 @@ export default class User {
                 return {status: 400, success: false, message: "Invalid location"}
             }
         }
+
+        let billingInfo = {}
+
+        if (user.account.billing && user.account.billing.customer_id) {
+            const resultic = await Payments.getCards(user)
+            billingInfo["cards"] = resultic.cards
+
+            const resultit = await Payments.getTransactions(user)
+            billingInfo["transactions"] = resultit.transactions
+        }
+
+        user["account"]["billing"] = billingInfo
 
         return {status: 200, success: true, user, rawUser}
     }

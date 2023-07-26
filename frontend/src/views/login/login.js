@@ -57,9 +57,18 @@ const Login = () => {
     }).then((res) => {
       res.json().then((data) => {
         if (data.success) {
-          toast.update(toastmsg, { render: "Redirecting...", isLoading: false, type: toast.TYPE.SUCCESS, autoClose: 2000 })
-          window.location.href =  decodeURIComponent(redirect)
+          if (!data.account.email || !data.account.email.verified) {
+            window.location.href = `/onecode?type=registration`
+          } else {
+            toast.update(toastmsg, { render: "Redirecting...", isLoading: false, type: toast.TYPE.SUCCESS, autoClose: 2000 })
+            window.location.href =  decodeURIComponent(redirect)
+          }
         } else {
+          if (data.error === "Email not verified") {
+            window.location.href = `/onecode?type=registration`
+            return
+          }
+
           toast.update(toastmsg, { render: "Login credentials invalid, please login.", isLoading: false, type: toast.TYPE.ERROR, autoClose: 2000 })
           cookies.save("token", "", {path: '/', secure: false})
           cookies.save("secret", "", {path: '/', secure: false})
@@ -135,7 +144,6 @@ const Login = () => {
     })
   }
 
-
   const attemptLogin = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -164,15 +172,19 @@ const Login = () => {
               window.location.href = '/summary'
             }
           } else {
-            toast.update(notification, {type: toast.TYPE.ERROR, render: "Incorrect Email or Password", isLoading: false, autoClose: 5000, theme: "dark"})
+            if (data.error === "Email not verified") {
+              window.location.href = `/onecode?type=registration`
+            } else {
+              toast.update(notification, {type: toast.TYPE.ERROR, render: "Incorrect Email or Password", isLoading: false, autoClose: 5000, theme: "dark"})
 
-            document.getElementById('email').classList.add('error')
-            document.getElementById('password').classList.add('error')
+              document.getElementById('email').classList.add('error')
+              document.getElementById('password').classList.add('error')
 
-            setTimeout(() => {
-              document.getElementById('email').classList.remove('error')
-              document.getElementById('password').classList.remove('error')
-            }, 1000);
+              setTimeout(() => {
+                document.getElementById('email').classList.remove('error')
+                document.getElementById('password').classList.remove('error')
+              }, 1000);
+            }
           }
         })
       })

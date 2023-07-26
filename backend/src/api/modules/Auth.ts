@@ -2,6 +2,9 @@ import crypto from "crypto";
 import * as database from "../FirebaseHandler";
 import User from "./User";
 import bcrypt from "bcrypt";
+import mail from "@sendgrid/mail";
+
+mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
 
 export default class Auth {
     public static async login(req: any) {
@@ -26,6 +29,8 @@ export default class Auth {
 
             const user = rawUser.data()
             if (!user) {return {status: 404, success: false, error: "User not found"}}
+
+            if (!user.account.email || !user.account.email.verified) {return {status: 401, success: false, error: "Email not verified"}}
 
             if (await bcrypt.compare(password, user.password, null) === false) {return {status: 401, success: false, error: "Invalid password"} }
 
@@ -124,6 +129,8 @@ export default class Auth {
             device: req.headers['user-agent'],
         }
 
+        const code = Math.floor(100000 + Math.random() * 900000)
+
         const discriminator = Math.floor(Math.random() * 9999)
 
         const docId = await database.createUser({
@@ -133,6 +140,10 @@ export default class Auth {
                 created: Date.now(),
                 last_login: Date.now(),
                 sessions: [session],
+                email: {
+                    verified: false,
+                    code: code
+                },
                 analytics: {
                     share_storage_data: true,
                     share_analytics: true
@@ -152,6 +163,38 @@ export default class Auth {
 
         if (!docId) {return {status: 500, success: false, error: "Failed to create user"}}
 
+        await mail.send({
+            to: req.body.email,
+            from: "no-reply@wulfco.xyz",
+            subject: 'Verify your email',
+            text: `Hello @${req.body.username},\n\nThank you for signing up for Wulfco! Please verify your email by entering the following code in the app: ${code}\n\nBest regards,\nYour Wulfco team`
+        })
+
         return { status: 200, success: true, session, uuid: docId }
+    }
+
+    public static async verifyEmail(req: any) {
+        const rawuser = await database.getUser(req.body.user)
+        if (!rawuser) {return {status: 404, success: false, error: "User not found"}}
+
+        const code = req.body.code
+        if (!code) {return {status: 400, success: false, error: "Missing code"}}
+
+        if (rawuser.data().account.email && rawuser.data().account.email.verified) {return {status: 400, success: false, error: "Email already verified"}}
+
+        if (code === rawuser.data().account.email.code.toString()) {
+            await database.updateUser(rawuser.id, { "account.email.verified": true })
+
+            await mail.send({
+                to: rawuser.data().email,
+                from: "no-reply@wulfco.xyz",
+                subject: 'Email verified',
+                text: `Hello @${rawuser.data().profile.username},\n\nYour email has been verified successfully!\n\nBest regards,\nYour Wulfco team`
+            })
+
+            return {status: 200, success: true}
+        } else {
+            return {status: 400, success: false, error: "Invalid code"}
+        }
     }
 }

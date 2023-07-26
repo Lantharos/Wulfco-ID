@@ -216,6 +216,14 @@ const MyId = (props) => {
                                     {props.userData.account.birthday ? `${new Date(props.userData.account.birthday).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}` : "Not set"}
                                 </h1>
                                 <button
+                                    id="verify_age"
+                                    type="button"
+                                    className="my-id-verify-age button"
+                                    onClick={() => toast.info("This feature is not yet implemented", {theme: "dark"})}
+                                >
+                                    <span className="button__text my-id-text04">Verify Age</span>
+                                </button>
+                                <button
                                     id="edit_bday"
                                     type="button"
                                     className="my-id-edit3 button"
@@ -235,10 +243,10 @@ const MyId = (props) => {
                             src={props.userData.profile.avatar}
                             className="my-id-image"
                         />
-                        <h1 id="username_main" className="my-id-text05 notselectable">
+                        <h1 id="username_main" className="my-id-text06 notselectable">
                             {props.userData.profile.username}
                         </h1>
-                        <h1 id="username_main" className="my-id-text06 notselectable">
+                        <h1 id="username_main" className="my-id-text07 notselectable">
                             <span>#{props.userData.profile.discriminator}</span>
                             <br></br>
                         </h1>

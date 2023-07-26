@@ -1,7 +1,7 @@
 import {initializeApp} from "firebase/app";
 
 import {addDoc, collection, doc, getDoc, getDocs, getFirestore, query, updateDoc, where} from "firebase/firestore";
-import {getStorage, ref, uploadBytes, getDownloadURL, listAll, deleteObject} from "firebase/storage";
+import {deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes} from "firebase/storage";
 
 const firebaseApp = initializeApp({
     apiKey: process.env.APPFIREBASE_AKEY,
@@ -17,6 +17,33 @@ const db = getFirestore(firebaseApp);
 const storage = getStorage(firebaseApp);
 const users = collection(db, "users");
 const oauth_apps = collection(db, "oauth_apps");
+const resetRequests = collection(db, "password_reset_requests");
+
+// Password reset requests
+export const createResetRequest = async (userId: string) => {
+    try {
+        await addDoc(resetRequests, {userId, created: Date.now()})
+        return Date.now() + (7 * 24 * 60 * 60 * 1000)
+    } catch (e) {
+        console.log(e)
+        return null;
+    }
+}
+
+export const getAllResetRequests = async (sevenDaysAgo) => {
+    try {
+        const q = query(collection(db, "password_reset_requests"), where("created", "<", sevenDaysAgo));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.size > 0) {
+            return querySnapshot.docs
+        } else {
+            return null;
+        }
+    } catch(e) {
+        console.log(e)
+        return null;
+    }
+}
 
 // Users
 export const getUser = async (id: string) => {

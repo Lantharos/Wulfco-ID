@@ -4,6 +4,7 @@ import Security from "./modules/Security";
 import OAuth from "./modules/OAuth";
 import Connections from "./modules/Connections";
 import Friends from "./modules/Friends";
+import Payments from "./modules/Payments";
 
 export default class ID {
     // Auth module
@@ -12,6 +13,7 @@ export default class ID {
     public static async logout(req: any) { return await Auth.logout(req) }
     public static async logoutAll(req: any) { return await Auth.logoutAll(req) }
     public static async create(req: any) { return await Auth.create(req) }
+    public static async verifyRegistration(req: any) { return await Auth.verifyEmail(req) }
 
     // User module
     public static async get(req: any) {
@@ -148,6 +150,25 @@ export default class ID {
             return await Friends.block(req)
         } else if (req.method === "DELETE") {
             return await Friends.unblock(req)
+        } else {
+            return {status: 400, success: false, message: "Invalid method"}
+        }
+    }
+
+    // Payments module
+    public static async paymentMethods(req: any) {
+        if (req.method === "POST") {
+            if (req.query.type === "stripe") {
+                return await Payments.addCard(req)
+            } else {
+                return {status: 400, success: false, message: "Invalid type"}
+            }
+        } else if (req.method === "PATCH") {
+            // todo: update card
+            return {status: 400, success: false, message: "Invalid method"}
+        } else if (req.method === "DELETE") {
+            // todo: delete card
+            return {status: 400, success: false, message: "Invalid method"}
         } else {
             return {status: 400, success: false, message: "Invalid method"}
         }
