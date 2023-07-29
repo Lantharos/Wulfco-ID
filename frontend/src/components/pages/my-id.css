@@ -310,7 +310,7 @@
 }
 .my-id-verify-age {
   color: #ffffff;
-  width: 173px;
+  width: 225px;
   display: flex;
   position: relative;
   font-size: 20px;
@@ -333,6 +333,11 @@
 }
 .my-id-verify-age:active {
   background-color: #0559da;
+}
+.my-id-verify-age:disabled {
+  color: #c0bebe;
+  background-color: #0554c4;
+  cursor: default;
 }
 .my-id-text04 {
   align-self: center;

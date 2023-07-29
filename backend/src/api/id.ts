@@ -173,4 +173,6 @@ export default class ID {
             return {status: 400, success: false, message: "Invalid method"}
         }
     }
+    public static async verifyIdentity(req: any) { return await Payments.verifyIdentity(req) }
+    public static async stripe(req: any) { return await Payments.stripeEvents(req) }
 }

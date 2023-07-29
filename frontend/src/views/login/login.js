@@ -57,7 +57,7 @@ const Login = () => {
     }).then((res) => {
       res.json().then((data) => {
         if (data.success) {
-          if (!data.account.email || !data.account.email.verified) {
+          if (!data.user.account.email || !data.user.account.email.verified) {
             window.location.href = `/onecode?type=registration`
           } else {
             toast.update(toastmsg, { render: "Redirecting...", isLoading: false, type: toast.TYPE.SUCCESS, autoClose: 2000 })

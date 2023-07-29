@@ -23,6 +23,34 @@ const MyId = (props) => {
     const [ showEditName, setShowEditName ] = React.useState(false)
     const [ editEmail, setEditEmail ] = React.useState({stage: 0})
 
+    const verifyIdentity = async() => {
+        const message = toast.loading('Creating session...', { theme: 'dark', autoClose: false })
+        await fetch((`${api_url}/verify-identity?id=${encodeURIComponent(cookies.load('id'))}`), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
+                'W-Session': cookies.load('session_id'),
+                'W-Loggen': cookies.load('loggen')
+            }
+        }).then((res) => {
+            res.json().then((data) => {
+                if (data.success) {
+                    toast.update(message, {render: 'Session created', type: 'success', theme: 'dark', autoClose: 2000, isLoading: false});
+                    window.location.href = data.url
+                } else {
+                    if (data.error === "too_many_attempts") {
+                        toast.update(message, {render: 'Too many attempts. Please check your email.', type: 'error', theme: 'dark', autoClose: 2000, isLoading: false});
+                        props.updateUserData()
+                        return;
+                    }
+
+                    toast.update(message, {render: 'Failed to create session', type: 'error', theme: 'dark', autoClose: 2000, isLoading: false})
+                }
+            });
+        })
+    }
+
     const editEmailHandler = async(stage, data) => {
         if (stage === 0) {
             setEditEmail({stage: 0})
@@ -151,6 +179,16 @@ const MyId = (props) => {
                                     {props.userData.profile.full_name}
                                 </h1>
                                 <button
+                                    id="verify_identity"
+                                    type="button"
+                                    className={`my-id-verify-age button ${props.userData.account.identity_verification ? (props.userData.account.identity_verification.status === "verified" ? "hidden" : "") : ""}`}
+                                    onClick={verifyIdentity}
+                                    hidden={props.userData.account.identity_verification ? (props.userData.account.identity_verification.status === "verified") : false}
+                                    disabled={props.userData.account.identity_verification ? (props.userData.account.identity_verification.reason === "too_many_attempts") : false}
+                                >
+                                    <span className="button__text my-id-text04">Verify Identity</span>
+                                </button>
+                                <button
                                     id="edit_name"
                                     type="button"
                                     className="my-id-edit button"
@@ -215,14 +253,6 @@ const MyId = (props) => {
                                 >
                                     {props.userData.account.birthday ? `${new Date(props.userData.account.birthday).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}` : "Not set"}
                                 </h1>
-                                <button
-                                    id="verify_age"
-                                    type="button"
-                                    className="my-id-verify-age button"
-                                    onClick={() => toast.info("This feature is not yet implemented", {theme: "dark"})}
-                                >
-                                    <span className="button__text my-id-text04">Verify Age</span>
-                                </button>
                                 <button
                                     id="edit_bday"
                                     type="button"

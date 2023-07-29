@@ -8,7 +8,6 @@ const Transaction = (props) => {
   return (
     <div className="transaction-container">
       <span className="transaction-text">{props.date}</span>
-      <img alt="image" src={props.image} className="transaction-image" />
       <h1 className="transaction-text1">{props.name}</h1>
       <span className="transaction-text2">{props.amount}</span>
     </div>

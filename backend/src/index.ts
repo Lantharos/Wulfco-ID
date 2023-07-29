@@ -31,8 +31,9 @@ const ConvertURLParams = (params: string) => {
 app.use(cors());
 app.use(cookieParser());
 
-app.use('/', express.json(), async(req: any, res: any) => {
+app.use('/', express.json(), async(req: any, res: any, next) => {
     if (req.headers['w-reason'] === "life_check") {res.sendStatus(200);return}
+    if (req.originalUrl === "/stripe") {next();return}
 
     try {
         if (!req.path.split('/')[1]) { res.sendStatus(400); return; }
@@ -50,6 +51,16 @@ app.use('/', express.json(), async(req: any, res: any) => {
             return
         }
 
+        res.status(returned.status).send(returned)
+    } catch(e) {
+        console.log(e)
+        res.sendStatus(500)
+    }
+})
+
+app.post("/stripe", express.raw({type: 'application/json'}), async(req: any, res: any) => {
+    try {
+        const returned = await id.stripe(req)
         res.status(returned.status).send(returned)
     } catch(e) {
         console.log(e)

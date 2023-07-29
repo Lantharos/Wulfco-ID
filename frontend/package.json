@@ -21,7 +21,8 @@
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
     "react-router-dom": "^6.10.0",
-    "react-toastify": "^9.1.1"
+    "react-toastify": "^9.1.1",
+    "terser-webpack-plugin": "^5.3.9"
   },
   "scripts": {
     "start": "craco start",

@@ -5,13 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29b16515-befb-48e4-9957-4cc079c44636" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/frontend/build/static/css/main.fec5a4ed.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/build/static/css/main.fec5a4ed.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/build/static/js/main.fb1385df.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/build/static/js/main.fb1385df.js.LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/build/static/js/main.fb1385df.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/api/id.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/id.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/api/modules/Payments.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/api/modules/Payments.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/build/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/asset-manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/build/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/build/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.e388cbe5.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.e388cbe5.js.LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.e388cbe5.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/billing.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/billing.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/css/main.5555e2c1.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/css/main.5555e2c1.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.19df90f1.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.19df90f1.js.LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/build/static/js/main.19df90f1.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/craco.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/craco.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/my-id.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/my-id.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/my-id.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/my-id.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/page_components/transaction.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/page_components/transaction.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/pages/page_components/transaction.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/pages/page_components/transaction.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/login/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/login/login.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,9 +48,27 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "VikkiVuk"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="6b1aee6b-06dd-4f34-90c0-acf6044b1724" />
+        <option name="url" value="https://github.com/VikkiVuk/Wulfco-ID.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;ff4444ff&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2OXxXOe2ZX1JRiT4spC2uM4sHHm" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -55,7 +93,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Problems&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
@@ -153,7 +191,15 @@
       <workItem from="1688052765964" duration="9844000" />
       <workItem from="1690067975824" duration="1291000" />
       <workItem from="1690130969660" duration="36059000" />
-      <workItem from="1690333815508" duration="387000" />
+      <workItem from="1690333815508" duration="1643000" />
+      <workItem from="1690377789777" duration="8129000" />
+      <workItem from="1690478843917" duration="1146000" />
+      <workItem from="1690480016240" duration="10743000" />
+      <workItem from="1690573629410" duration="157000" />
+      <workItem from="1690573798296" duration="404000" />
+      <workItem from="1690574220330" duration="54000" />
+      <workItem from="1690574285116" duration="162000" />
+      <workItem from="1690574462476" duration="3157000" />
     </task>
     <servers />
   </component>
@@ -162,6 +208,24 @@
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.rules" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="HIGHLIGHTERS">
+                <map>
+                  <entry key="MERGE_COMMITS" value="true" />
+                  <entry key="MY_COMMITS" value="true" />
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
