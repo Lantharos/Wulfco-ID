@@ -17,19 +17,6 @@ const api_url = config.api_url
 const Login = () => {
   const qrRef = React.useRef(null)
 
-  const apiHealth = async () => {
-    let response = false
-    await fetch(api_url, {headers: {"W-Reason": "life_check"}}).then(() => {
-      document.getElementById('login').disabled = false
-      response = true
-    }).catch(() => {
-      document.getElementById('login').disabled = true
-      toast.error("Failed to reach the API, please try again later", { theme: "dark"})
-    })
-
-    return response
-  }
-
   const getUrlParameter = (sParam) => {
     const sPageURL = window.location.search.substring(1)
     const sURLVariables = sPageURL.split('&')
@@ -100,48 +87,6 @@ const Login = () => {
         checkIsLoggedIn('/summary')
       }
     }
-  }
-
-    const connectMetamask = () => {
-      apiHealth().then(async(ret) => {
-        if (!ret) { return }
-        const provider = await detectEthereumProvider({ mustBeMetaMask: true });
-
-        if (provider) {
-          try {
-            const account = await provider.request({ method: 'eth_requestAccounts' })
-            await provider.request({method: "wallet_addEthereumChain", params: [{chainId: "0x38", chainName: "Binance Smart Chain", nativeCurrency: {name: "BNB", symbol: "bnb", decimals: 18}, rpcUrls: ["https://bsc-dataseed.binance.org/"], blockExplorerUrls: ["https://bscscan.com/"]}]})
-
-            await provider.request({method: "wallet_switchEthereumChain", params: [{ chainId: "0x38" }]})
-
-            const walletID = account[0]
-            const walletType = 'metamask'
-            const walletNetwork = 'bsc'
-
-            const notification = toast.loading("Connecting to Metamask", { theme: "dark" })
-
-            fetch(`${api_url}/login`, {method: 'POST', headers: {'W-Crypto': 'true', 'W-Wallet-Type': walletType}, body: JSON.stringify({walletID, walletType, walletNetwork})}).then((res) => {return res.json()}).then((data) => {
-              toast.update(notification, {render: "Connected to Metamask", type: toast.TYPE.SUCCESS, theme: "dark", autoClose: 2000})
-              setTimeout(() => {
-                cookies.save('secret', data.secret, {path: '/', secure: false})
-                cookies.save('token', data.token, {path: '/', secure: false})
-                cookies.save('id', data.user_id, {path: '/', secure: false})
-                cookies.save('loggen', data.loggen, {path: '/', secure: false})
-                cookies.save('session_id', data.session_id, {path: '/', secure: true})
-
-                window.history.push('/summary')
-              }, 3000)
-            }).catch(() => {
-              toast.update(notification, { render: "Failed to connect to Metamask", type: "error", isLoading: false, theme: "dark", autoClose: 2000 })
-            })
-          } catch (error) {
-            toast.error('Please connect Metamask to continue', {theme: "dark"})
-          }
-        } else {
-          toast.error('Please install Metamask to continue', {theme: "dark"})
-
-        }
-    })
   }
 
   const attemptLogin = (event) => {
