@@ -96,9 +96,6 @@ const Login = () => {
     const password = btoa(formData.get('password'));
     const notification = toast.loading('Attempting to login...', { theme: "dark" });
 
-    apiHealth().then(async(ret) => {
-      if(!ret) { return }
-
       fetch(`${api_url}/login`, {method: 'post', headers: {"W-Crypto": "false", "Content-Type": "application/json"}, body: JSON.stringify({email, password})}).then((response) => {
         response.json().then((data) => {
           if (data.success) {
@@ -133,7 +130,6 @@ const Login = () => {
           }
         })
       })
-    })
    }
 
   const setQR = () => {

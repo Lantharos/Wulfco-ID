@@ -65,9 +65,9 @@ export default class User {
 
             const resultit = await Payments.getTransactions(user)
             billingInfo["transactions"] = resultit.transactions
-        }
 
-        user["account"]["billing"] = billingInfo
+            user["account"]["billing"] = billingInfo
+        }
 
         return {status: 200, success: true, user, rawUser}
     }

@@ -2,39 +2,33 @@ import React from 'react'
 
 import './add-card-address.css'
 import { motion } from 'framer-motion'
+import {toast} from "react-toastify";
+import {Elements, useStripe, useElements, AddressElement} from '@stripe/react-stripe-js';
+import { loadStripe } from "@stripe/stripe-js";
 
-const AddCardAddress = (props) => {
+const AddCardAddressForm = (props) => {
+    const stripe = useStripe()
+    const elements = useElements()
+
     const submit = async () => {
-        const country = document.getElementById('country')
-        const address_line1 = document.getElementById('address_line1')
-        const address_line2 = document.getElementById('address_line2')
-        const city = document.getElementById('city')
-        const region = document.getElementById('region')
-        const zip_code = document.getElementById('zip_code')
+        if (!stripe || !elements) return;
+        const element = await elements.getElement(AddressElement).getValue().then((result) => {
+            console.log(result)
+            return result
+        })
 
-        props.switchStage(4, { address: { country: country.value, line1: address_line1.value, line2: address_line2.value, city: city.value, state: region.value, postal_code: zip_code.value } })
+        if (element === null) return toast.error("Please fill in all fields", {theme: 'dark'})
+        if (element.complete === false) return toast.error("Please check all fields", {theme: 'dark'})
+
+        props.switchStage(4, element.value)
     }
-  return (
-    <div>
-        <motion.div animate={ { opacity: 1, transition: { duration: 0.2 } } } initial={{ opacity: 0 }} exit={{ opacity: 0, transition: { duration: 0.2 } }} className="edit-username-background"></motion.div>
 
-        <motion.div animate={{height: '661px', width: '457px'}} initial={{height: 0, width: 0}} exit={{opacity:0}} className="add-card-address-container">
-            <h1 className="add-card-address-text notselectable">
-                Add a new payment method
-            </h1>
-            <div className="add-card-address-container1">
-                <span className="add-card-address-text1 notselectable">COUNTRY</span>
-                <input
-                    type="text"
-                    id="country"
-                    pattern="[A-Za-z ]*"
-                    required="true"
-                    autoFocus="true"
-                    placeholder="United States"
-                    autoComplete="country-name"
-                    className="add-card-address-textinput input"
-                />
-            </div>
+    return (
+        <div>
+            <AddressElement options={{
+                mode: 'billing',
+                blockPoBox: true
+            }}/>
             <div className="add-card-address-container2">
                 <button
                     id="cancel_username"
@@ -53,75 +47,42 @@ const AddCardAddress = (props) => {
                     Done
                 </button>
             </div>
-            <div className="add-card-address-container3">
-                <span className="add-card-address-text2 notselectable">ADDRESS</span>
-                <input
-                    type="text"
-                    id="address_line1"
-                    required="true"
-                    autoFocus="true"
-                    placeholder="123 Park Valley"
-                    autoComplete="address-line1"
-                    className="add-card-address-textinput1 input"
-                />
-            </div>
-            <div className="add-card-address-container4">
-        <span className="add-card-address-text3 notselectable">
-          ADDRESS 2 (OPTIONAL)
-        </span>
-                <input
-                    type="text"
-                    id="address_line2"
-                    required="true"
-                    autoFocus="true"
-                    placeholder="Apt. Ste. Dimension."
-                    autoComplete="address-line2"
-                    className="add-card-address-textinput2 input"
-                />
-            </div>
-            <div className="add-card-address-container5">
-                <span className="add-card-address-text4 notselectable">CITY</span>
-                <input
-                    type="text"
-                    id="city"
-                    required="true"
-                    autoFocus="true"
-                    placeholder="Centreville"
-                    autoComplete="address-level2"
-                    className="add-card-address-textinput3 input"
-                />
-            </div>
-            <div className="add-card-address-container6">
-                <div className="add-card-address-container7">
-          <span className="add-card-address-text5 notselectable">
-            STATE/REGION
-          </span>
-                    <input
-                        type="text"
-                        id="region"
-                        required="true"
-                        autoFocus="true"
-                        autoComplete="address-level1"
-                        className="add-card-address-textinput4 input"
-                    />
+        </div>
+    )
+}
+
+const AddCardAddress = (props) => {
+    const stripePromise = loadStripe("pk_test_51NU6p5D4hW6MEhWIoHlqqIB6qu8jj7BIb74wkXvdtYajmwFxvZWajzEM1HRJbnxXsLTwTKnSeNHi4zjrHomCMntx00LdyxmXvi")
+
+    return (
+        <div>
+            <motion.div animate={ { opacity: 1, transition: { duration: 0.2 } } } initial={{ opacity: 0 }} exit={{ opacity: 0, transition: { duration: 0.2 } }} className="edit-username-background"></motion.div>
+
+            <motion.div animate={{height: '730px', width: '457px'}} initial={{height: 0, width: 0}} exit={{opacity:0}} className="add-card-address-container">
+                <h1 className="add-card-address-text notselectable">
+                    Add a new payment method
+                </h1>
+
+                <div style={{height: "auto", width: "100%", flexDirection: "column", alignItems: "center", justifyContent: "flex-start", marginTop: "5%"}}>
+                    <Elements stripe={stripePromise} options={{
+                        fonts: [{cssSrc: "https://fonts.googleapis.com/css2?family=Roboto"}],
+                        appearance: {
+                            variables: {
+                                colorText: "#ffffff",
+                                fontFamily: "Roboto", fontSize2Xs: "14px", fontSizeXs: "16px", fontSizeSm: "18px", fontSizeLg: "22px", fontSizeXl: "24px", fontSize3Xs: "12px", fontWeightBold: "700", fontWeightNormal: "400", fontWeightLight: "300",
+                                borderRadius: "8px",
+                                colorDanger: "#ff3f3f",
+                                colorPrimary: "#ff4444",
+                                colorBackground: "#4c4c4c"
+                            }
+                        }
+                    }}>
+                        <AddCardAddressForm switchStage={props.switchStage}/>
+                    </Elements>
                 </div>
-                <div className="add-card-address-container8">
-          <span className="add-card-address-text6 notselectable">
-            POSTAL CODE
-          </span>
-                    <input
-                        type="text"
-                        id="zip_code"
-                        required="true"
-                        autoFocus="true"
-                        autoComplete="postal-code"
-                        className="add-card-address-textinput5 input"
-                    />
-                </div>
-            </div>
-        </motion.div>
-    </div>
-  )
+            </motion.div>
+        </div>
+    )
 }
 
 export default AddCardAddress

@@ -150,7 +150,6 @@ export default class Auth {
                 }
             },
             friends: {},
-            billing: {},
             profile: {
                 username: req.body.username,
                 discriminator: discriminator,

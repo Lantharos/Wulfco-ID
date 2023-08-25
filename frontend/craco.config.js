@@ -13,20 +13,16 @@ module.exports = {
   },
   webpack: {
     configure: (webpackConfig) => {
-      // Instantiate the TerserPlugin with desired options (if any)
       const terserPlugin = new TerserPlugin({
         terserOptions: {
-          // Your Terser options here (if any)
-          // For example:
           compress: {
-            drop_console: true, // Drop console.log statements during minification
+            drop_console: true,
           },
-          mangle: true, // Enable variable name mangling for obfuscation
-          // ... (other Terser options)
+          mangle: true,
+          output: { comments: false },
         },
       });
 
-      // Add TerserPlugin to the list of minifiers
       webpackConfig.optimization.minimizer = [
         terserPlugin,
         ...webpackConfig.optimization.minimizer,

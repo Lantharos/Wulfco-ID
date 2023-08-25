@@ -6,7 +6,8 @@ import mail from "@sendgrid/mail";
 mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
 
 const stripe = new Stripe(`${process.env.STRIPE_SECRET}`, {
-    apiVersion: '2022-11-15'
+    apiVersion: '2023-08-16',
+    typescript: true
 });
 
 export default class Payments {
@@ -15,38 +16,60 @@ export default class Payments {
         if (!user.success) { return user }
         if (user.user === undefined) { return {status: 400, success: false, message: "Could not find user"} }
 
-        const card = req.body.card
-        if (!card) { return {status: 400, success: false, message: "Missing fields"} }
+        const cardToken = req.body.cardToken
+        if (!cardToken) { return {status: 400, success: false, message: "Missing fields"} }
         const address = req.body.address
         if (!address) { return {status: 400, success: false, message: "Missing fields"} }
 
+        const customerId = user.rawUser.data().account.billing ? user.rawUser.data().account.billing.customer_id : undefined
+
         let stripeCustomer;
-        if (user.user.account.billing && user.user.account.billing.customer_id) {
-            stripeCustomer = await stripe.customers.retrieve(user.user.account.billing.customer_id);
+        if (customerId) {
+            stripeCustomer = await stripe.customers.retrieve(customerId)
         } else {
             stripeCustomer = await stripe.customers.create({
-                name: user.user.profile.full_name,
                 email: user.user.email,
-                metadata: { user_id: user.rawUser.id },
+                name: user.user.profile.full_name,
+                description: `Customer for @${user.user.profile.username}`,
+                metadata: {user_id: user.rawUser.id,}
             });
-            await database.updateUser(user.rawUser.id, { [`account.billing.customer_id`]: stripeCustomer.id });
-        }
 
-        const cardholder = address.cardholder_name
-        delete address.cardholder_name
+            await database.updateUser(user.rawUser.id, { [`account.billing`]: { customer_id: stripeCustomer.id }})
+        }
 
         const paymentMethod = await stripe.paymentMethods.create({
             type: 'card',
-            card: {token: card},
+            card: {token: cardToken},
             billing_details: {
-                name: cardholder,
-                address: address,
+                address: address
             },
         });
 
-        await stripe.paymentMethods.attach(paymentMethod.id, {customer: stripeCustomer.id});
+        const setupIntent = await stripe.setupIntents.create({
+            usage: 'off_session',
+            customer: stripeCustomer.id,
+            return_url: 'https://id.wulfco.xyz/login',
+            confirm: true,
+            payment_method: paymentMethod.id,
+        });
 
-        return {status: 200, success: true}
+        if (setupIntent.status === "succeeded") {
+            return {status: 200, success: true}
+        } else if (setupIntent.status === "requires_action") {
+            return {status: 300, success: false, message: "Send user to validate payment method", requires_action: setupIntent.next_action}
+        } else if (setupIntent.status === "processing") {
+            return {status: 200, success: false, message: "Payment method is pending"}
+        } else if (setupIntent.status === "requires_payment_method") {
+            return {
+                status: 400,
+                success: false,
+                message: "Payment method declined",
+                decline_code: setupIntent.last_setup_error.decline_code,
+                decline_message: setupIntent.last_setup_error.message
+            };
+        } else {
+            return {status: 400, success: false, message: "Something went wrong", details: setupIntent.last_setup_error}
+        }
     }
 
     public static async getCards(user: any) {

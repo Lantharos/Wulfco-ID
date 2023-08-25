@@ -41,22 +41,24 @@
 }
 .add-card-textinput {
   color: #ffffff;
-  width: 90%;
+  width: 95%;
   align-self: flex-start;
   margin-top: 1%;
-  font-family: Roboto;
+  font-family: Roboto, serif;
   border-width: 0px;
   border-radius: var(--dl-radius-radius-radius8);
   background-color: #4c4c4c;
 }
+
 .add-card-container2 {
+  width: 100%;
   display: flex;
   align-items: flex-start;
   flex-direction: row;
   justify-content: flex-start;
 }
 .add-card-container3 {
-  width: 40%;
+  width: 43.5%;
   display: flex;
   margin-top: 10%;
   align-items: flex-start;
@@ -71,7 +73,7 @@
 }
 .add-card-textinput1 {
   color: #ffffff;
-  width: 100%;
+  width: 95%;
   align-self: flex-start;
   margin-top: 1%;
   font-family: Roboto;
@@ -80,7 +82,7 @@
   background-color: #4c4c4c;
 }
 .add-card-container4 {
-  width: 40%;
+  width: 43.5%;
   display: flex;
   margin-top: 10%;
   align-items: flex-start;
@@ -96,7 +98,7 @@
 }
 .add-card-textinput2 {
   color: #ffffff;
-  width: 100%;
+  width: 95%;
   align-self: flex-start;
   margin-top: 1%;
   font-family: Roboto;
@@ -171,10 +173,11 @@
 }
 .add-card-textinput3 {
   color: #ffffff;
-  width: 90%;
+  width: 95%;
   align-self: flex-start;
   margin-top: 1%;
   font-family: Roboto;
+  font-size: 17px;
   border-width: 0px;
   border-radius: var(--dl-radius-radius-radius8);
   background-color: #4c4c4c;

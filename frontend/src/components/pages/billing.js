@@ -17,8 +17,6 @@ import AddCardAddress from "../dialogs/new-payment-method/add-card-address";
 const config = require('../../config.json')
 const api_url = config.api_url
 
-window.Stripe.setPublishableKey(config.stripe_key)
-
 const Billing = (props) => {
     const [paymentMethodStage, setPaymentMethodStage] = React.useState(0)
 
@@ -30,7 +28,7 @@ const Billing = (props) => {
     const mapCards = () => {
         const cards = props.userData.account.billing ? props.userData.account.billing.cards : []
 
-        if (cards.length === 0) return <h1 className="billing-text02 notselectable">No payment methods added</h1>
+        if (cards.length === 0) return <h1 className="notselectable" style={{color: "#a2a2a2", fontSize: "20px", marginLeft: "4%"}}>No payment methods added</h1>
 
         return cards.map((card, index) => {
             const monthAbbreviation = new Date(`${card.card.exp_month}/1/${card.card.exp_year}`).toLocaleString('default', { month: 'short' });
@@ -43,6 +41,8 @@ const Billing = (props) => {
 
     const mapTransactions = () => {
         const transactions = props.userData.account.billing ? props.userData.account.billing.transactions : []
+
+        if (transactions.length === 0) return <h1 className="notselectable" style={{color: "#a2a2a2", fontSize: "20px", marginBottom: "2%"}}>No transactions</h1>
 
         return transactions.map((transaction, index) => {
             const date = new Date(transaction.created * 1000)
@@ -59,64 +59,58 @@ const Billing = (props) => {
             sessionStorage.setItem("registration_payment_handler", newData.handler)
             setPaymentMethodStage(nextStage)
         } else if (paymentMethodStage === 2) {
-            sessionStorage.setItem("registration_payment_card", JSON.stringify({
-                number: newData.card.number,
-                exp_month: newData.card.exp_month,
-                exp_year: newData.card.exp_year,
-                cvc: newData.card.cvc
-            }))
-            sessionStorage.setItem("registration_payment_cardholder", newData.card.cardholderName)
+            sessionStorage.setItem("registration_payment_card", newData)
             setPaymentMethodStage(nextStage)
         } else if (paymentMethodStage === 3) {
             const messqge = toast.loading('Adding card...', {theme: 'dark'})
-            const card = JSON.parse(sessionStorage.getItem("registration_payment_card"))
+            const cardToken = sessionStorage.getItem("registration_payment_card")
+            const addressElement = newData
 
-            await window.Stripe.createToken({
-                number: card.number,
-                exp_month: card.exp_month,
-                exp_year: card.exp_year,
-                cvc: card.cvc,
-                name: sessionStorage.getItem("registration_payment_cardholder"),
-                address_line1: newData.address.line1,
-                address_line2: newData.address.line2,
-                address_city: newData.address.city,
-                address_state: newData.address.state,
-                address_zip: newData.address.postal_code,
-                address_country: newData.address.country,
-            }, (status, response) => {
-                if (response.error) {
-                    toast.update(messqge, {type: 'error', render: 'Error adding card!', theme: 'dark', isLoading: false,})
-                } else {
-                    fetch(`${api_url}/payment-methods?id=${encodeURIComponent(cookies.load('id'))}&type=stripe`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
-                            'W-Session': cookies.load('session_id'),
-                            'W-Loggen': cookies.load('loggen'),
-                        },
-                        body: JSON.stringify({
-                            card: response.id,
-                            address: {
-                                line1: newData.address.line1,
-                                line2: newData.address.line2,
-                                city: newData.address.city,
-                                state: newData.address.state,
-                                postal_code: newData.address.postal_code,
-                                country: newData.address.country,
-                                cardholder_name: sessionStorage.getItem("registration_payment_cardholder")
-                            }
-                        })
-                    }).then(async (response) => {
-                        if (response.status === 200) {
-                            toast.update(messqge, {type: 'success', render: 'Card added!', theme: 'dark', isLoading: false, autoClose: 5000})
-                            setPaymentMethodStage(0)
-                        } else {
-                            toast.update(messqge, {type: 'error', render: 'Error adding card!', theme: 'dark', isLoading: false,autoClose:5000})
+            if (!cardToken || !addressElement) return toast.update(messqge, {type: 'error', render: 'Error adding card!', theme: 'dark', isLoading: false, autoClose: 5000})
+
+                fetch(`${api_url}/payment-methods?id=${encodeURIComponent(cookies.load('id'))}&type=stripe`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
+                        'W-Session': cookies.load('session_id'),
+                        'W-Loggen': cookies.load('loggen'),
+                    },
+                    body: JSON.stringify({
+                        cardToken: cardToken,
+                        address: {
+                            line1: addressElement.address.line1,
+                            line2: addressElement.address.line2,
+                            city: addressElement.address.city,
+                            state: addressElement.address.state,
+                            postal_code: addressElement.address.postal_code,
+                            country: addressElement.address.country
                         }
                     })
-                }
-            })
+                }).then(async (response) => {
+                    if (response.status === 200) {
+                        const responseJson = await response.json()
+                        if (responseJson.success === false) {
+                            toast.update(messqge, {type: 'info', render: 'Card is being processed. Check in later.', theme: 'dark', isLoading: false, autoClose: 5000})
+                            setPaymentMethodStage(0)
+                            await props.updateUserData()
+                        } else {
+                            toast.update(messqge, {type: 'success', render: 'Card added!', theme: 'dark', isLoading: false, autoClose: 5000})
+                            setPaymentMethodStage(0)
+                            await props.updateUserData()
+                        }
+                    } else if (response.status === 300) {
+                        const responseJson = await response.json()
+                        if (responseJson.requires_action.type === "redirect_to_url") {
+                            toast.update(messqge, {type: 'info', render: 'Redirecting...', theme: 'dark', isLoading: false, autoClose: 5000})
+                            window.location.href = responseJson.requires_action.redirect_to_url.url
+                        } else {
+                            toast.update(messqge, {type: 'info', render: 'Unknown action required, contact support.', theme: 'dark', isLoading: false, autoClose: 5000})
+                        }
+                    } else {
+                        toast.update(messqge, {type: 'error', render: 'Error adding card!', theme: 'dark', isLoading: false,autoClose:5000})
+                    }
+                })
         }
     }
 
@@ -162,11 +156,11 @@ const Billing = (props) => {
                 {mapTransactions()}
             </div>
             <span className="billing-text09">
-        Your payment details, including card numbers, cardholder names,
-        expiration dates, CVCs, and addresses, are not stored by Wulfco. All
-        payments are securely outsourced to Stripe for processing and storage,
-        ensuring the highest level of data protection.
-      </span>
+                Your payment details, including card numbers, cardholder names,
+                expiration dates, CVCs, and addresses, are not stored by Wulfco. All
+                payments are securely outsourced to Stripe for processing and storage,
+                ensuring the highest level of data protection.
+            </span>
         </div>
     )
 }
