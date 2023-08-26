@@ -7,8 +7,10 @@ import cookieParser from "cookie-parser";
 import crypto from "crypto";
 import * as database from "./api/FirebaseHandler";
 import mail from "@sendgrid/mail";
-dotenv.config({ path: './.env' });
+import slowDown from "express-slow-down";
+import rateLimit from "express-rate-limit";
 
+dotenv.config({ path: './.env' });
 const cors = require("cors")
 const app = express();
 
@@ -31,18 +33,24 @@ const ConvertURLParams = (params: string) => {
 app.use(cors());
 app.use(cookieParser());
 
-app.use('/', express.json(), async(req: any, res: any, next) => {
+app.use('/', express.json(), slowDown({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    delayAfter: 100, // allow 100 requests per 15 minutes, then...
+    delayMs: 500 // begin adding 500ms of delay per request above 100.
+}), async(req: any, res: any, next) => {
     if (req.headers['w-reason'] === "life_check") {res.sendStatus(200);return}
+    if (req.headers['w-reason'] === "heartbeat") {res.sendStatus(200);return}
     if (req.originalUrl === "/stripe") {next();return}
+    if (req.headers["origin"] !== "https://id.wulfco.xyz") {res.sendStatus(403);return}
+    if (req.originalUrl === "/login") {next();return}
+    if (req.originalUrl === "/create") {next();return}
 
     try {
         if (!req.path.split('/')[1]) { res.sendStatus(400); return; }
 
         const readableParams = ConvertURLParams(req.path.split('/')[1])
 
-        // @ts-ignore
         if (!id[readableParams]) { res.sendStatus(404); return; }
-        // @ts-ignore
         const returned = await id[readableParams](req)
         if (returned === "error") { res.sendStatus(500); return; }
 
@@ -52,6 +60,44 @@ app.use('/', express.json(), async(req: any, res: any, next) => {
         }
 
         res.status(returned.status).send(returned)
+    } catch(e) {
+        console.log(e)
+        res.sendStatus(500)
+    }
+})
+
+app.post("/login", express.json(), rateLimit({
+    windowMs: 60 * 60 * 1000, // 60 minutes
+    max: 5, // Limit each IP to 5 requests per `window` (here, per 60 minutes)
+    standardHeaders: true,
+    legacyHeaders: false,
+}), async(req: any, res: any) => {
+    try {
+        const returned = await id.login(req)
+        if (typeof returned !== "string") {
+            res.status(returned.status).send(returned)
+        } else {
+            res.redirect(returned)
+        }
+    } catch(e) {
+        console.log(e)
+        res.sendStatus(500)
+    }
+})
+
+app.post("/create", express.json(), rateLimit({
+    windowMs: 24 * 60 * 60 * 1000, // 1 day
+    max: 5, // Limit each IP to 5 requests per `window` (here, per 24 hours)
+    standardHeaders: true,
+    legacyHeaders: false,
+}), async(req: any, res: any) => {
+    try {
+        const returned = await id.create(req)
+        if (typeof returned !== "string") {
+            res.status(returned.status).send(returned)
+        } else {
+            res.redirect(returned)
+        }
     } catch(e) {
         console.log(e)
         res.sendStatus(500)

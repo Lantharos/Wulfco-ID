@@ -57,16 +57,18 @@ export default class User {
             }
         }
 
-        let billingInfo = {}
+        const customerId = user.account.billing ? (user.account.billing.stripe ? user.account.billing.stripe.customer_id : undefined) : undefined
 
-        if (user.account.billing && user.account.billing.customer_id) {
-            const resultic = await Payments.getCards(user)
+        if (customerId) {
+            let billingInfo = {}
+
+            const resultic = await Payments.getStripeCards(customerId)
             billingInfo["cards"] = resultic.cards
 
-            const resultit = await Payments.getTransactions(user)
+            const resultit = await Payments.getStripeTransactions(customerId)
             billingInfo["transactions"] = resultit.transactions
 
-            user["account"]["billing"] = billingInfo
+            user["account"]["billing"]["stripe"] = billingInfo
         }
 
         return {status: 200, success: true, user, rawUser}

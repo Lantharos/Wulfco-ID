@@ -45,7 +45,7 @@ const Home = () => {
         </Link>
         <div className="home-links">
           <a
-            href="/legal/privacy-policy"
+            href="/privacy-policy"
             target="_blank"
             rel="noreferrer noopener"
             className="home-link button"
@@ -53,7 +53,7 @@ const Home = () => {
             Privacy Policy
           </a>
           <a
-            href="/legal/terms-of-service"
+            href="/terms-of-service"
             target="_blank"
             rel="noreferrer noopener"
             className="home-link1 button"

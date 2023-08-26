@@ -19,6 +19,17 @@ export default class Auth {
                 message: "Crypto login is not implemented yet"
             }
         } else {
+            const recaptchaToken = req.body.recaptcha
+            if (!recaptchaToken) {return {status: 400, success: false, error: "Missing recaptcha token"}}
+
+            const recaptcha = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET}&response=${recaptchaToken}`, {method: "POST"})
+            const recaptchaResponse = await recaptcha.json()
+            if (!recaptchaResponse.success) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
+            if (recaptchaResponse.score < 0.5) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
+            if (recaptchaResponse.action !== "login") {return {status: 400, success: false, error: "Invalid recaptcha token"}}
+            if (recaptchaResponse.hostname !== "id.wulfco.xyz") {return {status: 400, success: false, error: "Invalid recaptcha token"}}
+            if (recaptchaResponse["error-codes"]) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
+
             const email = atob(req.body.email)
             const password = atob(req.body.password)
 
@@ -115,6 +126,17 @@ export default class Auth {
     }
 
     public static async create(req: any) {
+        const recaptchaToken = req.body.recaptcha
+        if (!recaptchaToken) {return {status: 400, success: false, error: "Missing recaptcha token"}}
+
+        const recaptcha = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET}&response=${recaptchaToken}`, {method: "POST"})
+        const recaptchaResponse = await recaptcha.json()
+        if (!recaptchaResponse.success) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
+        if (recaptchaResponse.score < 0.5) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
+        if (recaptchaResponse.action !== "login") {return {status: 400, success: false, error: "Invalid recaptcha token"}}
+        if (recaptchaResponse.hostname !== "id.wulfco.xyz") {return {status: 400, success: false, error: "Invalid recaptcha token"}}
+        if (recaptchaResponse["error-codes"]) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
+
         const requesterIp = req.headers["x-forwarded-for"] || req.connection.remoteAddress
         const location = await fetch(`http://ip-api.com/json/${requesterIp}`)
 

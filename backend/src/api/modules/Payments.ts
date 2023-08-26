@@ -21,7 +21,7 @@ export default class Payments {
         const address = req.body.address
         if (!address) { return {status: 400, success: false, message: "Missing fields"} }
 
-        const customerId = user.rawUser.data().account.billing ? user.rawUser.data().account.billing.customer_id : undefined
+        const customerId = user.rawUser.data().account.billing ? (user.rawUser.data().account.billing.stripe ? user.rawUser.data().account.billing.stripe.customer_id : undefined) : undefined
 
         let stripeCustomer;
         if (customerId) {
@@ -34,7 +34,7 @@ export default class Payments {
                 metadata: {user_id: user.rawUser.id,}
             });
 
-            await database.updateUser(user.rawUser.id, { [`account.billing`]: { customer_id: stripeCustomer.id }})
+            await database.updateUser(user.rawUser.id, { [`account.billing.stripe`]: { customer_id: stripeCustomer.id }})
         }
 
         const paymentMethod = await stripe.paymentMethods.create({
@@ -72,8 +72,11 @@ export default class Payments {
         }
     }
 
-    public static async getCards(user: any) {
-        const stripeCustomer = await stripe.customers.retrieve(user.account.billing.customer_id);
+    public static async getStripeCards(customerId: any) {
+        if (!customerId) { return {status: 400, success: false, message: "Missing ID"} }
+
+        const stripeCustomer = await stripe.customers.retrieve(customerId);
+        if (!stripeCustomer) { return {status: 400, success: false, message: "Could not find customer"} }
         const paymentMethods = await stripe.paymentMethods.list({
             customer: stripeCustomer.id,
             type: 'card',
@@ -82,8 +85,11 @@ export default class Payments {
         return {status: 200, success: true, cards: paymentMethods.data}
     }
 
-    public static async getTransactions(user: any) {
-        const stripeCustomer = await stripe.customers.retrieve(user.account.billing.customer_id);
+    public static async getStripeTransactions(customerId: any) {
+        if (!customerId) { return {status: 400, success: false, message: "Missing ID"} }
+
+        const stripeCustomer = await stripe.customers.retrieve(customerId);
+        if (!stripeCustomer) { return {status: 400, success: false, message: "Could not find customer"} }
         const transactions = await stripe.charges.list({
             customer: stripeCustomer.id,
             limit: 100,

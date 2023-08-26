@@ -33,8 +33,10 @@ const CreateId = () => {
 
             setStage(nextStage)
         } else if (stage === 2) {
-            const message = toast.loading('Creating your ID...', { theme: "dark" })
+            const token = await window.grecaptcha.execute('6Lep59gnAAAAABteKrrEYF15i0UnfRGQX8gSHv38', {action: 'submit'})
+            if (!token) return toast.error("Google RECAPTCHA unavailable!", {theme: 'dark', autoClose: 5000})
 
+            const message = toast.loading('Creating your ID...', { theme: "dark" })
             fetch(`${config.api_url}/create`, {
                 method: 'POST',
                 headers: {
@@ -45,22 +47,29 @@ const CreateId = () => {
                     password: sessionStorage.getItem("password"),
                     name: sessionStorage.getItem("name"),
                     gender: sessionStorage.getItem("gender"),
-                    username: newData.username
+                    username: newData.username,
+                    recaptcha: token
                 })
             }).then((res) => {
-                res.json().then((data) => {
-                    if (data.success) {
-                        toast.update(message, { render: 'ID created!', type: 'success', autoClose: 2000, isLoading: false })
-                        cookies.save('secret', data.session.secret, {path: '/', secure: false})
-                        cookies.save('token', data.session.token, {path: '/', secure: false})
-                        cookies.save('id', data.uuid, {path: '/', secure: false})
-                        cookies.save('loggen', data.session.loggen, {path: '/', secure: false})
-                        cookies.save('session_id', data.session.session_id, {path: '/', secure: false})
-                        window.location.href = '/onecode?type=registration'
-                    } else {
-                        toast.update(message, { render: 'Failed to create ID!', type: 'error', autoClose: 2000, isLoading: false })
-                    }
-                })
+                if (res.status === 429) {
+                    toast.update(message, { render: 'Too many registrations! Limit is 5 IDs per day.', type: 'error', autoClose: 2000, isLoading: false })
+                } else if (res.status === 200) {
+                    res.json().then((data) => {
+                        if (data.success) {
+                            toast.update(message, { render: 'ID created!', type: 'success', autoClose: 2000, isLoading: false })
+                            cookies.save('secret', data.session.secret, {path: '/', secure: false})
+                            cookies.save('token', data.session.token, {path: '/', secure: false})
+                            cookies.save('id', data.uuid, {path: '/', secure: false})
+                            cookies.save('loggen', data.session.loggen, {path: '/', secure: false})
+                            cookies.save('session_id', data.session.session_id, {path: '/', secure: false})
+                            window.location.href = '/onecode?type=registration'
+                        } else {
+                            toast.update(message, { render: 'Failed to create ID!', type: 'error', autoClose: 2000, isLoading: false })
+                        }
+                    })
+                } else {
+                    toast.update(message, { render: 'Failed to create ID!', type: 'error', autoClose: 2000, isLoading: false })
+                }
             }).catch(() => {
                 toast.update(message, { type: 'error', render: 'Failed to create ID!', isLoading: false, autoClose: 3000 })
             })

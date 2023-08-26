@@ -5,6 +5,8 @@ import { motion } from 'framer-motion'
 import { Elements, useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js';
 import { loadStripe } from "@stripe/stripe-js";
 
+const config = require('../../../config.json')
+
 const AddCardForm = (switchStage) => {
     const stripe = useStripe();
     const elements = useElements();
@@ -88,7 +90,7 @@ const AddCardForm = (switchStage) => {
 }
 
 const AddCard = (props) => {
-  const stripePromise = loadStripe("pk_test_51NU6p5D4hW6MEhWIoHlqqIB6qu8jj7BIb74wkXvdtYajmwFxvZWajzEM1HRJbnxXsLTwTKnSeNHi4zjrHomCMntx00LdyxmXvi")
+  const stripePromise = loadStripe(config.stripe_key)
 
   return (
     <div>

@@ -18,11 +18,7 @@ export default class ID {
     // User module
     public static async get(req: any) {
         const resp = await User.get(req)
-        if (resp.success) {
-            return {status: 200, success: true, user: resp.user}
-        } else {
-            return resp
-        }
+        if (resp.success) {return {status: 200, success: true, user: resp.user}} else {return resp}
     }
     public static async verifyPassword(req: any) { return await User.checkPassword(req) }
     public static async profile(req: any) { return await User.profile(req) }

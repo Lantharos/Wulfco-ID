@@ -26,7 +26,7 @@ const Billing = (props) => {
     }
 
     const mapCards = () => {
-        const cards = props.userData.account.billing ? props.userData.account.billing.cards : []
+        const cards = props.userData.account.billing ? (props.userData.account.billing.stripe ? props.userData.account.billing.stripe.cards : []) : []
 
         if (cards.length === 0) return <h1 className="notselectable" style={{color: "#a2a2a2", fontSize: "20px", marginLeft: "4%"}}>No payment methods added</h1>
 
@@ -40,7 +40,7 @@ const Billing = (props) => {
     }
 
     const mapTransactions = () => {
-        const transactions = props.userData.account.billing ? props.userData.account.billing.transactions : []
+        const transactions = props.userData.account.billing ? (props.userData.account.billing.stripe ? props.userData.account.billing.stripe.transactions : []) : []
 
         if (transactions.length === 0) return <h1 className="notselectable" style={{color: "#a2a2a2", fontSize: "20px", marginBottom: "2%"}}>No transactions</h1>
 

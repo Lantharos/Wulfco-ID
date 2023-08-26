@@ -6,7 +6,6 @@ import { Helmet } from 'react-helmet'
 import './login.css'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-import detectEthereumProvider from '@metamask/detect-provider';
 import cookies from 'react-cookies'
 import hmac from "crypto-js/hmac-sha256";
 import QRCodeStyling from 'qr-code-styling';
@@ -38,8 +37,7 @@ const Login = () => {
         'Content-Type': 'application/json',
         'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
         'W-Session': cookies.load('session_id'),
-        'W-Loggen': cookies.load('loggen'),
-        'W-Reason': 'get-user-data'
+        'W-Loggen': cookies.load('loggen')
       }
     }).then((res) => {
       res.json().then((data) => {
@@ -57,20 +55,20 @@ const Login = () => {
           }
 
           toast.update(toastmsg, { render: "Login credentials invalid, please login.", isLoading: false, type: toast.TYPE.ERROR, autoClose: 2000 })
-          cookies.save("token", "", {path: '/', secure: false})
-          cookies.save("secret", "", {path: '/', secure: false})
-          cookies.save("id", "", {path: '/', secure: false})
-          cookies.save("loggen", "", {path: '/', secure: false})
-          cookies.save("session_id", "", {path: '/', secure: false})
+          cookies.remove("token")
+          cookies.remove("secret")
+          cookies.remove("id")
+          cookies.remove("loggen")
+          cookies.remove("session_id")
         }
       })
     }).catch(() => {
       toast.update(toastmsg, { render: "Login credentials invalid, please login.", isLoading: false, type: toast.TYPE.ERROR, autoClose: 2000 })
-      cookies.save("token", "", {path: '/', secure: false})
-      cookies.save("secret", "", {path: '/', secure: false})
-      cookies.save("id", "", {path: '/', secure: false})
-      cookies.save("loggen", "", {path: '/', secure: false})
-      cookies.save("session_id", "", {path: '/', secure: false})
+      cookies.remove("token")
+      cookies.remove("secret")
+      cookies.remove("id")
+      cookies.remove("loggen")
+      cookies.remove("session_id")
     })
   }
 
@@ -89,47 +87,54 @@ const Login = () => {
     }
   }
 
-  const attemptLogin = (event) => {
+  const attemptLogin = async (event) => {
     event.preventDefault();
+    const token = await window.grecaptcha.execute('6Lep59gnAAAAABteKrrEYF15i0UnfRGQX8gSHv38', {action: 'submit'})
+    if (!token) return toast.error("Google RECAPTCHA unavailable!", {theme: 'dark', autoClose: 5000})
+
     const formData = new FormData(event.target);
     const email = btoa(formData.get('email'));
     const password = btoa(formData.get('password'));
     const notification = toast.loading('Attempting to login...', { theme: "dark" });
 
-      fetch(`${api_url}/login`, {method: 'post', headers: {"W-Crypto": "false", "Content-Type": "application/json"}, body: JSON.stringify({email, password})}).then((response) => {
-        response.json().then((data) => {
-          if (data.success) {
-            toast.update(notification, {type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 5000, render: "Successfully logged in! Redirecting...", theme: "dark" })
+    fetch(`${api_url}/login`, {method: 'post', headers: {"W-Crypto": "false", "Content-Type": "application/json"}, body: JSON.stringify({email, password, recaptcha: token})}).then((response) => {
+      if (response.status === 429) {
+        toast.update(notification, {type: toast.TYPE.ERROR, render: "Too many requests, please try again later.", isLoading: false, autoClose: 5000, theme: "dark"})
+        throw new Error("Rate limit exceeded");
+      }
+      return response.json()
+    }).then((data) => {
+      if (data.success) {
+        toast.update(notification, {type: toast.TYPE.SUCCESS, isLoading: false, autoClose: 5000, render: "Successfully logged in! Redirecting...", theme: "dark" })
 
-            cookies.save('secret', data.session.secret, {path: '/', secure: false})
-            cookies.save('token', data.session.token, {path: '/', secure: false})
-            cookies.save('id', data.uuid, {path: '/', secure: false})
-            cookies.save('loggen', data.session.loggen, {path: '/', secure: false})
-            cookies.save('session_id', data.session.session_id, {path: '/', secure: false})
+        cookies.save('secret', data.session.secret, {path: '/', secure: false})
+        cookies.save('token', data.session.token, {path: '/', secure: false})
+        cookies.save('id', data.uuid, {path: '/', secure: false})
+        cookies.save('loggen', data.session.loggen, {path: '/', secure: false})
+        cookies.save('session_id', data.session.session_id, {path: '/', secure: false})
 
-            if (cookies.load('redirect')) {
-                window.location.href = cookies.load('redirect')
-                cookies.remove('redirect')
-            } else {
-              window.location.href = '/summary'
-            }
-          } else {
-            if (data.error === "Email not verified") {
-              window.location.href = `/onecode?type=registration`
-            } else {
-              toast.update(notification, {type: toast.TYPE.ERROR, render: "Incorrect Email or Password", isLoading: false, autoClose: 5000, theme: "dark"})
+        if (cookies.load('redirect')) {
+          window.location.href = cookies.load('redirect')
+          cookies.remove('redirect')
+        } else {
+          window.location.href = '/summary'
+        }
+      } else {
+        if (data.error === "Email not verified") {
+          window.location.href = `/onecode?type=registration`
+        } else {
+          toast.update(notification, {type: toast.TYPE.ERROR, render: "Incorrect Email or Password", isLoading: false, autoClose: 5000, theme: "dark"})
 
-              document.getElementById('email').classList.add('error')
-              document.getElementById('password').classList.add('error')
+          document.getElementById('email').classList.add('error')
+          document.getElementById('password').classList.add('error')
 
-              setTimeout(() => {
-                document.getElementById('email').classList.remove('error')
-                document.getElementById('password').classList.remove('error')
-              }, 1000);
-            }
-          }
-        })
-      })
+          setTimeout(() => {
+            document.getElementById('email').classList.remove('error')
+            document.getElementById('password').classList.remove('error')
+          }, 1000);
+        }
+      }
+    })
    }
 
   const setQR = () => {

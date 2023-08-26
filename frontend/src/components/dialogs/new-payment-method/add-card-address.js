@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import {toast} from "react-toastify";
 import {Elements, useStripe, useElements, AddressElement} from '@stripe/react-stripe-js';
 import { loadStripe } from "@stripe/stripe-js";
+const config = require('../../../config.json')
 
 const AddCardAddressForm = (props) => {
     const stripe = useStripe()
@@ -52,7 +53,7 @@ const AddCardAddressForm = (props) => {
 }
 
 const AddCardAddress = (props) => {
-    const stripePromise = loadStripe("pk_test_51NU6p5D4hW6MEhWIoHlqqIB6qu8jj7BIb74wkXvdtYajmwFxvZWajzEM1HRJbnxXsLTwTKnSeNHi4zjrHomCMntx00LdyxmXvi")
+    const stripePromise = loadStripe(config.stripe_key)
 
     return (
         <div>

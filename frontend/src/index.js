@@ -18,6 +18,7 @@ import CreateId from "./views/create-id";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getPerformance } from "firebase/performance";
+import PrivacyPolicy from "./views/legal/privacy-policy";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_AKEY,
@@ -48,6 +49,7 @@ const App = () => {
             <Route element={<Login />} exact path="/login" />
             <Route element={<VerifyEmail />} exact path="/onecode" />
             <Route element={<Authorize />} exact path="/authorize" />
+            <Route element={<PrivacyPolicy />} exact path="/privacy-policy" />
         </Routes>
     </Router>
   )
