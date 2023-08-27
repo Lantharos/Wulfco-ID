@@ -26,7 +26,6 @@ export default class Auth {
             const recaptchaResponse = await recaptcha.json()
             if (!recaptchaResponse.success) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
             if (recaptchaResponse.score < 0.5) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
-            if (recaptchaResponse.action !== "login") {return {status: 400, success: false, error: "Invalid recaptcha token"}}
             if (recaptchaResponse.hostname !== "id.wulfco.xyz") {return {status: 400, success: false, error: "Invalid recaptcha token"}}
             if (recaptchaResponse["error-codes"]) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
 
@@ -133,7 +132,6 @@ export default class Auth {
         const recaptchaResponse = await recaptcha.json()
         if (!recaptchaResponse.success) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
         if (recaptchaResponse.score < 0.5) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
-        if (recaptchaResponse.action !== "login") {return {status: 400, success: false, error: "Invalid recaptcha token"}}
         if (recaptchaResponse.hostname !== "id.wulfco.xyz") {return {status: 400, success: false, error: "Invalid recaptcha token"}}
         if (recaptchaResponse["error-codes"]) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
 
