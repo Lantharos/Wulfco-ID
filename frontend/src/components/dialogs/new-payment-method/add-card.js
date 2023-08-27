@@ -4,6 +4,7 @@ import './add-card.css'
 import { motion } from 'framer-motion'
 import { Elements, useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js';
 import { loadStripe } from "@stripe/stripe-js";
+import {toast} from "react-toastify";
 
 const config = require('../../../config.json')
 
@@ -13,7 +14,9 @@ const AddCardForm = (switchStage) => {
 
     const submit = async () => {
         if (!stripe || !elements) return;
-        const {token, error} = await stripe.createToken(elements.getElement(CardNumberElement), {name: document.getElementById("cardholder_name").value});
+        const cardholder = document.getElementById("cardholder_name").value
+        if (cardholder === "") return toast.error("Please enter a name on the card!", {theme: 'dark'});
+        const {token, error} = await stripe.createToken(elements.getElement(CardNumberElement), {name: cardholder});
 
         if (error) { console.log(error); return; } else {
             switchStage.switchStage(3, token.id)

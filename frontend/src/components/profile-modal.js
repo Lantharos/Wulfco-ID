@@ -15,6 +15,7 @@ const ProfileModal = (props) => {
             src={props.profile_picture}
             alt="Avatar"
             className="profile-modal-image"
+            loading={"eager"}
           />
           <div className="profile-modal-container4">
             <div className="profile-modal-container5">

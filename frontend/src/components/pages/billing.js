@@ -165,10 +165,7 @@ const Billing = (props) => {
                 {mapTransactions()}
             </div>
             <span className="billing-text09">
-                Your payment details, including card numbers, cardholder names,
-                expiration dates, CVCs, and addresses, are not stored by Wulfco. All
-                payments are securely outsourced to Stripe for processing and storage,
-                ensuring the highest level of data protection.
+                Your payment details, including card numbers, cardholder names, expiration dates, CVCs, and addresses, are not stored by Wulfco. All payments are securely outsourced to Stripe and PayPal respectively for processing and storage, ensuring the highest level of data protection.
             </span>
         </div>
     )

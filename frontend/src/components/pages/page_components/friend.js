@@ -84,7 +84,7 @@ const Friend = (props) => {
 
     return (
         <div className={`friend-container`}>
-            <img alt="invite avatar" src={props.avatar} className="friend-image" />
+            <img alt="invite avatar" loading={"eager"} src={props.avatar} className="friend-image" />
             <button id="decline" className="friend-button button" onClick={removeFriend}>
                 <svg viewBox="0 0 804.5714285714286 1024" className="friend-icon">
                     <path

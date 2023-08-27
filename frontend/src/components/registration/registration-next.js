@@ -2,11 +2,15 @@ import React from 'react'
 
 import './registration-next.css'
 import {motion} from 'framer-motion'
+import {toast} from "react-toastify";
 
 const RegistrationNext = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     const data = new FormData(e.target)
+
+    if (data.get('name') === "") return toast.error("Please enter a name!", {theme: 'dark'});
+    if (data.get('name').split(" ").length < 2) return toast.error("Please enter a full name!", {theme: 'dark'});
 
     const obj = {}
     data.forEach((value, key) => {
@@ -36,7 +40,7 @@ const RegistrationNext = (props) => {
         <div className="registration-next-container1">
           <div className="registration-next-container2">
             <span className="registration-next-text1 notselectable">
-              Name
+              Full name
             </span>
             <input
               id="name"

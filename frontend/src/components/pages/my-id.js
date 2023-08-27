@@ -272,6 +272,7 @@ const MyId = (props) => {
                             alt="image"
                             src={props.userData.profile.avatar}
                             className="my-id-image"
+                            loading={"eager"}
                         />
                         <h1 id="username_main" className="my-id-text06 notselectable">
                             {props.userData.profile.username}

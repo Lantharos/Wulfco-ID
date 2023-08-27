@@ -11,6 +11,9 @@ module.exports = {
       },
     },
   },
+  eslint: {
+    enable: true
+  },
   webpack: {
     configure: (webpackConfig) => {
       const terserPlugin = new TerserPlugin({
