@@ -1,7 +1,9 @@
 import Stripe from 'stripe';
+import paypal from 'paypal-rest-sdk';
 import User from "./User";
 import * as database from "../FirebaseHandler"
 import mail from "@sendgrid/mail";
+import crypto from "crypto";
 
 mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
 
@@ -10,7 +12,135 @@ const stripe = new Stripe(`${process.env.STRIPE_SECRET}`, {
     typescript: true
 });
 
+paypal.configure({
+    mode: 'sandbox', //sandbox or live
+    client_id: `AbmDA8-TGMjuyERjyQhtbsyRkd84d7N0vVRQ4bM_a3cuAtMX4M1R7NLR05-gCwNZAk-PABcJIZ-Ih6EA`,
+    client_secret: `${process.env.PAYPAL_SECRET}`
+})
+
 export default class Payments {
+    public static async getPaypalSetupToken(req: any) {
+        const user = await User.get(req)
+        if (!user.success) { return user }
+        if (user.user === undefined) { return {status: 400, success: false, message: "Could not find user"} }
+
+        const credentialsResponse = await fetch('https://api-m.sandbox.paypal.com/v1/oauth2/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': `Basic ${Buffer.from(`AbmDA8-TGMjuyERjyQhtbsyRkd84d7N0vVRQ4bM_a3cuAtMX4M1R7NLR05-gCwNZAk-PABcJIZ-Ih6EA:${process.env.PAYPAL_SECRET}`).toString('base64')}`
+            },
+            body: new URLSearchParams({
+                'grant_type': 'client_credentials'
+            })
+        }).then(response => response.json())
+
+        const accessToken = credentialsResponse.access_token
+        if (!accessToken) { return {status: 400, success: false, message: "Could not get access token"} }
+
+        const setupToken = await fetch("https://api-m.sandbox.paypal.com/v3/vault/setup-tokens", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${accessToken}`,
+                "PayPal-Request-Id": crypto.randomBytes(16).toString("hex")
+            },
+            body: JSON.stringify({
+                "payment_source": {
+                    "paypal": {
+                        "description": "PayPal payment method for Wulfco",
+                        "permit_multiple_payment_tokens": false,
+                        "usage_pattern": "IMMEDIATE",
+                        "usage_type": "MERCHANT",
+                        "customer_type": "CONSUMER",
+                        "experience_context": {
+                            "shipping_preference": "NO_SHIPPING",
+                            "payment_method_preference": "IMMEDIATE_PAYMENT_REQUIRED",
+                            "brand_name": "Wulfco",
+                            "locale": "en-US",
+                            "return_url": "https://us-central1-wulfco-id.cloudfunctions.net/api/paypal-callback",
+                            "cancel_url": "https://id.wulfco.xyz/login",
+                            "recipient_name": user.user.profile.full_name,
+                            "custom_id": user.rawUser.id,
+                        }
+                    }
+                },
+                "customer": {
+                    "id": user.rawUser.id
+                }
+            })
+        }).then(response => response.json())
+
+        if (setupToken.status === "PAYER_ACTION_REQUIRED") {
+            return {status: 300, success: false, message: "Send user to validate payment method",
+                requires_action: {
+                    url: setupToken.links[1].href,
+                    type: "redirect_to_url"
+                }
+            }
+        } else {
+            console.log(setupToken)
+            return {status: 400, success: false, message: "Something went wrong", details: setupToken.details}
+        }
+    }
+
+    public static async savePaypal(req: any) {
+        const approvalTokenId = req.query.approval_token_id
+        if (!approvalTokenId) { return {status: 400, success: false, message: "Missing ID"} }
+
+        const credentialsResponse = await fetch('https://api-m.sandbox.paypal.com/v1/oauth2/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': `Basic ${Buffer.from(`AbmDA8-TGMjuyERjyQhtbsyRkd84d7N0vVRQ4bM_a3cuAtMX4M1R7NLR05-gCwNZAk-PABcJIZ-Ih6EA:${process.env.PAYPAL_SECRET}`).toString('base64')}`
+            },
+            body: new URLSearchParams({
+                'grant_type': 'client_credentials'
+            })
+        }).then(response => response.json())
+
+        const accessToken = credentialsResponse.access_token
+        if (!accessToken) { return {status: 400, success: false, message: "Could not get access token"} }
+
+        const paymentToken = await fetch("https://api-m.sandbox.paypal.com/v3/vault/payment-tokens", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${accessToken}`,
+                "PayPal-Request-Id": crypto.randomBytes(16).toString("hex")
+            },
+            body: JSON.stringify({
+                "payment_source": {
+                    "token": {
+                        "id": approvalTokenId,
+                        "type": "SETUP_TOKEN"
+                    }
+                }
+            })
+        }).then(response => response.json())
+
+        if (!paymentToken || !paymentToken.customer.id || !paymentToken.id) { return {status: 400, success: false, message: "Could not get payment token"} }
+
+        const user = await database.getUser(paymentToken.customer.id)
+        if (!user) { return {status: 400, success: false, message: "Could not find user"} }
+
+        const paypals = user.data().account.billing ? (user.data().account.billing.paypal ? user.data().account.billing.paypal : []) : []
+        const formattedToken = {
+            id: paymentToken.id,
+            payer_id: paymentToken.payment_source.paypal.payer_id,
+            usage_type: paymentToken.payment_source.paypal.usage_type,
+            customer_type: paymentToken.payment_source.paypal.customer_type,
+            email_address: paymentToken.payment_source.paypal.email_address,
+            link: paymentToken.links[0].href,
+        }
+
+        paypals.push(formattedToken)
+
+        await database.updateUser(paymentToken.customer.id, { [`account.billing.paypal`]: paypals })
+
+        return {status: 300, success: true, redirect: "https://id.wulfco.xyz/login"}
+    }
+
     public static async addCard(req: any) {
         const user = await User.get(req)
         if (!user.success) { return user }

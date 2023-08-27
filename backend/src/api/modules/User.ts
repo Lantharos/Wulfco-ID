@@ -58,7 +58,6 @@ export default class User {
         }
 
         const customerId = user.account.billing ? (user.account.billing.stripe ? user.account.billing.stripe.customer_id : undefined) : undefined
-
         if (customerId) {
             let billingInfo = {}
 
@@ -69,6 +68,15 @@ export default class User {
             billingInfo["transactions"] = resultit.transactions
 
             user["account"]["billing"]["stripe"] = billingInfo
+        }
+
+        const paypals = user.account.billing ? (user.account.billing.paypal ? user.account.billing.paypal : undefined) : undefined
+        if (paypals) {
+            if (paypals.length > 0) {
+                user["account"]["billing"]["paypal"] = user.account.billing.paypal;
+            } else {
+                delete user["account"]["billing"]["paypal"]
+            }
         }
 
         return {status: 200, success: true, user, rawUser}

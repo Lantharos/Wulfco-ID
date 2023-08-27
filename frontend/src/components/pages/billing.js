@@ -39,6 +39,14 @@ const Billing = (props) => {
         })
     }
 
+    const mapPaypal = () => {
+        const paypal = props.userData.account.billing ? (props.userData.account.billing.paypal ? props.userData.account.billing.paypal : []) : []
+
+        return paypal.map((account, index) => {
+            return <PaymentMethod key={account.id} logo={"assets/paypal.png"} name={"PayPal"} details={account.email_address}></PaymentMethod>
+        })
+    }
+
     const mapTransactions = () => {
         const transactions = props.userData.account.billing ? (props.userData.account.billing.stripe ? props.userData.account.billing.stripe.transactions : []) : []
 
@@ -134,6 +142,7 @@ const Billing = (props) => {
             </div>
             <div className="billing-container1">
                 {mapCards()}
+                {mapPaypal()}
                 <button
                     id="add_payment_method"
                     type="button"

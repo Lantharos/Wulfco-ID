@@ -41,6 +41,7 @@ app.use('/', express.json(), slowDown({
     if (req.headers['w-reason'] === "life_check") {res.sendStatus(200);return}
     if (req.headers['w-reason'] === "heartbeat") {res.sendStatus(200);return}
     if (req.originalUrl === "/stripe") {next();return}
+    if (req.originalUrl.replace(/\?.*$/, '') === "/paypal-callback") {next();return}
     if (req.headers["origin"] !== "https://id.wulfco.xyz") {res.sendStatus(403);return}
     if (req.originalUrl === "/login") {next();return}
     if (req.originalUrl === "/create") {next();return}
@@ -108,6 +109,20 @@ app.post("/stripe", express.raw({type: 'application/json'}), async(req: any, res
     try {
         const returned = await id.stripe(req)
         res.status(returned.status).send(returned)
+    } catch(e) {
+        console.log(e)
+        res.sendStatus(500)
+    }
+})
+
+app.get("/paypal-callback", express.json(), async(req: any, res: any) => {
+    try {
+        const returned = await id.paypalCallback(req)
+        if (returned.status === 300) {
+            res.redirect(returned.redirect)
+        } else {
+            res.status(returned.status).send(returned)
+        }
     } catch(e) {
         console.log(e)
         res.sendStatus(500)

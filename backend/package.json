@@ -24,6 +24,7 @@
     "node-fetch": "^3.3.0",
     "node-steam-openid": "^1.0.1",
     "oauth-1.0a": "^2.2.6",
+    "paypal-rest-sdk": "^1.8.1",
     "sendgrid": "^5.2.3",
     "speakeasy": "^2.0.0",
     "stripe": "^13.3.0",

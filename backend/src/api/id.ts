@@ -156,6 +156,8 @@ export default class ID {
         if (req.method === "POST") {
             if (req.query.type === "stripe") {
                 return await Payments.addCard(req)
+            } else if (req.query.type === "paypal") {
+               return await Payments.getPaypalSetupToken(req)
             } else {
                 return {status: 400, success: false, message: "Invalid type"}
             }
@@ -171,4 +173,5 @@ export default class ID {
     }
     public static async verifyIdentity(req: any) { return await Payments.verifyIdentity(req) }
     public static async stripe(req: any) { return await Payments.stripeEvents(req) }
+    public static async paypalCallback(req: any) { return await Payments.savePaypal(req) }
 }

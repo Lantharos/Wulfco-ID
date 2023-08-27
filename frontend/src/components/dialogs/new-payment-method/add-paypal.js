@@ -2,8 +2,36 @@ import React from 'react'
 
 import './add-paypal.css'
 import { motion } from 'framer-motion'
+import {toast} from "react-toastify";
+import cookies from "react-cookies";
+import hmac from "crypto-js/hmac-sha256";
+
+const config = require('../../../config.json')
+const api_url = config.api_url
 
 const AddPaypal = (props) => {
+    const getSetup = async () => {
+        const message = toast.loading("Generating url...", {theme: 'dark'})
+        await fetch(`${api_url}/payment-methods?type=paypal&id=${encodeURIComponent(cookies.load('id'))}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
+                'W-Session': cookies.load('session_id'),
+                'W-Loggen': cookies.load('loggen'),
+            }
+        }).then(res => res.json()).then(data => {
+            if (data.status === 300) {
+                if (data.requires_action.type === "redirect_to_url") {
+                    toast.update(message, {type: 'info', render: 'Redirecting...', theme: 'dark', isLoading: false, autoClose: 5000})
+                    window.location.href = data.requires_action.url
+                } else {
+                    toast.update(message, {type: 'info', render: 'Unknown action required, contact support.', theme: 'dark', isLoading: false, autoClose: 5000})
+                }
+            } else { toast.update(message, {type: 'error', render: 'Error generating url!', theme: 'dark', isLoading: false, autoClose: 5000}) }
+        })
+    }
+
   return (
     <div>
         <motion.div animate={ { opacity: 1, transition: { duration: 0.2 } } } initial={{ opacity: 0 }} exit={{ opacity: 0, transition: { duration: 0.2 } }} className="edit-username-background"></motion.div>
@@ -25,6 +53,7 @@ const AddPaypal = (props) => {
                     id="open_paypal"
                     type="button"
                     className="add-paypal-save1 button"
+                    onClick={getSetup}
                 >
                     Connect to PayPal
                 </button>
