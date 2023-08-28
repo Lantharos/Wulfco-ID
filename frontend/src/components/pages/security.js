@@ -1,7 +1,5 @@
 import React from 'react'
 
-import PropTypes from 'prop-types'
-
 import SecurityKey from './page_components/security-key'
 import './security.css'
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,6 +10,7 @@ import cookies from "react-cookies";
 import hmac from "crypto-js/hmac-sha256";
 import {toast} from "react-toastify";
 import SetupTOTP from "../dialogs/setup-totp";
+import GooeyCheckbox from "./page_components/GooeyCheckbox";
 
 const config = require('../../config.json')
 const api_url = config.api_url
@@ -72,6 +71,7 @@ const Security = (props) => {
   }
 
   const savePreferences = async(b, w) => {
+    const message = toast.loading("Updating preferences...", {theme: 'dark', autoClose: false})
     if (w === "share_storage_data") {
       await fetch(`${api_url}/preferences?id=${encodeURIComponent(cookies.load("id"))}`, {
         method: 'POST',
@@ -79,8 +79,7 @@ const Security = (props) => {
           'Content-Type': 'application/json',
           'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
           'W-Session': cookies.load('session_id'),
-          'W-Loggen': cookies.load('loggen'),
-          'W-IP': await props.ip
+          'W-Loggen': cookies.load('loggen')
         },
         body: JSON.stringify({
           share_storage_data: b
@@ -88,14 +87,14 @@ const Security = (props) => {
       }).then((res) => {
         res.json().then((data) => {
           if (data.success) {
-            toast.success("Successfully updated preferences", {theme: 'dark', autoClose: 2000 })
+            toast.update(message, {render: "Successfully updated preferences", type: "success", theme: 'dark', isLoading: false, autoClose: 2000 })
             props.updateUserData()
           } else {
-            toast.error("Failed to update preferences", {theme: 'dark', autoClose: 2000 })
+            toast.update(message, {render: "Failed to update preferences", type: "error", theme: 'dark', isLoading: false, autoClose: 2000 })
           }
         })
       }).catch((err) => {
-        toast.error("Failed to update preferences", {theme: 'dark', autoClose: 2000 })
+        toast.update(message, {render: "Failed to update preferences", type: "error", theme: 'dark', isLoading: false, autoClose: 2000 })
       })
     } else if (w === "share_analytics") {
       await fetch(`${api_url}/preferences?id=${encodeURIComponent(cookies.load("id"))}`, {
@@ -104,8 +103,7 @@ const Security = (props) => {
           'Content-Type': 'application/json',
           'W-Auth': hmac(cookies.load('token'), cookies.load('secret')).toString(),
           'W-Session': cookies.load('session_id'),
-          'W-Loggen': cookies.load('loggen'),
-          'W-IP': await props.ip
+          'W-Loggen': cookies.load('loggen')
         },
         body: JSON.stringify({
           share_analytics: b
@@ -113,14 +111,14 @@ const Security = (props) => {
       }).then((res) => {
         res.json().then((data) => {
           if (data.success) {
-            toast.success("Successfully updated preferences", {theme: 'dark', autoClose: 2000 })
+            toast.update(message, {render: "Successfully updated preferences", type: "success", theme: 'dark', isLoading: false, autoClose: 2000 })
             props.updateUserData()
           } else {
-            toast.error("Failed to update preferences", {theme: 'dark', autoClose: 2000 })
+            toast.update(message, {render: "Failed to update preferences", type: "error", theme: 'dark', isLoading: false, autoClose: 2000 })
           }
         })
       }).catch((err) => {
-        toast.error("Failed to update preferences", {theme: 'dark', autoClose: 2000 })
+        toast.update(message, {render: "Failed to update preferences", type: "error", theme: 'dark', isLoading: false, autoClose: 2000 })
       })
     }
   }
@@ -322,12 +320,9 @@ const Security = (props) => {
               </span>
             </span>
           </div>
-          <label className="checkbox security-checkbox">
-            <input type="checkbox" name="share_service_data" defaultChecked={props.userData.account.analytics.share_storage_data} onClick={(checked) => {savePreferences(!props.userData.account.analytics.share_storage_data, "share_storage_data")}}></input>
-            <span className="checkbox">
-              <span></span>
-            </span>
-          </label>
+          <div className="security-checkbox">
+            <GooeyCheckbox checked={props.userData.account.analytics.share_storage_data} onEnabled={() => {savePreferences(true, "share_storage_data")}} onDisabled={() => {savePreferences(false, "share_storage_data")}}></GooeyCheckbox>
+          </div>
         </div>
         <div className="security-container15">
           <div className="security-container16">
@@ -344,12 +339,9 @@ const Security = (props) => {
               </span>
             </span>
           </div>
-          <label className="checkbox security-checkbox">
-            <input type="checkbox" name="share_analytics_data" defaultChecked={props.userData.account.analytics.share_analytics} onClick={(e) => {savePreferences(!props.userData.account.analytics.share_analytics, "share_analytics")}}></input>
-            <span className="checkbox">
-              <span></span>
-            </span>
-          </label>
+          <div className="security-checkbox">
+            <GooeyCheckbox checked={props.userData.account.analytics.share_analytics} onEnabled={() => {savePreferences(true, "share_analytics")}} onDisabled={() => {savePreferences(false, "share_analytics")}}></GooeyCheckbox>
+          </div>
         </div>
         <div className="security-container17">
           <div className="security-container18">

@@ -7,7 +7,6 @@
     "@metamask/detect-provider": "^2.0.0",
     "@stripe/react-stripe-js": "^2.1.2",
     "@stripe/stripe-js": "^1.54.2",
-    "@vaadin/checkbox": "^23.3.6",
     "bcrypt": "^5.1.0",
     "crypto-js": "^4.1.1",
     "firebase": "^9.19.1",
