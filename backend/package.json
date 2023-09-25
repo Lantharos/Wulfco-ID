@@ -4,13 +4,16 @@
   "description": "The API for Wulfco Services",
   "main": "lib/index.js",
   "scripts": {
-    "build": "tsc",
-    "start": "node lib/index.js"
+    "build": "tsc && npm run sentry:sourcemaps",
+    "start": "node lib/index.js",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org wulfco-7e --project wulfco-api ./lib && sentry-cli sourcemaps upload --org wulfco-7e --project wulfco-api ./lib"
   },
   "author": "Wulfco",
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",
+    "@sentry/node": "^7.71.0",
+    "@sentry/profiling-node": "^1.2.1",
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

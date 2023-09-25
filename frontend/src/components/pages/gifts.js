@@ -18,11 +18,11 @@ const Gifts = (props) => {
         <div className="gifts-container1">
           <input
             type="text"
-            id="card_number"
+            id="gift_code"
             required="true"
             autoFocus="true"
             placeholder="WULF-XXXX-AAAA-BBBB-CCCC"
-            autoComplete="cc-number"
+            autoComplete="off"
             className="gifts-textinput input"
           />
           <button id="confirm" type="button" className="gifts-save button">

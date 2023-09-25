@@ -21,12 +21,15 @@ import Loading from "../../components/pages/page_components/loading";
 import Blocked from "../../components/pages/blocked";
 import Billing from "../../components/pages/billing";
 import Gifts from "../../components/pages/gifts";
+import Subscriptions from "../../components/pages/subscriptions";
+import WhatsNew from "../../components/dialogs/whats-new";
 
 const config = require('../../config.json')
 const api_url = config.api_url
 
 const AccountSettings = () => {
   const [ loading, setLoading ] = React.useState(true);
+  const [ changelog, setChangelog ] = React.useState({data: undefined, show: false})
   const [ selectedPage, setSelectedPage ] = React.useState("")
   let [ selectedButton, setSelectedButton ] = React.useState(document.getElementById('my-id'))
   const [ userData, setUserData ] = React.useState({
@@ -58,6 +61,18 @@ const AccountSettings = () => {
 
   React.useEffect(() => {
     loadUserData();
+    const changelogUrl = "/assets/changelog.json"
+    fetch(changelogUrl).then((res) => {
+        res.json().then((data) => {
+          console.log(data)
+          const showDialog = cookies.load('last_seen_changelog') === undefined || cookies.load("last_seen_changelog") < data.version
+          setChangelog({data: data, show: showDialog })
+
+          if (showDialog) {
+            cookies.save('last_seen_changelog', data.version, { path: '/' })
+          }
+        })
+    })
   }, []);
 
   React.useEffect(() => {
@@ -144,6 +159,8 @@ const AccountSettings = () => {
         return <Billing userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
       case 'gifts':
         return <Gifts userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
+      case 'subscriptions':
+        return <Subscriptions userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
       default:
         return <MyId userData={userData} switchPage={switchPage} saveUserData={setUserData} updateUserData={loadUserData}/>
     }
@@ -151,7 +168,7 @@ const AccountSettings = () => {
 
   return (
       <div className="account-settings-container">
-        <AnimatePresence>
+        <AnimatePresence mode={"wait"}>
           {loading && ( <Loading /> )}
         </AnimatePresence>
         <ToastContainer />
@@ -210,9 +227,9 @@ const AccountSettings = () => {
                 </svg>
                 <span className="account-settings-text3">Hyper</span>
               </Link>
-              <Link to="/coming-soon" className="sidebar-button button">
+              <button className="sidebar-button button" id="subscriptions" type="button" onClick={buttonClick}>
                 Subscriptions
-              </Link>
+              </button>
               <button className="sidebar-button button" id="gifts" type="button" onClick={buttonClick}>
                 Gift Inventory
               </button>
@@ -222,14 +239,11 @@ const AccountSettings = () => {
             </div>
             <div className="account-settings-undefined">
               <div className="account-settings-container3"></div>
-              <Link
-                  to="/coming-soon"
-                  className="sidebar-button button"
-              >
+              <button className="sidebar-button button" id="whatsnew" type="button" onClick={() => {setChangelog({data: changelog.data, show: true})}}>
                 What&apos;s New
-              </Link>
+              </button>
               <Link
-                  to="/coming-soon"
+                  to="https://developers.wulfco.xyz"
                   className="sidebar-button button"
               >
                 Developers
@@ -243,9 +257,13 @@ const AccountSettings = () => {
             </div>
           </div>
           <div>
+
             {renderPage()}
           </div>
         </div>
+        <AnimatePresence>
+          {loading !== true && changelog.show && ( <WhatsNew changelog={changelog} closeDialog={() => {setChangelog({data: changelog.data, show: false})}} /> )}
+        </AnimatePresence>
         <div className="account-settings-screen-size-warning">
           <h1 className="account-settings-text3 notselectable">
             <span className="account-settings-text4">Sorry but...</span>

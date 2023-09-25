@@ -9,10 +9,26 @@ import * as database from "./api/FirebaseHandler";
 import mail from "@sendgrid/mail";
 import slowDown from "express-slow-down";
 import rateLimit from "express-rate-limit";
+import * as Sentry from "@sentry/node";
+import { ProfilingIntegration } from "@sentry/profiling-node";
 
 dotenv.config({ path: './.env' });
 const cors = require("cors")
 const app = express();
+
+Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    integrations: [
+        new Sentry.Integrations.Http({ tracing: true }),
+        new Sentry.Integrations.Express({ app }),
+        new ProfilingIntegration(),
+    ],
+    tracesSampleRate: 1.0, // Capture 100% of the transactions, reduce in production!
+    profilesSampleRate: 1.0, // Capture 100% of the transactions, reduce in production!
+});
+
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.tracingHandler());
 
 const ConvertURLParams = (params: string) => {
     if (params.charAt(0) === "/") {
@@ -128,6 +144,15 @@ app.get("/paypal-callback", express.json(), async(req: any, res: any) => {
         res.sendStatus(500)
     }
 })
+
+app.use(Sentry.Handlers.errorHandler());
+
+app.use(function onError(err, req, res, next) {
+    // The error id is attached to `res.sentry` to be returned
+    // and optionally displayed to the user for support.
+    res.statusCode = 500;
+    res.end(res.sentry + "\n");
+});
 
 app.listen(() => {
     console.log(`>>> App online`);

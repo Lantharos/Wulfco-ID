@@ -14,11 +14,25 @@ import Login from './views/login/login'
 import VerifyEmail from './views/login/verify-email'
 import Authorize from './views/dashboard/authorize'
 import CreateId from "./views/create-id";
+import PrivacyPolicy from "./views/legal/privacy-policy";
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getPerformance } from "firebase/performance";
-import PrivacyPolicy from "./views/legal/privacy-policy";
+import * as Sentry from "@sentry/react";
+
+Sentry.init({
+    dsn: process.env.REACT_APP_DSN,
+    integrations: [
+        new Sentry.BrowserTracing({
+            tracePropagationTargets: ["localhost", /^https:\/\/id\.wulfco\.xyz/],
+        }),
+        new Sentry.Replay(),
+    ],
+    tracesSampleRate: 1.0, // Capture 100% of the transactions, reduce in production!
+    replaysSessionSampleRate: 0.1, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
+    replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+});
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_AKEY,

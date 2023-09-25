@@ -9,6 +9,7 @@
   padding-top: 3%;
   padding-left: 3%;
   border-radius: var(--dl-radius-radius-radius8);
+  padding-right: 3%;
   flex-direction: column;
   padding-bottom: 3%;
   justify-content: flex-start;
@@ -18,7 +19,7 @@
   color: rgb(216, 215, 215);
 }
 .gifts-container {
-  width: 1060px;
+  width: 100%;
   display: flex;
   margin-top: 2%;
   align-items: flex-start;
@@ -45,13 +46,13 @@
   margin-top: 1%;
   font-family: Roboto;
   border-width: 0px;
-  margin-right: 10%;
+  margin-right: 3%;
   border-radius: var(--dl-radius-radius-radius8);
   background-color: #4c4c4c;
 }
 .gifts-save {
   color: rgb(255, 255, 255);
-  width: auto;
+  width: 20%;
   height: auto;
   font-size: 20px;
   align-self: center;

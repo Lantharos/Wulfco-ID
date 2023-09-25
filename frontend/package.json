@@ -5,6 +5,7 @@
   "dependencies": {
     "@craco/craco": "^5.9.0",
     "@metamask/detect-provider": "^2.0.0",
+    "@sentry/react": "^7.71.0",
     "@stripe/react-stripe-js": "^2.1.2",
     "@stripe/stripe-js": "^1.54.2",
     "bcrypt": "^5.1.0",
@@ -28,9 +29,10 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build",
+    "build": "craco build && npm run sentry:sourcemaps",
     "test": "craco test --env=jsdom",
-    "eject": "craco eject"
+    "eject": "craco eject",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org wulfco-7e --project wulfco-id ./build && sentry-cli sourcemaps upload --org wulfco-7e --project wulfco-id ./build"
   },
   "engines": {
     "node": "20.x"
