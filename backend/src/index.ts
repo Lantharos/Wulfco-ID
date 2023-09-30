@@ -9,11 +9,11 @@ import * as database from "./api/FirebaseHandler";
 import mail from "@sendgrid/mail";
 import slowDown from "express-slow-down";
 import rateLimit from "express-rate-limit";
+import cors from "cors";
 import * as Sentry from "@sentry/node";
 import { ProfilingIntegration } from "@sentry/profiling-node";
 
 dotenv.config({ path: './.env' });
-const cors = require("cors")
 const app = express();
 
 Sentry.init({
@@ -49,6 +49,20 @@ const ConvertURLParams = (params: string) => {
 app.use(cors());
 app.use(cookieParser());
 
+const allowedOrigins = [
+    "https://authorize.roblox.com",
+    "https://id.wulfco.xyz",
+    "https://github.com",
+    "https://reddit.com",
+    "https://steampowered.com",
+    "https://twitter.com",
+    "https://x.com",
+    "https://accounts.google.com",
+    "https://twitch.tv",
+    "https://discord.com",
+    "https://spotify.com"
+]
+
 app.use('/', express.json(), slowDown({
     windowMs: 15 * 60 * 1000, // 15 minutes
     delayAfter: 100, // allow 100 requests per 15 minutes, then...
@@ -58,7 +72,15 @@ app.use('/', express.json(), slowDown({
     if (req.headers['w-reason'] === "heartbeat") {res.sendStatus(200);return}
     if (req.originalUrl === "/stripe") {next();return}
     if (req.originalUrl.replace(/\?.*$/, '') === "/paypal-callback") {next();return}
-    if (req.headers["origin"] !== "https://id.wulfco.xyz") {res.sendStatus(403);return}
+    if (req.headers["origin"]) {
+        if (!allowedOrigins.includes(req.headers["origin"])) {
+            res.sendStatus(403);return
+        }
+    } else {
+        if (!allowedOrigins.includes(req.headers["referrer"])) {
+            res.sendStatus(403);return
+        }
+    }
     if (req.originalUrl === "/login") {next();return}
     if (req.originalUrl === "/create") {next();return}
 
@@ -164,26 +186,56 @@ exports.sendPasswordResetLink = firebase.pubsub.schedule('every 24 hours').onRun
     const now = Date.now();
     const sevenDaysAgo = now - (7 * 24 * 60 * 60 * 1000);
 
-    FirebaseHandler.getAllResetRequests(sevenDaysAgo).then(async (requests: any) => {
-        if (requests) {
-            for (const request of requests) {
-                const user = await FirebaseHandler.getUser(request.data().user_id)
-                if (user) {
-                    const token = crypto.randomBytes(20).toString("hex")
-                    const link = `https://id.wulfco.xyz/change-password?token=${token}`
+    const checkInId = Sentry.captureCheckIn(
+        {
+            monitorSlug: 'wulfco-id-daily',
+            status: 'in_progress',
+        },
+        {
+            schedule: {
+                type: 'crontab',
+                value: '* * * * *',
+            },
+            checkinMargin: 1,
+            maxRuntime: 1,
+            timezone: 'America/Los_Angeles',
+        }
+    );
 
-                    await database.updateUser(request.data().user_id, { "account.security.pass_reset_token": {token: token, created: Date.now()} })
+    try {
+        FirebaseHandler.getAllResetRequests(sevenDaysAgo).then(async (requests: any) => {
+            if (requests) {
+                for (const request of requests) {
+                    const user = await FirebaseHandler.getUser(request.data().user_id)
+                    if (user) {
+                        const token = crypto.randomBytes(20).toString("hex")
+                        const link = `https://id.wulfco.xyz/change-password?token=${token}`
 
-                    mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
+                        await database.updateUser(request.data().user_id, { "account.security.pass_reset_token": {token: token, created: Date.now()} })
 
-                    await mail.send({
-                        to: user.data().email,
-                        from: "no-reply@wulfco.xyz",
-                        subject: "Password reset",
-                        text: `Hello ${user.data().profile.username},\n\nYou recently requested a password reset. If this was you, please click the link below to reset your password.\n\n${link}\n\nIf this wasn't you, please ignore this email.\n\nThanks,\nWulfco`
-                    })
+                        mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
+
+                        await mail.send({
+                            to: user.data().email,
+                            from: "no-reply@wulfco.xyz",
+                            subject: "Password reset",
+                            text: `Hello ${user.data().profile.username},\n\nYou recently requested a password reset. If this was you, please click the link below to reset your password.\n\n${link}\n\nIf this wasn't you, please ignore this email.\n\nThanks,\nWulfco`
+                        })
+                    }
                 }
             }
-        }
-    })
+        })
+
+        Sentry.captureCheckIn({
+            checkInId,
+            monitorSlug: 'wulfco-id-daily',
+            status: 'ok',
+        });
+    } catch (e) {
+        Sentry.captureCheckIn({
+            checkInId,
+            monitorSlug: 'wulfco-id-daily',
+            status: 'error',
+        });
+    }
 });

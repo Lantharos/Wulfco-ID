@@ -50,9 +50,14 @@ export default class OAuth {
         if (!app_id) { return {status: 400, success: false, message: "Missing fields"} }
 
         const rawResult = await database.getOAuthApp(app_id)
-        if (!rawResult) { return {status: 400, success: false, message: "Could not find application"} }
+        console.log("rawResult is: " + rawResult)
+        if (!rawResult) { return {status: 404, success: false, message: "Could not find application"} }
 
-        return {status: 200, success: true, rawApp: rawResult, user_avatar: user.user.profile.avatar}
+        const result = rawResult.data()
+        console.log("result is: " + result)
+        if (!result) { return {status: 404, success: false, message: "Could not find application"} }
+
+        return {status: 200, success: true, app: result, user_avatar: user.user.profile.avatar, rawApp: rawResult}
     }
 
     public static async authorize(req: any) {

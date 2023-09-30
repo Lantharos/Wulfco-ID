@@ -150,7 +150,13 @@ export const uploadAvatar = async (id: string, file: any) => {
 // OAuth Apps
 export const getOAuthApp = async (id: string) => {
     try {
-        return await getDoc(doc(oauth_apps, id))
+        const q = query(oauth_apps, where("id", "==", id));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.size > 0) {
+            return querySnapshot.docs[0]
+        } else {
+            return null;
+        }
     } catch(e) {
         console.log(e)
         return null;
