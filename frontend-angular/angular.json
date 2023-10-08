@@ -121,8 +121,8 @@
           }
         }
       }
-    }},
-  "defaultProject": "teleport-project-template-angular",
+    }
+  },
   "cli": {
     "analytics": "d4199127-f780-4889-8a2c-abae697730ed"
   }

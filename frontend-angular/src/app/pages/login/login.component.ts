@@ -1,7 +1,6 @@
 import { Component } from '@angular/core'
 import { Title, Meta } from '@angular/platform-browser'
 import { HttpClient } from '@angular/common/http';
-import { NgxSpinner } from "ngx-spinner";
 
 @Component({
   selector: 'app-login',
@@ -16,8 +15,16 @@ export class Login {
   }
 
   login = (event: any) => {
-    event.target.disabled = true
-    event.target.innerHTML = '<ngx-spinner type="ball-clip-rotate" size="medium" color="#fff"></ngx-spinner>'
+    if (event.target.tagName === 'SPAN') {
+      event.target.parentElement.disabled = true
+      event.target.parentElement.innerHTML = '<i class="fa fa-circle-o-notch fa-spin"></i>'
+    } else if (event.target.tagName === 'BUTTON') {
+      event.target.disabled = true
+      event.target.innerHTML = '<i class="fa fa-circle-o-notch fa-spin"></i> '
+    }
 
+    const email = (<HTMLInputElement>document.getElementById('email')).value
+    const password = (<HTMLInputElement>document.getElementById('password')).value
+    console.log(email, password)
   }
 }

@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { ComponentsModule } from './components/components.module'
 import { AppComponent } from './app.component'
+import { NgxSpinnerModule } from "ngx-spinner";
 
 const routes = [
   {
@@ -82,7 +83,7 @@ const routes = [
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, RouterModule.forRoot(routes), ComponentsModule, HttpClientModule],
+  imports: [BrowserModule, RouterModule.forRoot(routes), ComponentsModule, HttpClientModule, NgxSpinnerModule],
   providers: [],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

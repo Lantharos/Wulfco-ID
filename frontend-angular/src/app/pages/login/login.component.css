@@ -140,8 +140,8 @@
   background-color: var(--dl-color-confirmationbuttons-buttonactive);
 }
 .login-button:disabled {
-  color: transparent;
   background-color: var(--dl-color-confirmationbuttons-buttondisabled);
+  cursor: default;
 }
 .login-icon2 {
   fill: var(--dl-color-maincolors-headingcolor);
@@ -150,9 +150,9 @@
   align-self: center;
 }
 .login-text03 {
-  left: 0px;
+  left: 0;
   color: var(--dl-color-maincolors-headingcolor);
-  right: 0px;
+  right: 0;
   margin: auto;
   position: absolute;
   align-self: center;
