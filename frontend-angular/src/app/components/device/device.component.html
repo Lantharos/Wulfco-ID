@@ -1,0 +1,14 @@
+<div class="device-container" [ngClass]="rootClassName">
+  <div class="device-container1">
+    <svg viewBox="0 0 1024 1024" class="device-icon">
+      <path
+        d="M0 64v640h1024v-640h-1024zM960 640h-896v-512h896v512zM672 768h-320l-32 128-64 64h512l-64-64z"
+      ></path>
+    </svg>
+  </div>
+  <div class="device-container2">
+    <span class="device-text notselectable">{{ device_type }}</span>
+    <span class="device-text1 notselectable">{{ device_location }}</span>
+    <button id="remove" type="button" class="device-button button">X</button>
+  </div>
+</div>

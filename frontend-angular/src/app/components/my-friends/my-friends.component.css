@@ -1,0 +1,66 @@
+:host { 
+  display: contents; 
+}
+.my-friends-content {
+  width: 1193px;
+  height: auto;
+  display: flex;
+  padding: 3%;
+  position: relative;
+  align-self: flex-start;
+  align-items: flex-start;
+  margin-left: 4%;
+  border-radius: 14px;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: #181818;
+}
+.my-friends-text {
+  color: rgb(216, 215, 215);
+}
+.my-friends-text1 {
+  color: rgb(185, 187, 190);
+  font-size: 16px;
+  align-self: flex-start;
+  font-style: normal;
+  text-align: left;
+  font-family: Roboto;
+  font-weight: 400;
+}
+.my-friends-container {
+  width: 90%;
+  display: flex;
+  opacity: 1;
+  margin-top: 3%;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.my-friends-text4 {
+  color: var(--dl-color-maincolors-textcolor);
+  font-size: 18px;
+  align-self: flex-start;
+  font-style: normal;
+  text-align: center;
+  font-family: Roboto;
+  font-weight: 700;
+}
+.my-friends-friends {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.my-friends-text5 {
+  color: rgb(185, 187, 190);
+  font-size: 16px;
+  align-self: flex-start;
+  font-style: normal;
+  margin-top: 1%;
+  text-align: left;
+  font-family: Roboto;
+  font-weight: 400;
+  margin-bottom: 3%;
+}

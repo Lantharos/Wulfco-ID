@@ -1,0 +1,129 @@
+:host { 
+  display: contents; 
+}
+.gifts-content {
+  width: 1193px;
+  height: auto;
+  display: flex;
+  position: relative;
+  align-self: flex-start;
+  align-items: flex-start;
+  margin-left: 4%;
+  padding-top: 3%;
+  padding-left: 3%;
+  border-radius: 14px;
+  padding-right: 3%;
+  flex-direction: column;
+  padding-bottom: 3%;
+  justify-content: flex-start;
+  background-color: #181818;
+}
+.gifts-text {
+  color: rgb(216, 215, 215);
+}
+.gifts-container {
+  width: 100%;
+  display: flex;
+  margin-top: 2%;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.gifts-text03 {
+  font-size: 16px;
+  font-style: normal;
+  font-family: Roboto;
+  font-weight: 900;
+}
+.gifts-container1 {
+  width: auto;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.gifts-textinput {
+  color: #ffffff;
+  width: 920px;
+  height: 35px;
+  align-self: flex-start;
+  margin-top: 1%;
+  font-family: Roboto;
+  border-width: 0px;
+  margin-right: 3%;
+  border-radius: var(--dl-radius-radius-radius8);
+  background-color: var(--dl-color-maincolors-inputcolor);
+}
+.gifts-button {
+  color: #ffffff;
+  width: 160px;
+  height: 35px;
+  display: flex;
+  position: relative;
+  align-self: flex-end;
+  font-style: normal;
+  text-align: center;
+  transition: 0.3s;
+  align-items: center;
+  font-family: Roboto;
+  font-weight: 500;
+  line-height: 1.7;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius8);
+  flex-direction: row;
+  justify-content: flex-start;
+  background-color: var(--dl-color-confirmationbuttons-buttoncolor);
+}
+.gifts-button:hover {
+  background-color: var(--dl-color-confirmationbuttons-buttonhover);
+}
+.gifts-button:active {
+  background-color: var(--dl-color-confirmationbuttons-buttonactive);
+}
+.gifts-button:disabled {
+  color: transparent;
+  background-color: var(--dl-color-confirmationbuttons-buttondisabled);
+}
+.gifts-icon {
+  fill: var(--dl-color-maincolors-headingcolor);
+  width: 22px;
+  height: 22px;
+}
+.gifts-text04 {
+  left: 42px;
+  color: var(--dl-color-maincolors-headingcolor);
+  right: 1REM;
+  margin: auto;
+  position: absolute;
+  line-height: 1;
+}
+.gifts-text05 {
+  color: rgb(216, 215, 215);
+  margin-top: 3%;
+}
+.gifts-text08 {
+  color: rgb(185, 187, 190);
+  font-size: 16px;
+  align-self: flex-start;
+  font-style: normal;
+  margin-top: 1%;
+  text-align: left;
+  font-family: Roboto;
+  font-weight: 400;
+}
+@media(max-width: 1200px) {
+  .gifts-text03 {
+    font-size: 20px;
+    align-self: center;
+    margin-top: 2%;
+  }
+}
+@media(max-width: 479px) {
+  .gifts-button {
+    left: 0px;
+    right: 0px;
+    width: 85%;
+    position: static;
+    margin-top: 6%;
+  }
+}

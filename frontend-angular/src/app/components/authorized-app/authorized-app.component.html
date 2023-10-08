@@ -1,0 +1,57 @@
+<div class="authorized-app-container" [ngClass]="rootClassName">
+  <div class="authorized-app-container1">
+    <button
+      id="app_deauthorize"
+      type="button"
+      class="authorized-app-button button"
+    >
+      Deauthorize
+    </button>
+    <button
+      id="app_deauthorize"
+      type="button"
+      class="authorized-app-button1 button"
+    >
+      Go to Storage
+    </button>
+    <div class="authorized-app-container2">
+      <img
+        id="appicon"
+        [attr.src]="app_icon"
+        class="authorized-app-image notselectable"
+      />
+      <span id="app_name" class="authorized-app-text notselectable">
+        {{ app_name }}
+      </span>
+    </div>
+    <div class="authorized-app-container3">
+      <span class="authorized-app-text1 notselectable">ABOUT THIS APP</span>
+      <span id="app_about" class="authorized-app-text2 notselectable">
+        {{ app_about }}
+      </span>
+    </div>
+    <div class="authorized-app-container4">
+      <span class="authorized-app-text3 notselectable">PERMISSIONS</span>
+      <authorized-app-permission
+        permission="Access your username and avatar"
+        rootClassName="authorized-app-permission-root-class-name"
+      ></authorized-app-permission>
+      <authorized-app-permission
+        permission="Access your email address"
+        rootClassName="authorized-app-permission-root-class-name3"
+      ></authorized-app-permission>
+      <authorized-app-permission
+        permission="Access your third-party connections"
+        rootClassName="authorized-app-permission-root-class-name2"
+      ></authorized-app-permission>
+      <authorized-app-permission
+        permission="See your friends"
+        rootClassName="authorized-app-permission-root-class-name1"
+      ></authorized-app-permission>
+      <authorized-app-permission
+        permission="Use Cloud Storage"
+        rootClassName="authorized-app-permission-root-class-name4"
+      ></authorized-app-permission>
+    </div>
+  </div>
+</div>

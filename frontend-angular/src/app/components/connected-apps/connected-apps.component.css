@@ -1,0 +1,176 @@
+:host { 
+  display: contents; 
+}
+.connected-apps-content {
+  width: 1193px;
+  display: flex;
+  position: relative;
+  align-self: flex-start;
+  align-items: flex-start;
+  margin-left: 4%;
+  border-radius: 14px;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: #181818;
+}
+.connected-apps-text {
+  color: #d8d7d7;
+  margin-top: 3%;
+  margin-left: 3%;
+}
+.connected-apps-container {
+  width: 94%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 2%;
+  align-items: flex-start;
+  margin-left: 3%;
+  margin-right: 150%;
+  border-radius: 14px;
+  margin-bottom: 1%;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #121212;
+}
+.connected-apps-container1 {
+  width: 1032px;
+  display: flex;
+  align-self: flex-start;
+  margin-top: 3%;
+  align-items: center;
+  margin-left: 2.5%;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.connected-apps-text1 {
+  color: rgb(216, 215, 215);
+  font-size: 1.5em;
+  align-self: flex-start;
+}
+.connected-apps-text2 {
+  color: rgb(185, 187, 190);
+  font-size: 18px;
+  align-self: flex-start;
+  font-style: normal;
+  margin-top: 1%;
+  text-align: left;
+  font-family: Roboto;
+  font-weight: 400;
+}
+.connected-apps-link {
+  color: var(--dl-color-confirmationbuttons-linkcolor);
+  align-self: flex-start;
+  transition: 0.3s;
+}
+.connected-apps-link:hover {
+  color: var(--dl-color-confirmationbuttons-linkcolorhover);
+}
+.connected-apps-container2 {
+  width: 99%;
+  display: flex;
+  align-self: center;
+  margin-top: 2%;
+  align-items: center;
+  margin-left: 1%;
+  margin-bottom: 3%;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.connected-apps-container3 {
+  width: 94%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1%;
+  align-items: flex-start;
+  margin-left: 3%;
+  margin-right: 150%;
+  border-radius: 14px;
+  margin-bottom: 3%;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #121212;
+}
+.connected-apps-container4 {
+  width: 892px;
+  display: flex;
+  align-self: flex-start;
+  margin-top: 3%;
+  align-items: center;
+  margin-left: 2.5%;
+  margin-bottom: 2%;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.connected-apps-text3 {
+  color: var(--dl-color-maincolors-textcolor2);
+  font-size: 18px;
+  align-self: flex-start;
+  font-style: normal;
+  text-align: center;
+  font-family: Roboto;
+  font-weight: 700;
+}
+.connected-apps-text4 {
+  color: rgb(185, 187, 190);
+  font-size: 18px;
+  align-self: flex-start;
+  font-style: normal;
+  margin-top: 1%;
+  text-align: left;
+  font-family: Roboto;
+  font-weight: 400;
+}
+.connected-apps-button {
+  color: #ffffff;
+  width: 25%;
+  height: 37px;
+  display: flex;
+  position: relative;
+  align-self: flex-start;
+  font-style: normal;
+  text-align: center;
+  transition: 0.3s;
+  align-items: center;
+  font-family: Roboto;
+  font-weight: 500;
+  line-height: 1.7;
+  margin-left: 2.5%;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius8);
+  margin-bottom: 3%;
+  flex-direction: row;
+  justify-content: flex-start;
+  background-color: var(--dl-color-confirmationbuttons-buttoncolor);
+}
+.connected-apps-button:hover {
+  background-color: var(--dl-color-confirmationbuttons-buttonhover);
+}
+.connected-apps-button:active {
+  background-color: var(--dl-color-confirmationbuttons-buttonactive);
+}
+.connected-apps-button:disabled {
+  color: transparent;
+  background-color: var(--dl-color-confirmationbuttons-buttondisabled);
+}
+.connected-apps-icon {
+  fill: var(--dl-color-maincolors-headingcolor);
+  width: 20px;
+  height: 20px;
+}
+.connected-apps-text5 {
+  left: 42PX;
+  color: var(--dl-color-maincolors-headingcolor);
+  right: 1REM;
+  margin: auto;
+  position: absolute;
+  line-height: 1;
+}
+@media(max-width: 479px) {
+  .connected-apps-button {
+    left: 0px;
+    right: 0px;
+    width: 85%;
+    position: static;
+    margin-top: 6%;
+  }
+}

@@ -85,7 +85,7 @@
   background-color: transparent;
 }
 
-.sidebar-button-selected {
+.sidebar-button-selected-blue {
     color: rgb(0, 127, 255);
     width: 100%;
     font-style: normal;
@@ -95,7 +95,19 @@
     font-weight: 500;
     border-width: 0px;
     border-radius: var(--dl-radius-radius-radius8);
-    background-color: rgba(43, 149, 255, 0.37);
+    background-color: rgba(0, 105, 255, 0.31);
+}
+.sidebar-button-selected {
+  color: #ff4444;
+  width: 100%;
+  font-style: normal;
+  margin-top: 2%;
+  text-align: left;
+  font-family: Inter;
+  font-weight: 500;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius8);
+  background-color: rgba(255, 68, 68, 0.33);
 }
 
 .sidebar-button:hover {

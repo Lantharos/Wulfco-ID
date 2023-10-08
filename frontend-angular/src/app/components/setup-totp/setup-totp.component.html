@@ -1,0 +1,88 @@
+<div class="setup-totp-container">
+  <div class="setup-totp-container01">
+    <h1 class="setup-totp-text notselectable">Enable TOTP</h1>
+    <span class="setup-totp-text01">
+      Make your account safer in these 3 easy steps
+    </span>
+    <div class="setup-totp-container02">
+      <img
+        alt="image"
+        src="/assets/transparent%20logo%20sixed%20v2-200h.png"
+        class="setup-totp-image"
+      />
+      <div class="setup-totp-container03">
+        <h1 class="setup-totp-text02 notselectable">
+          DOWNLOAD AN AUTHENTICATOR APP
+        </h1>
+        <span class="setup-totp-text03">
+          Download and install Wulfco Authenticator or Google Authenticator for
+          your phone or tablet.
+        </span>
+      </div>
+    </div>
+    <div class="setup-totp-container04">
+      <img
+        alt="image"
+        src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=otpauth://totp/VikkiVuk?secret=2L3WKP43P32QW24EWCKGET4VLSYE2P4H&amp;issuer=Wulfco%20ID"
+        class="setup-totp-image1"
+      />
+      <div class="setup-totp-container05">
+        <div class="setup-totp-container06">
+          <h1 class="setup-totp-text04 notselectable">SCAN THE QR CODE</h1>
+          <span class="setup-totp-text05">
+            Open the Authenticator app and scan the image on the left using your
+            phone&apos;s camera.
+          </span>
+        </div>
+        <div class="setup-totp-container07">
+          <h1 class="setup-totp-text06 notselectable">
+            2FA KEY (MANUAL ENTRY)
+          </h1>
+          <span class="setup-totp-text07">POVB VPIR JH5P P56N</span>
+        </div>
+      </div>
+    </div>
+    <div class="setup-totp-container08">
+      <div class="setup-totp-container09">
+        <img
+          alt="image"
+          src="/assets/phone%20verification-200h.png"
+          class="setup-totp-image2"
+        />
+      </div>
+      <div class="setup-totp-container10">
+        <div class="setup-totp-container11">
+          <h1 class="setup-totp-text08 notselectable">LOG IN WITH YOUR CODE</h1>
+          <span class="setup-totp-text09">
+            Enter the 6-digit code generated.
+          </span>
+        </div>
+        <div class="setup-totp-container12">
+          <input
+            type="number"
+            id="code"
+            max="6"
+            min="6"
+            step="1"
+            required="true"
+            autofocus="true"
+            placeholder="000-000"
+            autocomplete="one-time-code"
+            class="setup-totp-textinput input"
+          />
+          <button id="confirm" type="button" class="setup-totp-button button">
+            <svg viewBox="0 0 1024 1024" class="setup-totp-icon">
+              <path
+                d="M426 726l384-384-60-62-324 324-152-152-60 60zM512 86q176 0 301 125t125 301-125 301-301 125-301-125-125-301 125-301 301-125z"
+              ></path>
+            </svg>
+            <span class="setup-totp-text10">Confirm</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <button id="close" type="button" class="setup-totp-button1 button">
+      X
+    </button>
+  </div>
+</div>

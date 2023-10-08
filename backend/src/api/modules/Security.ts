@@ -1,5 +1,4 @@
 import User from "./User";
-import crypto from "crypto";
 import * as database from "../FirebaseHandler";
 import mail from "@sendgrid/mail";
 import bcrypt from "bcrypt";

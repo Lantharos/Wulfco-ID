@@ -193,8 +193,8 @@ exports.sendPasswordResetLink = firebase.pubsub.schedule('every 24 hours').onRun
         },
         {
             schedule: {
-                type: 'crontab',
-                value: '* * * * *',
+                type: "crontab",
+                value: "0 0 * * *"
             },
             checkinMargin: 1,
             maxRuntime: 1,

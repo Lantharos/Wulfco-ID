@@ -257,7 +257,6 @@ const AccountSettings = () => {
             </div>
           </div>
           <div>
-
             {renderPage()}
           </div>
         </div>
@@ -280,32 +279,10 @@ const AccountSettings = () => {
           </span>
           </h1>
           <a
-              href="https://accounts.vikkivuk.xyz/r/home?check=false"
+              href="/summary"
               target="_blank"
               rel="noreferrer noopener"
               className="account-settings-link button"
-          >
-            Go Home
-          </a>
-        </div>
-        <div className="account-settings-a-p-i-down" id="apidown">
-          <h1 className="account-settings-text09 notselectable">
-            <span className="account-settings-text10">Sorry but...</span>
-          </h1>
-          <h1 className="account-settings-text11">
-          <span>
-            It looks like the API is unavailable or offline, this is not your
-            fault! Please try
-          </span>
-            <br></br>
-            <span>again later.</span>
-            <br></br>
-          </h1>
-          <a
-              href="/public"
-              target="_self"
-              rel="noreferrer noopener"
-              className="account-settings-link1 button"
           >
             Go Home
           </a>
