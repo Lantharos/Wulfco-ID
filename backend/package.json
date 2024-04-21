@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc && npm run sentry:sourcemaps",
     "start": "node lib/index.js",
-    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org wulfco-7e --project wulfco-api ./lib --release 1.0.0 && sentry-cli sourcemaps upload --org wulfco-7e --project wulfco-api ./lib --release 1.0.0"
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org wulfco --project wulfco-api ./lib --release 1.0.0 && sentry-cli sourcemaps upload --org wulfco --project wulfco-api ./lib --release 1.0.0"
   },
   "author": "Wulfco",
   "license": "ISC",
@@ -24,6 +24,7 @@
     "express-slow-down": "^1.6.0",
     "firebase": "^9.22.1",
     "firebase-functions": "^4.4.1",
+    "hcaptcha": "^0.1.1",
     "node-fetch": "^3.3.0",
     "node-steam-openid": "^1.0.1",
     "oauth-1.0a": "^2.2.6",

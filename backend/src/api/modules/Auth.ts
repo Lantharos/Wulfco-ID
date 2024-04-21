@@ -3,6 +3,7 @@ import * as database from "../FirebaseHandler";
 import User from "./User";
 import bcrypt from "bcrypt";
 import mail from "@sendgrid/mail";
+import * as hcaptcha from "hcaptcha";
 
 mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
 
@@ -19,15 +20,25 @@ export default class Auth {
                 message: "Crypto login is not implemented yet"
             }
         } else {
-            const recaptchaToken = req.body.recaptcha
-            if (!recaptchaToken) {return {status: 400, success: false, error: "Missing recaptcha token"}}
+            const requesterIp = req.headers["x-forwarded-for"] || req.connection.remoteAddress
 
-            const recaptcha = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET}&response=${recaptchaToken}`, {method: "POST"})
-            const recaptchaResponse = await recaptcha.json()
-            if (!recaptchaResponse.success) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
-            if (recaptchaResponse.score < 0.5) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
-            if (recaptchaResponse.hostname !== "id.wulfco.xyz") {return {status: 400, success: false, error: "Invalid recaptcha token"}}
-            if (recaptchaResponse["error-codes"]) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
+            if (req.body.recaptcha) {
+                const recaptcha = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET}&response=${req.body.recaptcha}`, {method: "POST"})
+                const recaptchaResponse = await recaptcha.json()
+                if (!recaptchaResponse.success) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
+                if (recaptchaResponse.score < 0.5) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
+                if (recaptchaResponse.hostname !== "id.wulfco.xyz") {return {status: 400, success: false, error: "Invalid recaptcha token"}}
+                if (recaptchaResponse["error-codes"]) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
+            } else if (req.body.hcaptcha) {
+                const returned = await hcaptcha.verify(process.env.HCAPTCHA_SECRET, req.body.hcaptcha, requesterIp, process.env.HCAPTCHA_SITE_KEY).then((data: any) => {
+                    if (!data.success) {return {status: 400, success: false, error: "Invalid captcha token"}}
+                    return false
+                })
+
+                if (returned) {return returned}
+            } else {
+                return {status: 400, success: false, error: "Missing captcha token"}
+            }
 
             const email = atob(req.body.email)
             const password = atob(req.body.password)
@@ -43,8 +54,6 @@ export default class Auth {
             if (!user.account.email || !user.account.email.verified) {return {status: 401, success: false, error: "Email not verified"}}
 
             if (await bcrypt.compare(password, user.password, null) === false) {return {status: 401, success: false, error: "Invalid password"} }
-
-            const requesterIp = req.headers["x-forwarded-for"] || req.connection.remoteAddress
 
             const location = await fetch(`http://ip-api.com/json/${requesterIp}`)
 
@@ -125,17 +134,28 @@ export default class Auth {
     }
 
     public static async create(req: any) {
-        const recaptchaToken = req.body.recaptcha
-        if (!recaptchaToken) {return {status: 400, success: false, error: "Missing recaptcha token"}}
-
-        const recaptcha = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET}&response=${recaptchaToken}`, {method: "POST"})
-        const recaptchaResponse = await recaptcha.json()
-        if (!recaptchaResponse.success) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
-        if (recaptchaResponse.score < 0.5) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
-        if (recaptchaResponse.hostname !== "id.wulfco.xyz") {return {status: 400, success: false, error: "Invalid recaptcha token"}}
-        if (recaptchaResponse["error-codes"]) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
-
         const requesterIp = req.headers["x-forwarded-for"] || req.connection.remoteAddress
+
+        if (req.body.name && requesterIp && req.body.display_name && req.body.name && req.body.username && req.body.gender && req.body.email && req.body.password) {} else { return {status: 400, success: false, error: "Missing fields"} }
+
+        if (req.body.recaptcha) {
+            const recaptcha = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET}&response=${req.body.recaptcha}`, {method: "POST"})
+            const recaptchaResponse = await recaptcha.json()
+            if (!recaptchaResponse.success) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
+            if (recaptchaResponse.score < 0.5) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
+            if (recaptchaResponse.hostname !== "id.wulfco.xyz") {return {status: 400, success: false, error: "Invalid recaptcha token"}}
+            if (recaptchaResponse["error-codes"]) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
+        } else if (req.body.hcaptcha) {
+            const returned = await hcaptcha.verify(process.env.HCAPTCHA_SECRET, req.body.hcaptcha, requesterIp, process.env.HCAPTCHA_SITE_KEY).then((data: any) => {
+                if (!data.success) {return {status: 400, success: false, error: "Invalid captcha token"}}
+                return false
+            })
+
+            if (returned) {return returned}
+        } else {
+            return {status: 400, success: false, error: "Missing captcha token"}
+        }
+
         const location = await fetch(`http://ip-api.com/json/${requesterIp}`)
 
         const session = {
@@ -151,8 +171,6 @@ export default class Auth {
 
         const code = Math.floor(100000 + Math.random() * 900000)
 
-        const discriminator = Math.floor(Math.random() * 9999)
-
         const docId = await database.createUser({
             email: req.body.email,
             password: await bcrypt.hash(req.body.password, 10, null),
@@ -160,24 +178,20 @@ export default class Auth {
                 created: Date.now(),
                 last_login: Date.now(),
                 sessions: [session],
-                email: {
-                    verified: false,
-                    code: code
-                },
-                analytics: {
-                    share_storage_data: true,
-                    share_analytics: true
-                }
+                email: { verified: false, code: code },
+                security: {email: false, protected: false, security_keys: [], passkeys: [], totp: { enabled: false, secret: '' }},
+                analytics: { use_analytics: true, collect_use_data: true },
             },
-            friends: {},
+            friends: { friends: [], requests: { inbound: [], outbound: [] }, blocked: []},
             profile: {
                 username: req.body.username,
-                discriminator: discriminator,
+                display_name: req.body.display_name,
                 full_name: req.body.name,
                 gender: req.body.gender,
-                avatar: `https://api.dicebear.com/5.x/identicon/svg?seed=${req.body.name.split(" ")[0]}&backgroundColor=ffdfbf`
+                avatar: `https://api.dicebear.com/5.x/identicon/svg?seed=${req.body.display_name.split(" ")[0]}&backgroundColor=ffdfbf`
             },
-            connections: {}
+            connections: [],
+            oauth: []
         })
 
         if (!docId) {return {status: 500, success: false, error: "Failed to create user"}}

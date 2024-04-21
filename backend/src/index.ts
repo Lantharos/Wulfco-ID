@@ -60,7 +60,8 @@ const allowedOrigins = [
     "https://accounts.google.com",
     "https://twitch.tv",
     "https://discord.com",
-    "https://spotify.com"
+    "https://spotify.com",
+    "http://localhost:4200"
 ]
 
 app.use('/', express.json(), slowDown({
