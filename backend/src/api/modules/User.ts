@@ -1,64 +1,71 @@
 import crypto from "crypto";
 import bcrypt from "bcrypt";
-import * as database from "../FirebaseHandler";
-import mail from "@sendgrid/mail";
+import * as database from "./util/FirebaseHandler";
 import Payments from "./Payments";
-
-mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
+import CryptoHelper from "./util/CryptoHelper";
+import Auth from "./Auth";
 
 export default class User {
-    public static async get(req: any) {
-        const session_id = req.headers['w-session']
-        const signedToken = req.headers['w-auth']
-        const loggen = req.headers['w-loggen']
-        const user_id = req.query.id
+    public static async get(req: any, checkPassword?: any) {
+        const session_id = req.headers['w-sessionid']
+        let encryptedToken = req.headers['w-auth']
 
-        if (!session_id || !signedToken || !loggen || !user_id) {
+        if (!session_id || !encryptedToken) {
             return {status: 400, success: false, message: "Missing headers"}
         }
 
+        encryptedToken = encryptedToken.split(",").map(Number)
+
+        const sessionIdentification = JSON.parse(session_id)
+
+        const sessionDoc = await database.getSessionDocById(sessionIdentification.sessionDoc)
+        if (!sessionDoc) {return {status: 400, success: false, message: "Could not find session document"}}
+
+        const session = await database.getSession(sessionIdentification.sessionDoc, sessionIdentification.sessionId)
+        if (!session) {return {status: 400, success: false, message: "Could not find session"}}
+
+        const user_id = sessionDoc.data().userId
+
         const rawUser = await database.getUser(user_id)
-        if (!rawUser) {
-            return {status: 400, success: false, message: "Could not find user"}
-        }
+        if (!rawUser) {return {status: 400, success: false, message: "Could not find user"}}
+
         const user = rawUser.data()
         if (!user) { return {status: 400, success: false, message: "Could not find user"} }
 
-        if (!user.account.email || !user.account.email.verified) { return {status: 401, success: false, message: "Email not verified"} }
+        const iv = Buffer.from(user.iv, "hex")
 
-        const session = user.account.sessions.find((session: any) => session.session_id === session_id)
+        const rawSessionSecret = Buffer.from(session.secret, "hex")
+        const sessionSecret = crypto.createSecretKey(rawSessionSecret)
 
-        if (!session) {
-            return {status: 400, success: false, message: "Could not find session!"}
-        }
-        if (session.loggen !== loggen) {
-            return {status: 401, success: false, message: "Invalid loggen"}
-        }
-        const obtainedSignedToken = crypto.createHmac("sha256", session.secret).update(session.token).digest("hex")
-        if (obtainedSignedToken !== signedToken) {
-            return {status: 401, success: false, message: "Invalid token"}
+        const tokenRaw = new CryptoHelper().decryptAES(Buffer.from(encryptedToken), sessionSecret, iv, "aes-256-cbc")
+        if (!tokenRaw) {return {status: 400, success: false, message: "Could not decrypt token"}}
+
+        const tokenString = JSON.parse(tokenRaw)["token"]
+        const token = new Uint8Array(tokenString.split(",").map(Number))
+        const sessionDetailsRaw = new CryptoHelper().decryptAES(Buffer.from(session.sessionData, "hex"), crypto.createSecretKey(token), iv, "aes-256-cbc")
+        if (!sessionDetailsRaw) {return {status: 400, success: false, message: "Could not decrypt session details"}}
+
+        const sessionDetails = JSON.parse(sessionDetailsRaw)
+        const tedk = crypto.createSecretKey(Buffer.from(sessionDetails.tedk, "hex"))
+
+        const userDataRaw = new CryptoHelper().decryptAES(Buffer.from(user.data, "hex"), tedk, iv, "aes-256-cbc")
+        if (!userDataRaw) {return {status: 400, success: false, message: "Could not decrypt user data"}}
+
+        const userData = JSON.parse(userDataRaw)
+
+        if (checkPassword != undefined) {
+            const pdTEDK = new CryptoHelper().KDF(checkPassword, user.username)
+            const decryptedUser = new CryptoHelper().decryptAES(Buffer.from(user.data, 'hex'), pdTEDK, iv, 'aes-256-cbc')
+            if (!decryptedUser) {return {status: 400, success: false, error: "invalid_password", message: "Incorrect password!"}}
         }
 
         const requesterIp = req.headers["x-forwarded-for"] || req.connection.remoteAddress
+        const hashedIp = new CryptoHelper().Hash(requesterIp)
 
-        if (req.headers['w-reason'] === 'get-user-data') {
-            const location = await fetch(`http://ip-api.com/json/${requesterIp}`)
-            const locationData = await location.json()
+        if (session.ip !== hashedIp) {return {status: 400, success: false, message: "Invalid IP"}}
 
-            if (locationData.region !== session.location.region) {
-                await mail.send({
-                    to: user.email,
-                    from: "alerts@wulfco.xyz",
-                    subject: 'Suspicious activity detected on your account',
-                    text: `Hello @${user.profile.username},\n\nSomeone has tried to access your account from an unusual location or device. If this wasn\'t you, please log in to your account and change your password immediately. If you need further help don\'t hesitate to contact us!\n\nBest regards,\nYour Wulfco team`
-                })
-
-                return {status: 400, success: false, message: "Invalid location"}
-            }
-        }
-
-        const customerId = user.account.billing ? (user.account.billing.stripe ? user.account.billing.stripe.customer_id : undefined) : undefined
-        if (customerId) {
+        const customerId = userData.account.billing.stripe
+        if (customerId != '') {
             let billingInfo = {}
 
             const resultic = await Payments.getStripeCards(customerId)
@@ -67,19 +74,25 @@ export default class User {
             const resultit = await Payments.getStripeTransactions(customerId)
             billingInfo["transactions"] = resultit.transactions
 
-            user["account"]["billing"]["stripe"] = billingInfo
+            userData["account"]["billing"]["stripe"] = billingInfo
         }
 
-        const paypals = user.account.billing ? (user.account.billing.paypal ? user.account.billing.paypal : undefined) : undefined
+        const paypals = userData.account.billing.paypal
         if (paypals) {
             if (paypals.length > 0) {
-                user["account"]["billing"]["paypal"] = user.account.billing.paypal;
+                userData["account"]["billing"]["paypal"] = user.account.billing.paypal;
             } else {
-                delete user["account"]["billing"]["paypal"]
+                delete userData["account"]["billing"]["paypal"]
             }
         }
 
-        return {status: 200, success: true, user, rawUser}
+        userData["username"] = user.username
+        userData["id"] = user_id
+        userData["iv"] = user.iv
+
+        const encryptedUserData = new CryptoHelper().encryptAES(JSON.stringify(userData), crypto.createSecretKey(rawSessionSecret), iv, "aes-256-cbc")
+
+        return {status: 200, success: true, user: userData, encryptedUserData: new Uint8Array(encryptedUserData).toString()}
     }
 
     public static async checkPassword(req: any) {
@@ -95,36 +108,90 @@ export default class User {
         if (await bcrypt.compare(password, user.password, null) === true) {return {status: 200, success: true}} else {return {status: 400, success: false, message: "Invalid password"}}
     }
 
-    public static async account(req: any) {
-        const newEmail = req.body["email"]
-        const newUsername = req.body["username"]
-        if(!newEmail || !newUsername) {return {status: 400, success: false, message: "Missing fields"}}
+    public static async account(req: any, type: string) {
+        const { encryptedData: base64EncodedEncryptedData, encryptedSymmetricKey: base64EncodedEncryptedSymmetricKey, iv: base64EncodedIv } = req.body
+        if (!base64EncodedEncryptedData || !base64EncodedEncryptedSymmetricKey || !base64EncodedIv) {return {status: 400, success: false, error: "Missing encrypted data or symmetric key"}}
 
-        const result = await User.get(req)
-        if (!result.success) {return result}
+        const decryptedData = new CryptoHelper().SimpleDecrypt(base64EncodedEncryptedData, base64EncodedEncryptedSymmetricKey, base64EncodedIv)
+        if (!decryptedData) {return {status: 400, success: false, error: "Invalid data"}}
+        const requestData = JSON.parse(decryptedData)
 
-        const user = result.user
-        if (!user) {return {status: 400, success: false, message: "Could not find user"}}
+        const passwordHash = requestData["password"]
+        if (!passwordHash) {return {status: 400, success: false, error: "Missing password hash"}}
 
-        const rawUser = result.rawUser
-        if (!rawUser) {return {status: 400, success: false, message: "Could not find user"}}
+        const user = await User.get(req, passwordHash)
+        if (!user.success) {return user}
 
-        if (user.email === newEmail && user.profile.username === newUsername && !req.body["birthday"] && !req.body["name"]) {return {status: 400, success: false, message: "No changes were made"}}
-        if (req.body["birthday"]) {
-            const birthday = Date.parse(req.body["birthday"])
-            await database.updateUser(rawUser.id, {"account.birthday": birthday})
-        } else if (req.body["name"]) {
-            const name = req.body["name"]
-            await database.updateUser(rawUser.id, {"account.full_name": name})
-        } else {
-            if (user.email === newEmail) {
-                const discriminator = Math.floor(Math.random() * 9999)
+        const kdf = new CryptoHelper().KDF(passwordHash, user.user.username)
 
-                await database.updateUser(rawUser.id, {"profile.username": newUsername, "profile.discriminator": discriminator})
-            } else {
-                await database.updateUser(rawUser.id, {email: newEmail, "profile.username": newUsername})
+        const newUser = user.user
+
+        if (type == "name") {
+            newUser["profile"]["name"] = requestData["name"].split(" ")
+            const newEncryptedUser = new CryptoHelper().encryptAES(JSON.stringify(newUser), kdf, Buffer.from(user.user.iv, "hex"), "aes-256-cbc")
+            if (!newEncryptedUser) {return {status: 400, success: false, error: "Could not encrypt user data"}}
+
+            await database.updateUser(user.user.id, {data: newEncryptedUser.toString("hex")})
+        } else if (type == "username") {
+            const newKdf = new CryptoHelper().KDF(passwordHash, requestData["username"])
+            const newEncryptedUser = new CryptoHelper().encryptAES(JSON.stringify(newUser), newKdf, Buffer.from(user.user.iv, "hex"), "aes-256-cbc")
+            if (!newEncryptedUser) {return {status: 400, success: false, error: "Could not encrypt user data"}}
+            await database.updateUser(user.user.id, {username: requestData["username"], data: newEncryptedUser.toString("hex")})
+
+            await database.deleteAllSessions(user.user.id)
+
+            // Create new session
+            const requesterIp = req.headers["x-forwarded-for"] || req.connection.remoteAddress
+            const hashedIp = new CryptoHelper().Hash(requesterIp)
+            const location = await fetch(`http://ip-api.com/json/${requesterIp}`)
+
+            const sessionToken = crypto.randomBytes(32)
+
+            const sessionData = {
+                token: sessionToken.toString("hex"),
+                location: await location.json(),
+                device: req.headers['user-agent'],
+                tedk: newKdf.export().toString('hex')
             }
+
+            const sessionSecret = new CryptoHelper().generateAESKey()
+
+            const encryptedSessionData = new CryptoHelper().encryptAES(JSON.stringify(sessionData), crypto.createSecretKey(sessionToken), Buffer.from(user.user.iv, "hex"), 'aes-256-cbc')
+
+            const session = {
+                id: crypto.randomBytes(16).toString('hex'),
+                created: Date.now(),
+                ip: hashedIp,
+                secret: sessionSecret.export().toString('hex'),
+                sessionData: encryptedSessionData.toString('hex')
+            }
+
+            const newSession = await database.createSession(user.user.id, session)
+
+            const encryptedSessionDataToSend = new CryptoHelper().encryptAES(JSON.stringify({
+                secret: new Uint8Array(sessionSecret.export()).toString(),
+                token: new Uint8Array(sessionToken).toString(),
+                id: session.id,
+                sessionDoc: newSession
+            }), newKdf, Buffer.from(user.user.iv, "hex"), 'aes-256-cbc')
+            // end session creation
+
+            return {
+                status: 200,
+                success: true,
+                session: new Uint8Array(encryptedSessionDataToSend).toString(),
+                iv: new Uint8Array(Buffer.from(user.user.iv, "hex")).toString(),
+                uuid: user.user.id
+            }
+        } else if (type == "birthday") {
+            const bdayDate = new Date(requestData["birthday"])
+            newUser["account"]["birthday"] = bdayDate.getTime()
+            const newEncryptedUser = new CryptoHelper().encryptAES(JSON.stringify(newUser), kdf, Buffer.from(user.user.iv, "hex"), "aes-256-cbc")
+            if (!newEncryptedUser) {return {status: 400, success: false, error: "Could not encrypt user data"}}
+
+            await database.updateUser(user.user.id, {data: newEncryptedUser.toString("hex")})
         }
+
 
         return {status: 200, success: true}
     }
@@ -139,10 +206,10 @@ export default class User {
         if (!user) {return {status: 400, success: false, message: "Could not find user"}}
 
         if (share_analytics !== undefined) {
-            await database.updateUser(result.rawUser.id, {"account.analytics.share_analytics": share_analytics})
+            await database.updateUser(user.id, {"account.analytics.share_analytics": share_analytics})
             return {status: 200, success: true}
         } else if (share_storage_data !== undefined) {
-            await database.updateUser(result.rawUser.id, {"account.analytics.share_storage_data": share_storage_data})
+            await database.updateUser(user.id, {"account.analytics.share_storage_data": share_storage_data})
             return {status: 200, success: true}
         } else {
             return {status: 400, success: false, message: "Missing fields"}
@@ -157,10 +224,8 @@ export default class User {
         if (!result.success) {return result}
         const user = result.user
         if (!user) {return {status: 400, success: false, message: "Could not find user"}}
-        const rawUser = result.rawUser
-        if (!rawUser) {return {status: 400, success: false, message: "Could not find user"}}
 
-        const success = await database.uploadAvatar(rawUser.id, file)
+        const success = await database.uploadAvatar(user.id, file)
 
         if (success) {
             return {status: 200, success: true}
@@ -174,10 +239,8 @@ export default class User {
         if (!result.success) {return result}
         const user = result.user
         if (!user) {return {status: 400, success: false, message: "Could not find user"}}
-        const rawUser = result.rawUser
-        if (!rawUser) {return {status: 400, success: false, message: "Could not find user"}}
 
-        await database.updateUser(rawUser.id, {"profile.avatar": `https://api.dicebear.com/5.x/identicon/svg?seed=${user.profile.full_name.split(" ")[0]}&backgroundColor=ffdfbf`})
+        await database.updateUser(user.id, {"profile.avatar": `https://api.dicebear.com/5.x/identicon/svg?seed=${user.profile.full_name.split(" ")[0]}&backgroundColor=ffdfbf`})
 
         return {status: 200, success: true}
     }
@@ -196,12 +259,7 @@ export default class User {
             return result
         }
 
-        const rawUser = result.rawUser
-        if (!rawUser) {
-            return {status: 400, success: false, message: "Could not find user"}
-        }
-
-        await database.updateUser(rawUser.id, {"profile.about_me": newAboutMe || "", "profile.profile_color": newProfileColor || "#008cff", "profile.pronouns": newPronouns || ""})
+        await database.updateUser(result.user.id, {"profile.about_me": newAboutMe || "", "profile.profile_color": newProfileColor || "#008cff", "profile.pronouns": newPronouns || ""})
 
         return {status: 200, success: true}
     }

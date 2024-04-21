@@ -1,7 +1,0 @@
-{
-  "api_url": "https://us-central1-wulfco-id.cloudfunctions.net/api",
-  "stripe_key": "pk_test_51NU6p5D4hW6MEhWIoHlqqIB6qu8jj7BIb74wkXvdtYajmwFxvZWajzEM1HRJbnxXsLTwTKnSeNHi4zjrHomCMntx00LdyxmXvi",
-  "recaptcha_site_key": "6Lep59gnAAAAABteKrrEYF15i0UnfRGQX8gSHv38",
-  "version": "1.0.0",
-  "name": "Wulfco ID"
-}

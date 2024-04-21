@@ -1,0 +1,591 @@
+:host { 
+  display: contents; 
+}
+.my-id-content {
+  width: 1193px;
+  height: auto;
+  display: flex;
+  position: relative;
+  align-self: flex-end;
+  align-items: flex-start;
+  margin-left: 4%;
+  border-radius: 14px;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: #181818;
+}
+.my-id-text {
+  color: rgb(216, 215, 215);
+  margin-top: 3%;
+  margin-left: 3%;
+}
+.my-id-user-profile {
+  width: 72%;
+  display: flex;
+  position: relative;
+  margin-top: 2%;
+  align-items: flex-start;
+  margin-left: 3%;
+  margin-bottom: 2%;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.my-id-background {
+  width: 100%;
+  height: 118px;
+  display: flex;
+  flex-wrap: wrap;
+  align-self: flex-start;
+  align-items: flex-start;
+  border-radius: 14px;
+  margin-bottom: -2%;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #FB3838;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.my-id-content1 {
+  width: 100%;
+  height: 558px;
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+  align-self: flex-start;
+  align-items: center;
+  border-radius: 14px;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--dl-color-maincolors-containerincontainerbg);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.my-id-wrapper {
+  width: 794px;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-self: center;
+  margin-top: 10%;
+  align-items: center;
+  border-radius: 14px;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: var(--dl-color-maincolors-containercolor);
+}
+.my-id-username-wrapper {
+  flex: 0 0 auto;
+  width: 90%;
+  height: auto;
+  display: flex;
+  position: relative;
+  margin-top: 4%;
+  align-items: flex-start;
+  margin-left: 4%;
+  margin-right: 4%;
+  flex-direction: column;
+}
+.my-id-pointer {
+  color: var(--dl-color-maincolors-textcolor);
+  font-size: 18px;
+  align-self: flex-start;
+  font-style: normal;
+  text-align: center;
+  font-family: Roboto;
+  font-weight: 700;
+}
+.my-id-container {
+  width: 100%;
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  flex-direction: row;
+}
+.my-id-current-username {
+  color: var(--dl-color-maincolors-headingcolor);
+  width: auto;
+  font-size: 1.4em;
+  align-self: flex-start;
+  font-style: normal;
+  margin-top: 2%;
+  font-weight: 500;
+}
+.my-id-button {
+  color: #ffffff;
+  right: 0px;
+  width: 50px;
+  bottom: 0px;
+  height: 37px;
+  display: flex;
+  position: absolute;
+  align-self: center;
+  font-style: normal;
+  text-align: center;
+  transition: 0.3s;
+  align-items: center;
+  font-family: Roboto;
+  font-weight: 500;
+  line-height: 1.7;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius8);
+  flex-direction: row;
+  justify-content: flex-start;
+  background-color: var(--dl-color-maincolors-containerincontainerbg);
+}
+.my-id-button:hover {
+  background-color: #2b2b2b;
+}
+.my-id-button:active {
+  background-color: #232323;
+}
+.my-id-button:disabled {
+  color: transparent;
+  cursor: default;
+  background-color: #141414;
+}
+.my-id-icon {
+  fill: var(--dl-color-maincolors-headingcolor);
+  width: 24px;
+  height: 24px;
+}
+.my-id-button1 {
+  color: #ffffff;
+  right: 60px;
+  width: 180px;
+  bottom: 0px;
+  height: 37px;
+  display: flex;
+  position: absolute;
+  align-self: center;
+  font-style: normal;
+  text-align: center;
+  transition: 0.3s;
+  align-items: center;
+  font-family: Roboto;
+  font-weight: 500;
+  line-height: 1.7;
+  border-width: 0px;
+  border-radius: 8px;
+  flex-direction: row;
+  justify-content: flex-start;
+  background-color: var(--dl-color-maincolors-containerincontainerbg);
+}
+.my-id-button1:hover {
+  background-color: #2b2b2b;
+}
+.my-id-button1:active {
+  background-color: #232323;
+}
+.my-id-button1:disabled {
+  color: transparent;
+  cursor: default;
+  background-color: #141414;
+}
+.my-id-icon02 {
+  fill: var(--dl-color-maincolors-headingcolor);
+  width: 24px;
+  height: 24px;
+}
+.my-id-text1 {
+  color: var(--dl-color-maincolors-headingcolor);
+  font-size: 16px;
+  margin-left: 10%;
+}
+.my-id-username-wrapper1 {
+  flex: 0 0 auto;
+  width: 90%;
+  height: auto;
+  display: flex;
+  position: relative;
+  margin-top: 4%;
+  align-items: flex-start;
+  margin-left: 4%;
+  margin-right: 4%;
+  flex-direction: column;
+}
+.my-id-pointer1 {
+  color: var(--dl-color-maincolors-textcolor);
+  font-size: 18px;
+  align-self: flex-start;
+  font-style: normal;
+  text-align: center;
+  font-family: Roboto;
+  font-weight: 700;
+}
+.my-id-container1 {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+}
+.my-id-container2 {
+  width: auto;
+  display: flex;
+  margin-top: 2%;
+  align-items: flex-start;
+  flex-direction: row;
+}
+.my-id-current-username1 {
+  color: var(--dl-color-maincolors-headingcolor);
+  width: auto;
+  font-size: 1.4em;
+  align-self: flex-start;
+  font-style: normal;
+  font-weight: 500;
+}
+.my-id-button2 {
+  color: #ffffff;
+  right: 0px;
+  width: 50px;
+  bottom: 0px;
+  height: 37px;
+  display: flex;
+  position: absolute;
+  align-self: center;
+  font-style: normal;
+  text-align: center;
+  transition: 0.3s;
+  align-items: center;
+  font-family: Roboto;
+  font-weight: 500;
+  line-height: 1.7;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius8);
+  flex-direction: row;
+  justify-content: flex-start;
+  background-color: var(--dl-color-maincolors-containerincontainerbg);
+}
+.my-id-button2:hover {
+  background-color: #2b2b2b;
+}
+.my-id-button2:active {
+  background-color: #232323;
+}
+.my-id-button2:disabled {
+  color: transparent;
+  cursor: default;
+  background-color: #141414;
+}
+.my-id-icon04 {
+  fill: var(--dl-color-maincolors-headingcolor);
+  width: 24px;
+  height: 24px;
+}
+.my-id-email-wrapper {
+  flex: 0 0 auto;
+  width: 90%;
+  height: auto;
+  display: flex;
+  position: relative;
+  margin-top: 4%;
+  align-items: flex-start;
+  margin-left: 4%;
+  margin-right: 4%;
+  flex-direction: column;
+}
+.my-id-pointer2 {
+  color: var(--dl-color-maincolors-textcolor);
+  font-size: 18px;
+  align-self: flex-start;
+  font-style: normal;
+  text-align: center;
+  font-family: Roboto;
+  font-weight: 700;
+}
+.my-id-container3 {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+}
+.my-id-current-email {
+  color: var(--dl-color-maincolors-headingcolor);
+  width: auto;
+  font-size: 1.4em;
+  align-self: flex-start;
+  font-style: normal;
+  margin-top: 2%;
+  font-weight: 500;
+}
+.my-id-button3 {
+  color: #ffffff;
+  right: 0px;
+  width: 50px;
+  bottom: 0px;
+  height: 37px;
+  display: flex;
+  position: absolute;
+  align-self: center;
+  font-style: normal;
+  text-align: center;
+  transition: 0.3s;
+  align-items: center;
+  font-family: Roboto;
+  font-weight: 500;
+  line-height: 1.7;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius8);
+  flex-direction: row;
+  justify-content: flex-start;
+  background-color: var(--dl-color-maincolors-containerincontainerbg);
+}
+.my-id-button3:hover {
+  background-color: #2b2b2b;
+}
+.my-id-button3:active {
+  background-color: #232323;
+}
+.my-id-button3:disabled {
+  color: transparent;
+  cursor: default;
+  background-color: #141414;
+}
+.my-id-icon06 {
+  fill: var(--dl-color-maincolors-headingcolor);
+  width: 24px;
+  height: 24px;
+}
+.my-id-birthday-wrapper {
+  flex: 0 0 auto;
+  width: 90%;
+  height: auto;
+  display: flex;
+  position: relative;
+  margin-top: 4%;
+  align-items: flex-start;
+  margin-left: 4%;
+  margin-right: 4%;
+  margin-bottom: 4%;
+  flex-direction: column;
+}
+.my-id-pointer3 {
+  color: var(--dl-color-maincolors-textcolor);
+  font-size: 18px;
+  align-self: flex-start;
+  font-style: normal;
+  text-align: center;
+  font-family: Roboto;
+  font-weight: 700;
+}
+.my-id-container4 {
+  width: 100%;
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  flex-direction: row;
+}
+.my-id-current-birthday {
+  color: var(--dl-color-maincolors-headingcolor);
+  width: auto;
+  font-size: 1.4em;
+  align-self: flex-start;
+  font-style: normal;
+  margin-top: 2%;
+  font-weight: 500;
+}
+.my-id-button4 {
+  color: #ffffff;
+  right: 0px;
+  width: 50px;
+  bottom: 0px;
+  height: 37px;
+  display: flex;
+  position: absolute;
+  align-self: center;
+  font-style: normal;
+  text-align: center;
+  transition: 0.3s;
+  align-items: center;
+  font-family: Roboto;
+  font-weight: 500;
+  line-height: 1.7;
+  border-width: 0px;
+  border-radius: var(--dl-radius-radius-radius8);
+  flex-direction: row;
+  justify-content: flex-start;
+  background-color: var(--dl-color-maincolors-containerincontainerbg);
+}
+.my-id-button4:hover {
+  background-color: #2b2b2b;
+}
+.my-id-button4:active {
+  background-color: #232323;
+}
+.my-id-button4:disabled {
+  color: transparent;
+  cursor: default;
+  background-color: #141414;
+}
+.my-id-icon08 {
+  fill: var(--dl-color-maincolors-headingcolor);
+  width: 24px;
+  height: 24px;
+}
+.my-id-info {
+  top: 62px;
+  left: 35px;
+  width: 787px;
+  height: 136px;
+  display: flex;
+  position: absolute;
+  align-items: flex-start;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.my-id-info1 {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.my-id-image {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-color: var(--dl-color-maincolors-containerincontainerbg);
+  border-width: 10px;
+  border-radius: var(--dl-radius-radius-round);
+}
+.my-id-text2 {
+  color: var(--dl-color-maincolors-headingcolor);
+  align-self: center;
+  margin-top: 4%;
+  margin-left: 3%;
+}
+.my-id-reset-password-wrapper {
+  width: 100%;
+  display: flex;
+  margin-top: 3%;
+  align-items: flex-start;
+  padding-left: 3%;
+  padding-right: 3%;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.my-id-pointer4 {
+  color: var(--dl-color-maincolors-textcolor);
+  font-size: 18px;
+  align-self: flex-start;
+  font-style: normal;
+  text-align: center;
+  font-family: Roboto;
+  font-weight: 700;
+}
+.my-id-reset-password {
+  color: #ffffff;
+  width: autopx;
+  display: flex;
+  align-self: flex-start;
+  font-style: normal;
+  margin-top: 1%;
+  text-align: center;
+  transition: 0.3s;
+  align-items: center;
+  font-family: Roboto;
+  font-weight: 500;
+  border-color: var(--dl-color-success-500);
+  border-width: 2px;
+  border-radius: var(--dl-radius-radius-radius8);
+  flex-direction: row;
+  justify-content: center;
+  text-decoration: none;
+  background-color: transparent;
+}
+.my-id-reset-password:hover {
+  background-color: var(--dl-color-success-500);
+}
+.my-id-text3 {
+  color: var(--dl-color-maincolors-headingcolor);
+}
+.my-id-id-removal-wrapper {
+  width: 100%;
+  display: flex;
+  margin-top: 3%;
+  align-items: flex-start;
+  padding-left: 3%;
+  margin-bottom: 3%;
+  padding-right: 3%;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.my-id-pointer5 {
+  color: var(--dl-color-maincolors-textcolor);
+  font-size: 18px;
+  align-self: flex-start;
+  font-style: normal;
+  text-align: center;
+  font-family: Roboto;
+  font-weight: 700;
+}
+.my-id-notice {
+  color: rgb(135, 135, 135);
+  margin-top: 1%;
+}
+.my-id-delete-id {
+  color: #ffffff;
+  width: auto;
+  display: flex;
+  align-self: flex-start;
+  font-style: normal;
+  margin-top: 2%;
+  text-align: center;
+  transition: 0.3s;
+  align-items: center;
+  font-family: Roboto;
+  font-weight: 500;
+  border-color: var(--dl-color-danger-500);
+  border-width: 2px;
+  border-radius: var(--dl-radius-radius-radius8);
+  flex-direction: row;
+  justify-content: center;
+  background-color: transparent;
+}
+.my-id-delete-id:hover {
+  background-color: var(--dl-color-danger-500);
+}
+.my-id-delete-id:active {
+  border-color: var(--dl-color-danger-300);
+  background-color: var(--dl-color-danger-300);
+}
+.my-id-text4 {
+  color: var(--dl-color-maincolors-headingcolor);
+}
+
+@media(max-width: 479px) {
+  .my-id-button {
+    left: 0px;
+    right: 0px;
+    width: 85%;
+    position: static;
+    margin-top: 6%;
+  }
+  .my-id-button1 {
+    left: 0px;
+    right: 0px;
+    width: 85%;
+    position: static;
+    margin-top: 6%;
+  }
+  .my-id-button2 {
+    left: 0px;
+    right: 0px;
+    width: 85%;
+    position: static;
+    margin-top: 6%;
+  }
+  .my-id-button3 {
+    left: 0px;
+    right: 0px;
+    width: 85%;
+    position: static;
+    margin-top: 6%;
+  }
+  .my-id-button4 {
+    left: 0px;
+    right: 0px;
+    width: 85%;
+    position: static;
+    margin-top: 6%;
+  }
+}

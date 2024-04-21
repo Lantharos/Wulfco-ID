@@ -1,0 +1,123 @@
+<script src="../../../config.ts"></script>
+<div class="my-id-content">
+  <h1 class="my-id-text notselectable">My ID</h1>
+  <div class="my-id-user-profile">
+    <div id="background" class="my-id-background" [style]="{backgroundColor: userdata.profile.profile_color}"></div>
+    <div class="my-id-content1">
+      <div class="my-id-wrapper">
+        <div class="my-id-username-wrapper">
+          <span class="my-id-pointer notselectable">FULL NAME</span>
+          <div class="my-id-container">
+            <h1 id="fullname" class="my-id-current-username notselectable">
+              {{userdata.profile.name.join(" ")}}
+            </h1>
+          </div>
+          <button
+            id="edit_fullname"
+            (click)="openDialog(EditName)"
+            type="button"
+            class="my-id-button button"
+          >
+            <svg viewBox="0 0 1024 1024" class="my-id-icon">
+              <path
+                d="M884 300l-78 78-160-160 78-78q12-12 30-12t30 12l100 100q12 12 12 30t-12 30zM128 736l472-472 160 160-472 472h-160v-160z"
+              ></path>
+            </svg>
+          </button>
+          <button id="edit_name" type="button" class="my-id-button1 button">
+            <svg viewBox="0 0 1024 1024" class="my-id-icon02">
+              <path
+                d="M554 554v-256h-84v256h84zM554 726v-86h-84v86h84zM512 86q176 0 301 125t125 301-125 301-301 125-301-125-125-301 125-301 301-125z"
+              ></path>
+            </svg>
+            <h1 class="my-id-text1">Verify Identity</h1>
+          </button>
+        </div>
+        <div class="my-id-username-wrapper1">
+          <span class="my-id-pointer1 notselectable">USERNAME</span>
+          <div class="my-id-container1">
+            <div class="my-id-container2">
+              <h1 id="username" class="my-id-current-username1 notselectable">
+                {{userdata.username}}
+              </h1>
+            </div>
+          </div>
+          <button id="edit_username" (click)="openDialog(EditUsername)" type="button" class="my-id-button2 button">
+            <svg viewBox="0 0 1024 1024" class="my-id-icon04">
+              <path
+                d="M884 300l-78 78-160-160 78-78q12-12 30-12t30 12l100 100q12 12 12 30t-12 30zM128 736l472-472 160 160-472 472h-160v-160z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <div class="my-id-email-wrapper">
+          <span class="my-id-pointer2 notselectable">EMAIL</span>
+          <div class="my-id-container3">
+            <h1 id="email_profile" class="my-id-current-email notselectable">
+              {{userdata.account.email}}
+            </h1>
+          </div>
+          <button id="edit_email" (click)="openDialog(ChangeEmailStep1)" type="button" class="my-id-button3 button">
+            <svg viewBox="0 0 1024 1024" class="my-id-icon06">
+              <path
+                d="M884 300l-78 78-160-160 78-78q12-12 30-12t30 12l100 100q12 12 12 30t-12 30zM128 736l472-472 160 160-472 472h-160v-160z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <div class="my-id-birthday-wrapper">
+          <span class="my-id-pointer3 notselectable">BIRTHDAY</span>
+          <div class="my-id-container4">
+            <h1
+              id="birthday_profile"
+              class="my-id-current-birthday notselectable"
+            >
+              {{userdata.account.birthday ? (userdata.account.birthday | date:'MMMM d, yyyy')  : "Not set"}}
+              </h1>
+            </div>
+            <button id="edit_birthday" (click)="openDialog(EditBirthday)" type="button" class="my-id-button4 button">
+              <svg viewBox="0 0 1024 1024" class="my-id-icon08">
+                <path
+                  d="M884 300l-78 78-160-160 78-78q12-12 30-12t30 12l100 100q12 12 12 30t-12 30zM128 736l472-472 160 160-472 472h-160v-160z"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="my-id-info">
+        <div class="my-id-info1">
+          <img
+            id="pfp"
+            alt="image"
+            [ngSrc]="userdata.profile.avatar"
+            height="140px"
+            width="140px"
+            class="my-id-image"
+          />
+          <h1 id="username_main" class="my-id-text2 notselectable">{{userdata.profile.display_name}}</h1>
+        </div>
+      </div>
+    </div>
+    <div class="my-id-reset-password-wrapper notselectable">
+      <span class="my-id-pointer4 notselectable">PASSWORD</span>
+      <a
+        routerLink="/reset-password"
+        class="my-id-reset-password button"
+      >
+        <span class="my-id-text3">Reset Password</span>
+      </a>
+    </div>
+    <div class="my-id-id-removal-wrapper notselectable">
+      <span class="my-id-pointer5 notselectable">ID REMOVAL</span>
+      <span class="my-id-notice notselectable">
+        When you choose to delete your ID, it entails the removal of all data
+        associated with your account, including information stored in Wulfco
+        Storage. It&apos;s important to note that deleting your ID results in the
+      loss of all data associated with apps that utilize Wulfco Storage.
+    </span>
+    <button id="delete_data" type="button" class="my-id-delete-id button">
+      <span class="my-id-text4">Delete my Data</span>
+    </button>
+  </div>
+</div>

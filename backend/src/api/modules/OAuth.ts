@@ -1,6 +1,6 @@
 import User from "./User";
 import crypto from "crypto";
-import * as database from "../FirebaseHandler";
+import * as database from "./util/FirebaseHandler";
 
 const scopesText = {
     "user": {

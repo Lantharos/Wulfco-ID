@@ -1,14 +1,11 @@
 import Stripe from 'stripe';
 import paypal from 'paypal-rest-sdk';
 import User from "./User";
-import * as database from "../FirebaseHandler"
-import mail from "@sendgrid/mail";
+import * as database from "./util/FirebaseHandler"
 import crypto from "crypto";
 
-mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
-
 const stripe = new Stripe(`${process.env.STRIPE_SECRET}`, {
-    apiVersion: '2023-08-16',
+    apiVersion: '2023-10-16',
     typescript: true
 });
 
@@ -61,12 +58,12 @@ export default class Payments {
                             "return_url": "https://us-central1-wulfco-id.cloudfunctions.net/api/paypal-callback",
                             "cancel_url": "https://id.wulfco.xyz/login",
                             "recipient_name": user.user.profile.full_name,
-                            "custom_id": user.rawUser.id,
+                            "custom_id": user.user.id,
                         }
                     }
                 },
                 "customer": {
-                    "id": user.rawUser.id
+                    "id": user.user.id
                 }
             })
         }).then(response => response.json())
@@ -151,7 +148,7 @@ export default class Payments {
         const address = req.body.address
         if (!address) { return {status: 400, success: false, message: "Missing fields"} }
 
-        const customerId = user.rawUser.data().account.billing ? (user.rawUser.data().account.billing.stripe ? user.rawUser.data().account.billing.stripe.customer_id : undefined) : undefined
+        const customerId = user.user.data().account.billing ? (user.user.data().account.billing.stripe ? user.user.data().account.billing.stripe.customer_id : undefined) : undefined
 
         let stripeCustomer;
         if (customerId) {
@@ -161,10 +158,10 @@ export default class Payments {
                 email: user.user.email,
                 name: user.user.profile.full_name,
                 description: `Customer for @${user.user.profile.username}`,
-                metadata: {user_id: user.rawUser.id,}
+                metadata: {user_id: user.user.id,}
             });
 
-            await database.updateUser(user.rawUser.id, { [`account.billing.stripe`]: { customer_id: stripeCustomer.id }})
+            await database.updateUser(user.user.id, { [`account.billing.stripe`]: { customer_id: stripeCustomer.id }})
         }
 
         const paymentMethod = await stripe.paymentMethods.create({
@@ -234,24 +231,24 @@ export default class Payments {
 
         if (user.user.account.identity_verification && user.user.account.identity_verification.status === "verified") { return {status: 400, success: false, message: "You are already verified"} }
         if (user.user.account.identity_verification && user.user.account.identity_verification.attempt >= 3) {
-            await database.updateUser(user.rawUser.id, { [`account.identity_verification`]: {
+            await database.updateUser(user.user.id, { [`account.identity_verification`]: {
                 status: "rejected", reason: "too_many_attempts"
             }})
 
-            await mail.send({
-                to: user.user.email, from: "no-reply@wulfco.xyz", subject: "Your identity verification was rejected",
-                text: `Hello @${user.user.profile.username},\n\nYour identity verification was rejected because you have tried too many times. Please contact support if you believe this is a mistake, or would like to appeal this decision.\n\nBest regards,\nYour Wulfco team`
-            })
+            // await mail.send({
+            //     to: user.user.email, from: "no-reply@wulfco.xyz", subject: "Your identity verification was rejected",
+            //     text: `Hello @${user.user.profile.username},\n\nYour identity verification was rejected because you have tried too many times. Please contact support if you believe this is a mistake, or would like to appeal this decision.\n\nBest regards,\nYour Wulfco team`
+            // })
 
             return {status: 400, success: false, message: "Too many attempts"}
         }
 
         const session = await stripe.identity.verificationSessions.create({
             type: 'document',
-            metadata: {user_id: user.rawUser.id,}
+            metadata: {user_id: user.user.id,}
         })
 
-        await database.updateUser(user.rawUser.id, { [`account.identity_verification`]: {
+        await database.updateUser(user.user.id, { [`account.identity_verification`]: {
             status: "pending"
         }})
 
@@ -297,31 +294,31 @@ export default class Payments {
 
                 switch (identityVerificationSessionRequiresInput.last_error.code) {
                     case 'document_unverified_other': {
-                        await mail.send({
-                            to: identityVerificationSessionRequiresInputUser.data().email, from: "alerts@wulfco.xyz", subject: "Your identity verification was rejected",
-                            text: `Hello @${identityVerificationSessionRequiresInputUser.data().profile.username},\n\nYour identity verification was rejected because your document was invalid. Please try again with a valid document.\n\nBest regards,\nYour Wulfco team`
-                        })
+                        // await mail.send({
+                        //     to: identityVerificationSessionRequiresInputUser.data().email, from: "alerts@wulfco.xyz", subject: "Your identity verification was rejected",
+                        //     text: `Hello @${identityVerificationSessionRequiresInputUser.data().profile.username},\n\nYour identity verification was rejected because your document was invalid. Please try again with a valid document.\n\nBest regards,\nYour Wulfco team`
+                        // })
                         break;
                     }
                     case 'document_expired': {
-                        await mail.send({
-                            to: identityVerificationSessionRequiresInputUser.data().email, from: "alerts@wulfco.xyz", subject: "Your identity verification was rejected",
-                            text: `Hello @${identityVerificationSessionRequiresInputUser.data().profile.username},\n\nYour identity verification was rejected because your document was expired. Please try again with a valid document.\n\nBest regards,\nYour Wulfco team`
-                        })
+                        // await mail.send({
+                        //     to: identityVerificationSessionRequiresInputUser.data().email, from: "alerts@wulfco.xyz", subject: "Your identity verification was rejected",
+                        //     text: `Hello @${identityVerificationSessionRequiresInputUser.data().profile.username},\n\nYour identity verification was rejected because your document was expired. Please try again with a valid document.\n\nBest regards,\nYour Wulfco team`
+                        // })
                         break;
                     }
                     case 'document_type_not_supported': {
-                        await mail.send({
-                            to: identityVerificationSessionRequiresInputUser.data().email, from: "alerts@wulfco.xyz", subject: "Your identity verification was rejected",
-                            text: `Hello @${identityVerificationSessionRequiresInputUser.data().profile.username},\n\nYour identity verification was rejected because your document type is not supported. Please try again with a valid document.\n\nBest regards,\nYour Wulfco team`
-                        })
+                        // await mail.send({
+                        //     to: identityVerificationSessionRequiresInputUser.data().email, from: "alerts@wulfco.xyz", subject: "Your identity verification was rejected",
+                        //     text: `Hello @${identityVerificationSessionRequiresInputUser.data().profile.username},\n\nYour identity verification was rejected because your document type is not supported. Please try again with a valid document.\n\nBest regards,\nYour Wulfco team`
+                        // })
                         break;
                     }
                     default: {
-                        await mail.send({
-                            to: identityVerificationSessionRequiresInputUser.data().email, from: "alerts@wulfco.xyz", subject: "Your identity verification was rejected",
-                            text: `Hello @${identityVerificationSessionRequiresInputUser.data().profile.username},\n\nYour identity verification was rejected for an unknown reason. Please try again.\n\nBest regards,\nYour Wulfco team`
-                        })
+                        // await mail.send({
+                        //     to: identityVerificationSessionRequiresInputUser.data().email, from: "alerts@wulfco.xyz", subject: "Your identity verification was rejected",
+                        //     text: `Hello @${identityVerificationSessionRequiresInputUser.data().profile.username},\n\nYour identity verification was rejected for an unknown reason. Please try again.\n\nBest regards,\nYour Wulfco team`
+                        // })
                     }
                 }
 
@@ -345,17 +342,17 @@ export default class Payments {
                         information: {name: name ? name : "Unknown", dob: dob ? dob : "Unknown", documentType: documentType ? documentType : "Unknown", documentCountry: documentCountry ? documentCountry : "Unknown", documentNumber: documentNumber ? documentNumber : "Unknown", documentExpirationDate: documentExpirationDate ? documentExpirationDate : "Unknown"}
                     }});
 
-                    await mail.send({
-                        to: identityVerificationSessionVerifiedUser.data().email, from: "alerts@wulfco.xyz", subject: "Your identity verification was approved",
-                        text: `Hello @${identityVerificationSessionVerifiedUser.data().profile.username},\n\nYour identity verification was approved, thanks.\n\nBest regards,\nYour Wulfco team`
-                    })
+                    // await mail.send({
+                    //     to: identityVerificationSessionVerifiedUser.data().email, from: "alerts@wulfco.xyz", subject: "Your identity verification was approved",
+                    //     text: `Hello @${identityVerificationSessionVerifiedUser.data().profile.username},\n\nYour identity verification was approved, thanks.\n\nBest regards,\nYour Wulfco team`
+                    // })
                 }).catch(async (err) => {
-                    await mail.send({
-                        to: identityVerificationSessionVerifiedUser.data().email,
-                        from: "alerts@wulfco.xyz",
-                        subject: "We ran into an error whilst verifying your identity",
-                        text: `Hello @${identityVerificationSessionVerifiedUser.data().profile.username},\n\nWe ran into an error whilst verifying your identity. Please try again.\n\nBest regards,\nYour Wulfco team`
-                    })
+                    // await mail.send({
+                    //     to: identityVerificationSessionVerifiedUser.data().email,
+                    //     from: "alerts@wulfco.xyz",
+                    //     subject: "We ran into an error whilst verifying your identity",
+                    //     text: `Hello @${identityVerificationSessionVerifiedUser.data().profile.username},\n\nWe ran into an error whilst verifying your identity. Please try again.\n\nBest regards,\nYour Wulfco team`
+                    // })
                 })
 
                 break;
@@ -365,10 +362,10 @@ export default class Payments {
                 await database.updateUser(identityVerificationSessionRedacted.metadata.user_id,  { [`account.identity_verification`]: {
                     status: "rejected", reason: "redacted", verification_id: identityVerificationSessionRedacted.id, attempt: identityVerificationSessionRedactedUser.data().account.identity_verification.attempt ? identityVerificationSessionRedactedUser.data().account.identity_verification.attempt : 1
                 }});
-                await mail.send({
-                    to: identityVerificationSessionRedactedUser.data().email, from: "alerts@wulfco.xyz", subject: "Your identity verification was redacted",
-                    text: `Hello @${identityVerificationSessionRedactedUser.data().profile.username},\n\nYour identity verification was redacted. If you believe this was a mistake, please contact us at support@wulfco.xyz.\n\nBest regards,\nYour Wulfco team`
-                })
+                // await mail.send({
+                //     to: identityVerificationSessionRedactedUser.data().email, from: "alerts@wulfco.xyz", subject: "Your identity verification was redacted",
+                //     text: `Hello @${identityVerificationSessionRedactedUser.data().profile.username},\n\nYour identity verification was redacted. If you believe this was a mistake, please contact us at support@wulfco.xyz.\n\nBest regards,\nYour Wulfco team`
+                // })
                 break;
             case 'payment_intent.succeeded':
                 const paymentIntentSucceeded = event.data.object;

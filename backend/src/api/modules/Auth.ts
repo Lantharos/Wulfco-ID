@@ -1,97 +1,118 @@
 import crypto from "crypto";
-import * as database from "../FirebaseHandler";
+import * as database from "./util/FirebaseHandler";
 import User from "./User";
 import bcrypt from "bcrypt";
-import mail from "@sendgrid/mail";
+import { Resend } from "resend"
 import * as hcaptcha from "hcaptcha";
+import CH from "./util/CryptoHelper";
+import {getUserByUsername} from "./util/FirebaseHandler";
+import verifyEmail from "./emails/verify-email"
+import firebase from "firebase/compat/app";
 
-mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
+const CryptoHelper = new CH()
+
+// const resend = new Resend(process.env.RESEND_KEY);
 
 export default class Auth {
     public static async login(req: any) {
         if (req.method !== "POST") {return "error"}
 
-        const isCrypto = req.headers['W-Crypto'] === "true"
+        const requesterIp = req.headers["x-forwarded-for"] || req.connection.remoteAddress
 
-        if (isCrypto) {
-            return {
-                status: 501,
-                success: false,
-                message: "Crypto login is not implemented yet"
-            }
+        if (req.body.hcaptcha) {
+            const returned = await hcaptcha.verify(process.env.HCAPTCHA_SECRET, req.body.hcaptcha, requesterIp, process.env.HCAPTCHA_SITE_KEY).then((data: any) => {
+                if (!data.success) {return {status: 400, success: false, error: "Invalid captcha token"}}
+                return false
+            })
+
+            if (returned) {return returned}
         } else {
-            const requesterIp = req.headers["x-forwarded-for"] || req.connection.remoteAddress
+            return {status: 400, success: false, error: "Missing captcha token"}
+        }
 
-            if (req.body.recaptcha) {
-                const recaptcha = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET}&response=${req.body.recaptcha}`, {method: "POST"})
-                const recaptchaResponse = await recaptcha.json()
-                if (!recaptchaResponse.success) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
-                if (recaptchaResponse.score < 0.5) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
-                if (recaptchaResponse.hostname !== "id.wulfco.xyz") {return {status: 400, success: false, error: "Invalid recaptcha token"}}
-                if (recaptchaResponse["error-codes"]) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
-            } else if (req.body.hcaptcha) {
-                const returned = await hcaptcha.verify(process.env.HCAPTCHA_SECRET, req.body.hcaptcha, requesterIp, process.env.HCAPTCHA_SITE_KEY).then((data: any) => {
-                    if (!data.success) {return {status: 400, success: false, error: "Invalid captcha token"}}
-                    return false
-                })
+        const { encryptedData: base64EncodedEncryptedData, encryptedSymmetricKey: base64EncodedEncryptedSymmetricKey, iv: base64EncodedIv } = req.body
+        if (!base64EncodedEncryptedData || !base64EncodedEncryptedSymmetricKey || !base64EncodedIv) {return {status: 400, success: false, error: "Missing encrypted data or symmetric key"}}
 
-                if (returned) {return returned}
-            } else {
-                return {status: 400, success: false, error: "Missing captcha token"}
-            }
+        const decryptedData = CryptoHelper.SimpleDecrypt(base64EncodedEncryptedData, base64EncodedEncryptedSymmetricKey, base64EncodedIv)
+        if (!decryptedData) {return {status: 400, success: false, error: "Invalid data"}}
+        const baseStuff = JSON.parse(decryptedData)
 
-            const email = atob(req.body.email)
-            const password = atob(req.body.password)
+        if (req.body.hcaptcha) {
+            const returned = await hcaptcha.verify(process.env.HCAPTCHA_SECRET, req.body.hcaptcha, requesterIp, process.env.HCAPTCHA_SITE_KEY).then((data: any) => {
+                if (!data.success) {return {status: 400, success: false, error: "Invalid captcha token"}}
+                return false
+            })
 
-            if (!email || !password) {return {status: 400, success: false, error: "Missing email or password"}}
+            if (returned) {return returned}
+        } else {
+            return {status: 400, success: false, error: "Missing captcha token"}
+        }
 
-            const rawUser = await database.getUserByEmail(email)
-            if (!rawUser) {return {status: 404, success: false, error: "User not found"}}
+        const user = await database.getUserByUsername(baseStuff.username)
+        if (!user) {return {status: 404, success: false, error: "invalid_username", message: "Username not found!"}}
 
-            const user = rawUser.data()
-            if (!user) {return {status: 404, success: false, error: "User not found"}}
+        const userData = user.data()
+        if (!userData) {return {status: 404, success: false, error: "User not found"}}
+        if (userData.key) {return {status: 400, success: false, error: "email_not_verified", message: "Email isnt verified!", uuid: user.id}}
 
-            if (!user.account.email || !user.account.email.verified) {return {status: 401, success: false, error: "Email not verified"}}
+        const encryptionKey = CryptoHelper.KDF(baseStuff.passwordHash, baseStuff.username)
+        const userIv = Buffer.from(userData.iv, 'hex')
 
-            if (await bcrypt.compare(password, user.password, null) === false) {return {status: 401, success: false, error: "Invalid password"} }
+        const decryptedUser = CryptoHelper.decryptAES(Buffer.from(userData.data, 'hex'), encryptionKey, userIv, 'aes-256-cbc')
+        if (!decryptedUser) {return {status: 400, success: false, error: "invalid_password", message: "Incorrect password!"}}
 
-            const location = await fetch(`http://ip-api.com/json/${requesterIp}`)
+        const userObject = JSON.parse(decryptedUser)
 
-            const session = {
-                session_id: crypto.randomBytes(16).toString("hex"),
-                secret: crypto.randomBytes(16).toString("hex"),
-                token: crypto.randomBytes(16).toString("hex"),
-                loggen: crypto.randomBytes(8).toString("hex"),
-                created: Date.now(),
-                ip: requesterIp,
-                location: await location.json(),
-                device: req.headers['user-agent']
-            }
+        const location = await fetch(`http://ip-api.com/json/${requesterIp}`)
+        const hashedIp = CryptoHelper.Hash(requesterIp)
 
-            const existingSessionIndex = user.account.sessions.findIndex((session: any) => session.ip === requesterIp);
+        const sessionToken = crypto.randomBytes(32)
 
-            if (existingSessionIndex !== -1) {
-                user.account.sessions.splice(existingSessionIndex, 1);
-            }
+        const sessionData = {
+            token: sessionToken.toString("hex"),
+            location: await location.json(),
+            device: req.headers['user-agent'],
+            tedk: encryptionKey.export().toString('hex')
+        }
 
-            const expiredSessions = user.account.sessions.filter((session: any) => Date.now() - session.created > 1000 * 60 * 60 * 24)
-            if (expiredSessions != undefined) {
-                expiredSessions.forEach((expiredSession: any) => {
-                    user.account.sessions.splice(user.account.sessions.indexOf(expiredSession), 1)
-                })
-            }
+        const sessionSecret = CryptoHelper.generateAESKey()
 
-            user.account.sessions.push(session)
-            user.account.last_login = Date.now()
+        const encryptedSessionData = CryptoHelper.encryptAES(JSON.stringify(sessionData), crypto.createSecretKey(sessionToken), userIv, 'aes-256-cbc')
 
-            await database.updateUser(rawUser.id, user)
+        const session = {
+            id: crypto.randomBytes(16).toString('hex'),
+            created: Date.now(),
+            ip: hashedIp,
+            secret: sessionSecret.export().toString('hex'),
+            sessionData: encryptedSessionData.toString('hex')
+        }
 
-            return {
-                status: 200,
-                success: true,
-                session,
-                uuid: rawUser.id
-            }
+        const sesDocId = await database.getSessionDoc(user.id)
+        if (sesDocId) {
+            const existingSession = await database.getSessionByIp(sesDocId.id, hashedIp)
+            if (existingSession) {await database.deleteSession(sesDocId.id, existingSession.id)}
+        }
+
+        const newSession = await database.createSession(user.id, session)
+
+        userObject.account.security.last_login = Date.now()
+
+        const updatedUser = CryptoHelper.encryptAES(JSON.stringify(userObject), encryptionKey, userIv, 'aes-256-cbc')
+        await database.updateUser(user.id, { data: updatedUser.toString('hex') })
+
+        const encryptedSessionDataToSend = CryptoHelper.encryptAES(JSON.stringify({
+            secret: new Uint8Array(sessionSecret.export()).toString(),
+            token: new Uint8Array(sessionToken).toString(),
+            id: session.id,
+            sessionDoc: newSession
+        }), encryptionKey, userIv, 'aes-256-cbc')
+
+        return {
+            status: 200,
+            success: true,
+            session: new Uint8Array(encryptedSessionDataToSend).toString(),
+            iv: new Uint8Array(userIv).toString(),
+            uuid: user.id
         }
     }
 
@@ -123,29 +144,27 @@ export default class Auth {
     }
 
     public static async logoutAll(req: any) {
-        const rawuser = await User.get(req)
-        if (!rawuser.success) {return {status: 404, success: false, error: "User not found"}}
+        const result = await User.get(req)
+        if (!result.success) {return {status: 404, success: false, error: "User not found"}}
 
-        if (rawuser.user.account.sessions.length === 0) {return {status: 404, success: false, error: "User not logged in"}}
+        if (result.user.account.sessions.length === 0) {return {status: 404, success: false, error: "User not logged in"}}
 
-        await database.updateUser(rawuser.rawUser.id, { "account.sessions": [] })
+        await database.updateUser(result.user.id, { "account.sessions": [] })
 
         return {status: 200, success: true}
     }
 
     public static async create(req: any) {
-        const requesterIp = req.headers["x-forwarded-for"] || req.connection.remoteAddress
+        const requesterIp = req.headers["x-forwarded-for"] || req.connection.remoteAddress || req.ip
 
-        if (req.body.name && requesterIp && req.body.display_name && req.body.name && req.body.username && req.body.gender && req.body.email && req.body.password) {} else { return {status: 400, success: false, error: "Missing fields"} }
+        const { encryptedData: base64EncodedEncryptedData, encryptedSymmetricKey: base64EncodedEncryptedSymmetricKey, iv: base64EncodedIv } = req.body
+        if (!base64EncodedEncryptedData || !base64EncodedEncryptedSymmetricKey || !base64EncodedIv) {return {status: 400, success: false, error: "Missing encrypted data or symmetric key"}}
 
-        if (req.body.recaptcha) {
-            const recaptcha = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET}&response=${req.body.recaptcha}`, {method: "POST"})
-            const recaptchaResponse = await recaptcha.json()
-            if (!recaptchaResponse.success) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
-            if (recaptchaResponse.score < 0.5) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
-            if (recaptchaResponse.hostname !== "id.wulfco.xyz") {return {status: 400, success: false, error: "Invalid recaptcha token"}}
-            if (recaptchaResponse["error-codes"]) {return {status: 400, success: false, error: "Invalid recaptcha token"}}
-        } else if (req.body.hcaptcha) {
+        const decryptedData = CryptoHelper.SimpleDecrypt(base64EncodedEncryptedData, base64EncodedEncryptedSymmetricKey, base64EncodedIv)
+        if (!decryptedData) {return {status: 400, success: false, error: "Invalid data"}}
+        const userData = JSON.parse(decryptedData)
+
+        if (req.body.hcaptcha) {
             const returned = await hcaptcha.verify(process.env.HCAPTCHA_SECRET, req.body.hcaptcha, requesterIp, process.env.HCAPTCHA_SITE_KEY).then((data: any) => {
                 if (!data.success) {return {status: 400, success: false, error: "Invalid captcha token"}}
                 return false
@@ -156,74 +175,97 @@ export default class Auth {
             return {status: 400, success: false, error: "Missing captcha token"}
         }
 
-        const location = await fetch(`http://ip-api.com/json/${requesterIp}`)
+        const usernameExists = await database.getUserByUsername(userData.username)
+        if (usernameExists) {return {status: 400, success: false, error: "username_taken", message: "Username already taken!"}}
 
-        const session = {
-            session_id: crypto.randomBytes(16).toString("hex"),
-            secret: crypto.randomBytes(16).toString("hex"),
-            token: crypto.randomBytes(16).toString("hex"),
-            loggen: crypto.randomBytes(8).toString("hex"),
-            created: Date.now(),
-            location: await location.json(),
-            ip: requesterIp,
-            device: req.headers['user-agent'],
-        }
+        const emailVerification = Math.random().toString(36).slice(2, 8)
 
-        const code = Math.floor(100000 + Math.random() * 900000)
-
-        const docId = await database.createUser({
-            email: req.body.email,
-            password: await bcrypt.hash(req.body.password, 10, null),
+        const toEncryptUser = {
             account: {
+                analytics: { personalization: true, analytics: true, zipped: true, marketing: false, tp_marketing: true },
+                billing: { paypal: [], stripe: ''},
+                birthday: undefined,
                 created: Date.now(),
-                last_login: Date.now(),
-                sessions: [session],
-                email: { verified: false, code: code },
-                security: {email: false, protected: false, security_keys: [], passkeys: [], totp: { enabled: false, secret: '' }},
-                analytics: { use_analytics: true, collect_use_data: true },
-            },
-            friends: { friends: [], requests: { inbound: [], outbound: [] }, blocked: []},
-            profile: {
-                username: req.body.username,
-                display_name: req.body.display_name,
-                full_name: req.body.name,
-                gender: req.body.gender,
-                avatar: `https://api.dicebear.com/5.x/identicon/svg?seed=${req.body.display_name.split(" ")[0]}&backgroundColor=ffdfbf`
+                email: userData.email,
+                email_verification: {token: emailVerification, verified: false},
+                identity_verification: {},
+                security: {
+                    email: false,
+                    protected: false,
+                    last_login: Date.now(),
+                    security_keys: [],
+                    passkeys: [],
+                    totp: { enabled: false, secret: '' },
+                },
             },
             connections: [],
-            oauth: []
-        })
+            oauth: [],
+            friends: { friends: [], requests: { inbound: [], outbound: [] }, blocked: []},
+            profile: {
+                name: userData.name.split(' '),
+                display_name: userData.display_name,
+                gender: userData.gender,
+                avatar: userData.picture,
+                about_me: '',
+                profile_color: "#ff4444",
+                pronouns: (userData.gender.toLowerCase() === "male") ? "he/him" : (userData.gender.toLowerCase() === "female") ? "she/her" : "they/them",
+            }
+        }
 
-        if (!docId) {return {status: 500, success: false, error: "Failed to create user"}}
+        const userIV = crypto.randomBytes(16)
 
-        await mail.send({
-            to: req.body.email,
-            from: "no-reply@wulfco.xyz",
-            subject: 'Verify your email',
-            text: `Hello @${req.body.username},\n\nThank you for signing up for Wulfco! Please verify your email by entering the following code in the app: ${code}\n\nBest regards,\nYour Wulfco team`
-        })
+        const encryptionKey = CryptoHelper.KDF(userData.password, userData.username)
+        const encryptedUser = CryptoHelper.encryptAES(JSON.stringify(toEncryptUser), encryptionKey, userIV, 'aes-256-cbc')
 
-        return { status: 200, success: true, session, uuid: docId }
+        const encryptedUserKey = CryptoHelper.encryptPublicKey(new Uint8Array(encryptionKey.export()))
+
+        const user = {
+            username: userData.username,
+            iv: userIV.toString('hex'),
+            data: encryptedUser.toString("hex"),
+            key: encryptedUserKey.toString("hex")
+        }
+
+        const docId = await database.createUser(user)
+
+        const resend = new Resend(process.env.RESEND_KEY);
+
+        const formattedEmailVerification = emailVerification.toUpperCase().slice(0, 3) + "-" + emailVerification.toUpperCase().slice(3)
+
+        await verifyEmail(resend, userData.email, formattedEmailVerification)
+
+        return { status: 200, success: true, uuid: docId }
     }
 
     public static async verifyEmail(req: any) {
-        const rawuser = await database.getUser(req.body.user)
+        const userId = req.body.id
+        if (!userId) {return {status: 400, success: false, error: "Missing user id"}}
+
+        const rawuser = await database.getUser(userId)
         if (!rawuser) {return {status: 404, success: false, error: "User not found"}}
 
         const code = req.body.code
         if (!code) {return {status: 400, success: false, error: "Missing code"}}
 
-        if (rawuser.data().account.email && rawuser.data().account.email.verified) {return {status: 400, success: false, error: "Email already verified"}}
+        const userData = rawuser.data()
+        if (!userData) {return {status: 400, success: false, error: "User is invalid"}}
+        if (!userData.key) {return {status: 400, success: false, error: "Key missing, presuming email already verified"}}
 
-        if (code === rawuser.data().account.email.code.toString()) {
-            await database.updateUser(rawuser.id, { "account.email.verified": true })
+        const userIV = Buffer.from(rawuser.data().iv, 'hex')
+        const userKeyBuffer = Buffer.from(userData.key, 'hex')
+        const userKeyObject = CryptoHelper.decryptPrivateKey(userKeyBuffer)
+        const userKeySecret = crypto.createSecretKey(userKeyObject)
 
-            await mail.send({
-                to: rawuser.data().email,
-                from: "no-reply@wulfco.xyz",
-                subject: 'Email verified',
-                text: `Hello @${rawuser.data().profile.username},\n\nYour email has been verified successfully!\n\nBest regards,\nYour Wulfco team`
-            })
+        const decryptedUser = CryptoHelper.decryptAES(Buffer.from(rawuser.data().data, 'hex'), userKeySecret, userIV, 'aes-256-cbc')
+        if (!decryptedUser) {return {status: 400, success: false, error: "Invalid user data"}}
+        const user = JSON.parse(decryptedUser)
+
+        if (user.account.email_verification.verified) {return {status: 400, success: false, error: "Email already verified"}}
+
+        if (user.account.email_verification.token === code) {
+            user.account.email_verification.verified = true
+            const updatedUser = CryptoHelper.encryptAES(JSON.stringify(user), userKeySecret, userIV, 'aes-256-cbc')
+            await database.updateUser(userId, { data: updatedUser.toString('hex'), key: firebase.firestore.FieldValue.delete() })
 
             return {status: 200, success: true}
         } else {

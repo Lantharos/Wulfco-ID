@@ -1,0 +1,107 @@
+<div class="profile-content">
+  <h1 class="profile-text notselectable">Profile</h1>
+  <div class="profile-container">
+    <div class="profile-avatar-change-wrapper">
+      <span class="profile-pointer notselectable">AVATAR</span>
+      <div class="profile-options">
+        <button id="confirm" type="button" class="profile-button button">
+          <svg viewBox="0 0 1024 1024" class="profile-icon">
+            <path
+              d="M214 768h596v86h-596v-86zM384 682v-256h-170l298-298 298 298h-170v256h-256z"
+            ></path>
+          </svg>
+          <span class="profile-text01">Upload Avatar</span>
+        </button>
+        <button id="cancel" type="button" class="profile-button1 button">
+          <svg viewBox="0 0 1024 1024" class="profile-icon02">
+            <path
+              d="M726 666l-154-154 154-154-60-60-154 154-154-154-60 60 154 154-154 154 60 60 154-154 154 154zM512 86q176 0 301 125t125 301-125 301-301 125-301-125-125-301 125-301 301-125z"
+            ></path>
+          </svg>
+          <span class="profile-text02">Reset Avatar</span>
+        </button>
+      </div>
+    </div>
+    <div class="profile-container1">
+      <span class="profile-text03 notselectable">DISPLAY NAME</span>
+      <input
+        type="text"
+        id="display_name"
+        placeholder="John Doe"
+        [value]="userdata.profile.display_name"
+        (change)="fieldEdited('profile.display_name', $event.target)"
+        class="profile-textinput input"
+      />
+    </div>
+    <div class="profile-container2">
+      <span class="profile-text04 notselectable">PRONOUNS</span>
+      <input
+        type="text"
+        id="pronouns"
+        placeholder="he/him, they/them etc..."
+        [value]="userdata.profile.pronouns"
+        (change)="fieldEdited('profile.pronouns', $event.target)"
+        class="profile-textinput1 input"
+      />
+    </div>
+    <div class="profile-container3">
+      <span class="profile-text05 notselectable">BANNER COLOR</span>
+      <div class="profile-container4">
+        <div class="profile-container5">
+          <button id="select_default" class="profile-button2 button">
+            <svg viewBox="0 0 1024 1024" class="profile-icon04">
+              <path
+                d="M864 128l-480 480-224-224-160 160 384 384 640-640z"
+              ></path>
+            </svg>
+          </button>
+          <span class="profile-text06">Default</span>
+        </div>
+        <div class="profile-container6">
+          <button id="pick_custom_color" class="profile-button3 button">
+            <svg viewBox="0 0 1024 1024" class="profile-icon06">
+              <path
+                d="M296 810l344-344-82-82-344 344zM884 240q30 30 0 60l-134 134 82 82-60 60-60-60-382 380h-202v-202l380-382-60-60 60-60 82 82 134-134q12-12 30-12t30 12z"
+              ></path></svg
+            ><svg viewBox="0 0 1024 1024" class="profile-icon08">
+              <path
+                d="M864 128l-480 480-224-224-160 160 384 384 640-640z"
+              ></path>
+            </svg>
+          </button>
+          <span class="profile-text07">Custom</span>
+        </div>
+      </div>
+    </div>
+    <div class="profile-container7">
+      <span class="profile-text08 notselectable">ABOUT ME</span>
+      <textarea
+        id="about_me"
+        maxlength="200"
+        placeholder="Say what you want everyone to know about you here, as long as it's within 200 characters."
+        [value]="userdata.profile.about_me"
+        (change)="fieldEdited('profile.about_me', $event.target)"
+        class="profile-textarea textarea"
+      ></textarea>
+    </div>
+  </div>
+  <aside class="profile-container8">
+    <span class="profile-text09 notselectable">PREVIEW</span>
+    <profile-modal
+      [username]="userdata.username"
+      [display_name]="userdata.profile.display_name"
+      [profile_picture]="userdata.profile.avatar"
+      [banner_color]="userdata.profile.profile_color"
+      [pronouns]="userdata.profile.pronouns"
+      [about_me]="userdata.profile.about_me"
+    ></profile-modal>
+  </aside>
+  <button id="save" type="button" class="profile-button4 button">
+    <svg viewBox="0 0 1024 1024" class="profile-icon10">
+      <path
+        d="M426 726l384-384-60-62-324 324-152-152-60 60zM512 86q176 0 301 125t125 301-125 301-301 125-301-125-125-301 125-301 301-125z"
+      ></path>
+    </svg>
+    <span class="profile-text10">Save</span>
+  </button>
+</div>

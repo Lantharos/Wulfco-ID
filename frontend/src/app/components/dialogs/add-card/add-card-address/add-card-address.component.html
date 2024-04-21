@@ -1,0 +1,96 @@
+<div class="add-card-address-container">
+  <h1 class="add-card-address-text notselectable">Add a new payment method</h1>
+  <div class="add-card-address-container1">
+    <span class="add-card-address-text1 notselectable">COUNTRY</span>
+    <input
+      type="text"
+      id="country"
+      pattern="[A-Za-z ]*"
+      required="true"
+      autofocus="true"
+      placeholder="United States"
+      autocomplete="country-name"
+      class="add-card-address-textinput input"
+    />
+  </div>
+  <div class="add-card-address-container2">
+    <button id="cancel" type="button" class="add-card-address-button button">
+      <svg viewBox="0 0 1024 1024" class="add-card-address-icon">
+        <path
+          d="M726 666l-154-154 154-154-60-60-154 154-154-154-60 60 154 154-154 154 60 60 154-154 154 154zM512 86q176 0 301 125t125 301-125 301-301 125-301-125-125-301 125-301 301-125z"
+        ></path>
+      </svg>
+      <span class="add-card-address-text2">Cancel</span>
+    </button>
+    <button id="confirm" type="button" class="add-card-address-button1 button">
+      <svg viewBox="0 0 1024 1024" class="add-card-address-icon2">
+        <path
+          d="M426 726l384-384-60-62-324 324-152-152-60 60zM512 86q176 0 301 125t125 301-125 301-301 125-301-125-125-301 125-301 301-125z"
+        ></path>
+      </svg>
+      <span class="add-card-address-text3">Confirm</span>
+    </button>
+  </div>
+  <div class="add-card-address-container3">
+    <span class="add-card-address-text4 notselectable">ADDRESS</span>
+    <input
+      type="text"
+      id="address_line1"
+      required="true"
+      autofocus="true"
+      placeholder="123 Park Valley"
+      autocomplete="address-line1"
+      class="add-card-address-textinput1 input"
+    />
+  </div>
+  <div class="add-card-address-container4">
+    <span class="add-card-address-text5 notselectable">
+      ADDRESS 2 (OPTIONAL)
+    </span>
+    <input
+      type="text"
+      id="address_line2"
+      required="true"
+      autofocus="true"
+      placeholder="Apt. Ste. Dimension."
+      autocomplete="address-line2"
+      class="add-card-address-textinput2 input"
+    />
+  </div>
+  <div class="add-card-address-container5">
+    <span class="add-card-address-text6 notselectable">CITY</span>
+    <input
+      type="text"
+      id="city"
+      required="true"
+      autofocus="true"
+      placeholder="Centreville"
+      autocomplete="address-level2"
+      class="add-card-address-textinput3 input"
+    />
+  </div>
+  <div class="add-card-address-container6">
+    <div class="add-card-address-container7">
+      <span class="add-card-address-text7 notselectable">STATE/REGION</span>
+      <input
+        type="text"
+        id="region"
+        required="true"
+        autofocus="true"
+        autocomplete="address-level1"
+        class="add-card-address-textinput4 input"
+      />
+    </div>
+    <div class="add-card-address-container8">
+      <span class="add-card-address-text8 notselectable">POSTAL CODE</span>
+      <input
+        type="text"
+        id="zip_code"
+        required="true"
+        autofocus="true"
+        autocomplete="postal-code"
+        class="add-card-address-textinput5 input"
+      />
+    </div>
+  </div>
+</div>

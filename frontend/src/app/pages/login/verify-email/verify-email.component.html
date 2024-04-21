@@ -1,0 +1,19 @@
+<div class="verify-email-container">
+  <div class="verify-email-container1">
+    <h1 class="verify-email-text notselectable">Email Verification</h1>
+    <span class="verify-email-text1 notselectable">
+      Please enter the code sent to your email
+    </span>
+    <div class="verify-email-container2">
+        <ng-otp-input class="verify-email-otp-container" (onInputChange)="onChange($event)" [config]="{length:6, letterCase:'Upper', inputStyles: {backgroundColor:'var(--dl-color-maincolors-inputcolor)', borderRadius: '8px', borderWidth: 0, color: 'var(--dl-color-maincolors-headingcolor)'}, containerClass: 'verify-email-otp-container'}"></ng-otp-input>
+    </div>
+    <button id="submit" type="button" class="verify-email-button button">
+      <svg id="submit-icon" viewBox="0 0 1024 1024" class="verify-email-icon">
+        <path
+          d="M426 726l384-384-60-62-324 324-152-152-60 60zM512 86q176 0 301 125t125 301-125 301-301 125-301-125-125-301 125-301 301-125z"
+        ></path>
+      </svg>
+      <span id="submit-text" class="verify-email-text3" (click)="submit()">Verify</span>
+    </button>
+  </div>
+</div>

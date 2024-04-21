@@ -1,5 +1,5 @@
 import User from "./User";
-import * as database from "../FirebaseHandler"
+import * as database from "./util/FirebaseHandler"
 import crypto from "crypto"
 import SteamAuth from "node-steam-openid"
 import OAuth from "oauth-1.0a"
@@ -12,26 +12,26 @@ export default class Connections {
         const token = crypto.randomBytes(6).toString("hex")
 
         if (service === "github") {
-            await database.updateUser(result.rawUser.id, {"connections.github": {pending: true, token}})
+            await database.updateUser(result.user.id, {"connections.github": {pending: true, token}})
 
             return {
                 status: 200,
                 success: true,
-                url: `https://github.com/login/oauth/authorize?scope=user:email&client_id=29cf7d66efaf02490073&state=${result.rawUser.id}.${token}&redirect_uri=${encodeURIComponent("https://us-central1-wulfco-id.cloudfunctions.net/api/connections?function=callback&service=github")}`
+                url: `https://github.com/login/oauth/authorize?scope=user:email&client_id=29cf7d66efaf02490073&state=${result.user.id}.${token}&redirect_uri=${encodeURIComponent("https://us-central1-wulfco-id.cloudfunctions.net/api/connections?function=callback&service=github")}`
             }
         } else if (service === "reddit") {
-            await database.updateUser(result.rawUser.id, {"connections.reddit": {pending: true, token}})
+            await database.updateUser(result.user.id, {"connections.reddit": {pending: true, token}})
 
             return {
                 status: 200,
                 success: true,
-                url: `https://www.reddit.com/api/v1/authorize?client_id=eJcpyXFPMGbeCbFbhEFg0g&response_type=code&state=${result.rawUser.id}.${token}&redirect_uri=${encodeURIComponent("https://us-central1-wulfco-id.cloudfunctions.net/api/connections?function=callback&service=reddit")}&duration=permanent&scope=identity`
+                url: `https://www.reddit.com/api/v1/authorize?client_id=eJcpyXFPMGbeCbFbhEFg0g&response_type=code&state=${result.user.id}.${token}&redirect_uri=${encodeURIComponent("https://us-central1-wulfco-id.cloudfunctions.net/api/connections?function=callback&service=reddit")}&duration=permanent&scope=identity`
             }
         } else if (service === "steam") {
-            await database.updateUser(result.rawUser.id, {"connections.steam": {pending: true, token}})
+            await database.updateUser(result.user.id, {"connections.steam": {pending: true, token}})
             const steam = new SteamAuth({
                 realm: "https://us-central1-wulfco-id.cloudfunctions.net",
-                returnUrl: `https://us-central1-wulfco-id.cloudfunctions.net/api/connections?function=callback&service=steam&state=${encodeURIComponent(result.rawUser.id + "." + token)}`,
+                returnUrl: `https://us-central1-wulfco-id.cloudfunctions.net/api/connections?function=callback&service=steam&state=${encodeURIComponent(result.user.id + "." + token)}`,
                 apiKey: process.env.STEAM_API_KEY
             })
 
@@ -41,7 +41,7 @@ export default class Connections {
                 url: await steam.getRedirectUrl()
             }
         } else if (service === "twitter") {
-            await database.updateUser(result.rawUser.id, {"connections.twitter": {pending: true, token}})
+            await database.updateUser(result.user.id, {"connections.twitter": {pending: true, token}})
 
             const oauth = new OAuth({
                 consumer: {
@@ -58,7 +58,7 @@ export default class Connections {
             })
 
             const request_data = {
-                url: "https://api.twitter.com/oauth/request_token?oauth_callback=" + encodeURIComponent("https://us-central1-wulfco-id.cloudfunctions.net/api/connections?function=callback&service=twitter&user=" + result.rawUser.id + "." + token),
+                url: "https://api.twitter.com/oauth/request_token?oauth_callback=" + encodeURIComponent("https://us-central1-wulfco-id.cloudfunctions.net/api/connections?function=callback&service=twitter&user=" + result.user.id + "." + token),
                 method: "POST"
             }
 
@@ -92,44 +92,44 @@ export default class Connections {
                 url: `https://api.twitter.com/oauth/authorize?oauth_token=${response.oauthToken}`
             }
         } else if (service === "youtube") {
-            await database.updateUser(result.rawUser.id, {"connections.youtube": {pending: true, token}})
+            await database.updateUser(result.user.id, {"connections.youtube": {pending: true, token}})
 
             return {
                 status: 200,
                 success: true,
-                url: `https://accounts.google.com/o/oauth2/v2/auth?client_id=775008964746-48oerujtollovas4tjhvo4328g9fu0du.apps.googleusercontent.com&redirect_uri=${encodeURIComponent(`https://us-central1-wulfco-id.cloudfunctions.net/api/connections?function=callback&service=youtube`)}&state=${result.rawUser.id + "." + token}&response_type=code&scope=profile+email+openid+https://www.googleapis.com/auth/youtube.readonly&prompt=consent&include_granted_scopes=true`
+                url: `https://accounts.google.com/o/oauth2/v2/auth?client_id=775008964746-48oerujtollovas4tjhvo4328g9fu0du.apps.googleusercontent.com&redirect_uri=${encodeURIComponent(`https://us-central1-wulfco-id.cloudfunctions.net/api/connections?function=callback&service=youtube`)}&state=${result.user.id + "." + token}&response_type=code&scope=profile+email+openid+https://www.googleapis.com/auth/youtube.readonly&prompt=consent&include_granted_scopes=true`
             }
         } else if (service === "twitch") {
-            await database.updateUser(result.rawUser.id, {"connections.twitch": {pending: true, token}})
+            await database.updateUser(result.user.id, {"connections.twitch": {pending: true, token}})
 
             return {
                 status: 200,
                 success: true,
-                url: `https://id.twitch.tv/oauth2/authorize?client_id=vepu7tejuuiz1oglbmv8yrpco4hz0k&redirect_uri=${encodeURIComponent(`https://us-central1-wulfco-id.cloudfunctions.net/api/connections?function=callback&service=twitch`)}&response_type=code&scope=openid&state=${result.rawUser.id + "." + token}`
+                url: `https://id.twitch.tv/oauth2/authorize?client_id=vepu7tejuuiz1oglbmv8yrpco4hz0k&redirect_uri=${encodeURIComponent(`https://us-central1-wulfco-id.cloudfunctions.net/api/connections?function=callback&service=twitch`)}&response_type=code&scope=openid&state=${result.user.id + "." + token}`
             }
         } else if (service === "discord") {
-            await database.updateUser(result.rawUser.id, {"connections.discord": {pending: true, token}})
+            await database.updateUser(result.user.id, {"connections.discord": {pending: true, token}})
 
             return {
                 status: 200,
                 success: true,
-                url: `https://discord.com/api/oauth2/authorize?client_id=975161504703840258&redirect_uri=https%3A%2F%2Fus-central1-wulfco-id.cloudfunctions.net%2Fapi%2Fconnections%3Ffunction%3Dcallback%26service%3Ddiscord&response_type=code&scope=identify&state=${result.rawUser.id + "." + token}`
+                url: `https://discord.com/api/oauth2/authorize?client_id=975161504703840258&redirect_uri=https%3A%2F%2Fus-central1-wulfco-id.cloudfunctions.net%2Fapi%2Fconnections%3Ffunction%3Dcallback%26service%3Ddiscord&response_type=code&scope=identify&state=${result.user.id + "." + token}`
             }
         } else if (service === "spotify") {
-            await database.updateUser(result.rawUser.id, {"connections.spotify": {pending: true, token}})
+            await database.updateUser(result.user.id, {"connections.spotify": {pending: true, token}})
 
             return {
                 status: 200,
                 success: true,
-                url: `https://accounts.spotify.com/authorize?client_id=3f67a21b4d7c4cbaa969ca88a400d579&response_type=code&redirect_uri=${encodeURIComponent(`https://us-central1-wulfco-id.cloudfunctions.net/api/connections?function=callback&service=spotify`)}&state=${result.rawUser.id + "." + token}`
+                url: `https://accounts.spotify.com/authorize?client_id=3f67a21b4d7c4cbaa969ca88a400d579&response_type=code&redirect_uri=${encodeURIComponent(`https://us-central1-wulfco-id.cloudfunctions.net/api/connections?function=callback&service=spotify`)}&state=${result.user.id + "." + token}`
             }
         } else if (service === "roblox") {
-            await database.updateUser(result.rawUser.id, {"connections.roblox": {pending: true, token}})
+            await database.updateUser(result.user.id, {"connections.roblox": {pending: true, token}})
 
             return {
                 status: 200,
                 success: true,
-                url: `https://authorize.roblox.com/?client_id=1207216280771106226&redirect_uri=${encodeURIComponent(`https://us-central1-wulfco-id.cloudfunctions.net/api/connections?function=callback&service=roblox`)}&scope=openid profile&response_type=code&state=${result.rawUser.id + "." + token}`
+                url: `https://authorize.roblox.com/?client_id=1207216280771106226&redirect_uri=${encodeURIComponent(`https://us-central1-wulfco-id.cloudfunctions.net/api/connections?function=callback&service=roblox`)}&scope=openid profile&response_type=code&state=${result.user.id + "." + token}`
             }
         } else {
             return {status: 400, success: false, message: "Invalid service"}

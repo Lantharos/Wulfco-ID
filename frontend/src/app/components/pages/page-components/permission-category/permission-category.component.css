@@ -1,0 +1,44 @@
+:host { 
+  display: contents; 
+}
+.permission-category-container {
+  flex: 0 0 auto;
+  width: 100%;
+  height: 35px;
+  display: flex;
+  position: relative;
+  align-items: center;
+  margin-bottom: 2%;
+}
+.permission-category-text {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  margin-left: 3%;
+}
+.permission-category-text1 {
+  top: 6px;
+  left: 25.5%;
+  position: absolute;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+}
+.permission-category-text2 {
+  top: 5px;
+  right: 32px;
+  position: absolute;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+
+
+
+
+@media(max-width: 1600px) {
+  .permission-category-text2 {
+    right: 65px;
+  }
+}

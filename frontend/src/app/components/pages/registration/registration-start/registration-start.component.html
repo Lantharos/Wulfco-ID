@@ -1,0 +1,41 @@
+<div class="registration-start-container">
+  <h1 class="registration-start-text notselectable">Create an ID</h1>
+  <div class="registration-start-container1">
+    <span class="registration-start-text1 notselectable">Email</span>
+    <input
+      type="email"
+      id="email"
+      required="required"
+      minlength="5"
+      placeholder="johndoe@yourdomain.com"
+      autocomplete="email"
+      class="registration-start-textinput input"
+    />
+  </div>
+  <div class="registration-start-container2">
+    <span class="registration-start-text2 notselectable">Password</span>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      required="required"
+      placeholder="••••••••••••••••••"
+      autocomplete="new-password"
+      class="registration-start-textinput1 input"
+    />
+  </div>
+  <button (click)="submitForm()" id="next" type="button" class="registration-start-button button">
+    <svg id="next-icon" viewBox="0 0 1024 1024" class="registration-start-icon">
+      <path d="M426 256l256 256-256 256-60-60 196-196-196-196z"></path>
+    </svg>
+    <span id="next-text" class="registration-start-text3">Continue</span>
+  </button>
+  <div class="registration-start-container3">
+    <span class="registration-start-text4 notselectable">
+      Already have an ID?
+    </span>
+    <a routerLink="/login" class="registration-start-navlink">
+      <span>Log in.</span>
+    </a>
+  </div>
+</div>

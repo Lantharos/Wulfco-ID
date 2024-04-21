@@ -1,0 +1,7 @@
+<div class="create-id-container" [ngSwitch]="stage">
+    <registration-start *ngSwitchCase="1" (submit)="submit($event)"></registration-start>
+    <registration-name *ngSwitchCase="2" (submit)="submit($event)"></registration-name>
+    <registration-security *ngSwitchCase="3" (submit)="submit($event)"></registration-security>
+    <registration-profile *ngSwitchCase="4" (submit)="submit($event)"></registration-profile>
+    <button ngHcaptchaInvisibleButton></button>
+</div>

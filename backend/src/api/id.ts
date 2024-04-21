@@ -5,6 +5,7 @@ import OAuth from "./modules/OAuth";
 import Connections from "./modules/Connections";
 import Friends from "./modules/Friends";
 import Payments from "./modules/Payments";
+import CryptoHelper from "./modules/util/CryptoHelper";
 
 export default class ID {
     // Auth module
@@ -13,16 +14,24 @@ export default class ID {
     public static async logout(req: any) { return await Auth.logout(req) }
     public static async logoutAll(req: any) { return await Auth.logoutAll(req) }
     public static async create(req: any) { return await Auth.create(req) }
-    public static async verifyRegistration(req: any) { return await Auth.verifyEmail(req) }
+    public static async verifyEmail(req: any) { return await Auth.verifyEmail(req) }
+
+    // Crypto
+    public static async publicKey(req: any) {
+        const CH = new CryptoHelper()
+        return {status: 200, success: true, publicKey: CH.createPublicKey()}
+    }
 
     // User module
-    public static async get(req: any) {
+    public static async user(req: any) {
         const resp = await User.get(req)
-        if (resp.success) {return {status: 200, success: true, user: resp.user}} else {return resp}
+        if (resp.success) {return {status: 200, success: true, data: resp.encryptedUserData}} else {return resp}
     }
     public static async verifyPassword(req: any) { return await User.checkPassword(req) }
     public static async profile(req: any) { return await User.profile(req) }
-    public static async account(req: any) { return await User.account(req) }
+    public static async changeName(req: any) { return await User.account(req, "name") }
+    public static async changeUsername(req: any) { return await User.account(req, "username") }
+    public static async changeBirthday(req: any) { return await User.account(req, "birthday") }
     public static async preferences(req: any) { return await User.preferences(req) }
     public static async avatar(req: any) {
         if (req.method == "POST") {

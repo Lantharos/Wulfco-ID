@@ -1,0 +1,44 @@
+<div class="devices-content">
+  <h1 class="devices-text notselectable">Devices</h1>
+  <span class="devices-text01 notselectable">
+    <span>
+      Here are all the devices currently logged in with your Wulfco ID. You can
+      log out of each one individually or all the other devices.
+    </span>
+    <br />
+    <br />
+    <br />
+    <span>
+      If you see an entry you don&apos;t recognize, log out of that device and
+      change your Wulfco ID password immediately.
+    </span>
+    <br />
+  </span>
+  <div class="devices-container">
+    <span class="devices-text08 notselectable">CURRENT DEVICE</span>
+    <app-device rootClassName="device-root-class-name"></app-device>
+  </div>
+  <div class="devices-container1">
+    <span class="devices-text09 notselectable">OTHER DEVICES</span>
+    <app-device
+      device_type="ANDROID • VIKKIVUK ANDROID"
+      rootClassName="device-root-class-name1"
+    ></app-device>
+  </div>
+  <div class="devices-container2 notselectable">
+    <span class="devices-text10 notselectable">
+      LOG OUT OF ALL KNOWN DEVICES
+    </span>
+    <span class="devices-text11 notselectable">
+      You&apos;ll have to log back in on all logged out devices.
+    </span>
+    <button
+      id="delete_sessions"
+      type="button"
+      onclick="this.classList.toggle('submit--loading')"
+      class="devices-button button"
+    >
+      <span class="devices-text12">Log out of all sessions</span>
+    </button>
+  </div>
+</div>

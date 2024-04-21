@@ -1,0 +1,316 @@
+import {initializeApp} from "firebase/app";
+
+import {addDoc, collection, doc, getDoc, getDocs, getFirestore, query, updateDoc, where, deleteDoc} from "firebase/firestore";
+import {deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes} from "firebase/storage";
+
+const firebaseApp = initializeApp({
+    apiKey: process.env.APPFIREBASE_AKEY,
+    authDomain: "wulfco-id.firebaseapp.com",
+    projectId: "wulfco-id",
+    storageBucket: "wulfco-id.appspot.com",
+    messagingSenderId: process.env.APPFIREBASE_SENDER_ID,
+    appId: process.env.APPFIREBASE_APP_ID,
+    measurementId: process.env.APPFIREBASE_MEASUREMENT_ID
+});
+
+const db = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp);
+const users = collection(db, "users");
+const oauth_apps = collection(db, "oauth_apps");
+const resetRequests = collection(db, "password_reset_requests");
+
+// Password reset requests
+export const createResetRequest = async (userId: string) => {
+    try {
+        await addDoc(resetRequests, {userId, created: Date.now()})
+        return Date.now() + (7 * 24 * 60 * 60 * 1000)
+    } catch (e) {
+        console.log(e)
+        return null;
+    }
+}
+
+export const getAllResetRequests = async (sevenDaysAgo) => {
+    try {
+        const q = query(collection(db, "password_reset_requests"), where("created", "<", sevenDaysAgo));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.size > 0) {
+            return querySnapshot.docs
+        } else {
+            return null;
+        }
+    } catch(e) {
+        console.log(e)
+        return null;
+    }
+}
+
+// Users
+export const getUser = async (id: string) => {
+    try {
+        return await getDoc(doc(users, id))
+    } catch(e) {
+        console.log(e)
+        return null;
+    }
+}
+
+export const getUserByUsername = async (username: string) => {
+    try {
+        const q = query(collection(db, "users"), where("username", "==", username));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.size > 0) {
+            return querySnapshot.docs[0]
+        } else {
+            return null;
+        }
+    } catch(e) {
+        console.log(e)
+        return null;
+    }
+}
+
+export const getUserByEmail = async (email: string) => {
+    try {
+        const q = query(collection(db, "users"), where("email", "==", email));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.size > 0) {
+            return querySnapshot.docs[0]
+        } else {
+            return null;
+        }
+    } catch(e) {
+        console.log(e)
+        return null;
+    }
+}
+
+export const getUserByResetToken = async (token: string) => {
+    try {
+        const q = query(collection(db, "users"), where("account.security.pass_reset_token.token", "==", token));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.size > 0) {
+            return querySnapshot.docs[0]
+        } else {
+            return null;
+        }
+    } catch(e) {
+        console.log(e)
+        return null;
+    }
+}
+
+export const updateUser = async (id: string, data: any) => {
+    try {
+        await updateDoc(doc(users, id), data);
+        return true;
+    } catch (e) {
+        console.log(e)
+        return false;
+    }
+}
+
+export const createUser = async (data: any) => {
+    try {
+        const docRef= await addDoc(users, data)
+        return docRef.id;
+    } catch (e) {
+        console.log(e)
+        return null;
+    }
+}
+
+export const uploadAvatar = async (id: string, file: any) => {
+    try {
+        const parsedFile = JSON.parse(file)
+        const buffer = Buffer.from(parsedFile.data, 'base64');
+
+        const storageRef = ref(storage, `avatars/${id}/${parsedFile.fileName}`);
+        await uploadBytes(storageRef, buffer);
+
+        const avatarURL = await getDownloadURL(storageRef)
+
+        const listRef = ref(storage, `avatars/${id}`);
+        const list = await listAll(listRef);
+        if (list.items.length > 3) {
+            for (let i = 0; i < list.items.length - 3; i++) {
+                await deleteObject(list.items[i]);
+            }
+        }
+
+        await updateDoc(doc(users, id), {"profile.avatar": avatarURL});
+
+        return true;
+    } catch(e) {
+        console.log(e)
+        return false;
+    }
+}
+
+// sessions
+export const createSession = async (userId: any, data: any) => {
+    try {
+        const existing = await getDocs(query(collection(db, "sessions"), where("userId", "==", userId)))
+        if (existing.size > 0) {
+            const docRef = existing.docs[0].ref
+            const sessionData = existing.docs[0].data()
+            let newSessions = [...sessionData.sessions, data]
+            newSessions = newSessions.filter((session: any) => {
+                return (Date.now() - session.created) < (24 * 60 * 60 * 1000)
+            })
+
+            await updateDoc(docRef, {"sessions": newSessions})
+            return docRef.id;
+        } else {
+            const userSession = {
+                userId,
+                sessions: [data]
+            }
+
+            const docRef = await addDoc(collection(db, "sessions"), userSession)
+            return docRef.id;
+        }
+    } catch (e) {
+        console.log(e)
+        return null;
+    }
+}
+
+export const getSession = async (sessionDocId: string, sessionId: string) => {
+    try {
+        const sessionDoc = await getDoc(doc(db, "sessions", sessionDocId))
+        if (sessionDoc.exists()) {
+            const sessionData = sessionDoc.data()
+            return sessionData.sessions.find((session: any) => session.id === sessionId);
+        } else {
+            return null;
+        }
+    } catch(e) {
+        console.log(e)
+        return null;
+    }
+}
+
+export const getSessionByIp = async (sessionDocId: string, ip: string) => {
+    try {
+        const sessionDoc = await getDoc(doc(db, "sessions", sessionDocId))
+        if (sessionDoc.exists()) {
+            const sessionData = sessionDoc.data()
+            const found = sessionData.sessions.find((session: any) => session.ip === ip);
+            if (found) {
+                const sessionId = found.id
+                return getSession(sessionDocId, sessionId)
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    } catch(e) {
+        console.log(e)
+        return null;
+    }
+
+}
+
+export const getSessionDoc = async (userId: string) => {
+    try {
+        const q = query(collection(db, "sessions"), where("userId", "==", userId));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.size > 0) {
+            return querySnapshot.docs[0]
+        } else {
+            return null;
+        }
+    } catch(e) {
+        console.log(e)
+        return null;
+    }
+
+}
+
+export const getSessionDocById = async (sessionDocId: string) => {
+    try {
+        return await getDoc(doc(db, "sessions", sessionDocId))
+    } catch(e) {
+        console.log(e)
+        return null;
+    }
+}
+
+export const deleteSession = async (sessionDocId: string, sessionId: string) => {
+    try {
+        const sessionDoc = await getDoc(doc(db, "sessions", sessionDocId))
+        if (sessionDoc.exists()) {
+            const getSessions = getSession(sessionDocId, sessionId)
+            if (getSessions) {
+                const sessionData = sessionDoc.data()
+                sessionData.sessions = sessionData.sessions.filter((session: any) => session.id !== sessionId)
+                await updateDoc(doc(db, "sessions", sessionDocId), sessionData)
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } catch (e) {
+        console.log(e)
+        return false;
+    }
+}
+
+export const deleteAllSessions = async(userId: string)=> {
+    try {
+        const q = query(collection(db, "sessions"), where("userId", "==", userId));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.size > 0) {
+            const sessionDoc = querySnapshot.docs[0]
+            await deleteDoc(sessionDoc.ref)
+            return true;
+        } else {
+            return false;
+        }
+    } catch(e) {
+        console.log(e)
+        return false;
+    }
+}
+
+
+// OAuth Apps
+export const getOAuthApp = async (id: string) => {
+    try {
+        const q = query(oauth_apps, where("id", "==", id));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.size > 0) {
+            return querySnapshot.docs[0]
+        } else {
+            return null;
+        }
+    } catch(e) {
+        console.log(e)
+        return null;
+    }
+}
+
+export const updateOAuthApp = async (id: string, data: any) => {
+    try {
+        await updateDoc(doc(oauth_apps, id), data);
+        return true;
+    } catch (e) {
+        console.log(e)
+        return false;
+    }
+}
+
+export const createOAuthApp = async (data: any) => {
+    try {
+        const docRef = await addDoc(oauth_apps, data)
+        const app = await getDoc(docRef)
+        return {appId: docRef.id, data: app.data()};
+    } catch (e) {
+        console.log(e)
+        return null;
+    }
+}

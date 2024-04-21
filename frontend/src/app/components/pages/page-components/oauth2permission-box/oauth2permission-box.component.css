@@ -1,0 +1,58 @@
+:host { 
+  display: contents; 
+}
+.oauth2permission-box-container {
+  width: 80%;
+  height: auto;
+  display: flex;
+  position: relative;
+  align-self: center;
+  align-items: center;
+  border-radius: 14px;
+  margin-bottom: 2%;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: var(--dl-color-maincolors-containercolor);
+}
+.oauth2permission-box-text {
+  color: var(--dl-color-maincolors-headingcolor);
+  width: auto;
+  cursor: default;
+  font-size: 1.7em;
+  align-self: flex-start;
+  margin-top: 4%;
+  text-align: left;
+  font-family: Roboto;
+  margin-left: 4%;
+}
+.oauth2permission-box-container1 {
+  flex: 0 0 auto;
+  width: 92%;
+  height: auto;
+  display: flex;
+  align-self: center;
+  margin-top: 2%;
+  align-items: center;
+  border-radius: var(--dl-radius-radius-radius8);
+  margin-bottom: 4%;
+  flex-direction: column;
+}
+.oauth2permission-box-container2 {
+  width: 100%;
+  height: 65px;
+  display: flex;
+  align-self: center;
+  align-items: center;
+}
+.oauth2permission-box-text1 {
+  font-size: 1.3em;
+  margin-left: 3%;
+}
+.oauth2permission-box-text2 {
+  font-size: 1.3em;
+  margin-left: 9.8%;
+}
+.oauth2permission-box-text3 {
+  font-size: 1.3em;
+  margin-left: 46%;
+}

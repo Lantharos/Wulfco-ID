@@ -1,0 +1,51 @@
+@import "~@angular/cdk/overlay-prebuilt.css";
+.fade-in-out {
+  animation: ease-in-out 0.3s both;
+}
+
+@keyframes fadeInOut {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.dark-backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 50%;
+  transition: opacity 0.3s ease;
+  z-index: 500;
+}
+
+.dark-backdrop.cdk-overlay-backdrop-showing {
+  opacity: 1;
+}
+
+.custom-overlay-pane-class {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+  overflow-y: auto;
+  border-radius: 5px;
+  flex-direction: column;
+  z-index: 500;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.3s ease;
+  opacity: 50%;
+  justify-content: center;
+}
+
+.custom-overlay-pane-class.cdk-overlay-pane{
+  animation: fadeInOut 0.3s both;
+}

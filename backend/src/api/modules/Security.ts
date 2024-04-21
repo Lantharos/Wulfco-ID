@@ -1,11 +1,8 @@
 import User from "./User";
-import * as database from "../FirebaseHandler";
-import mail from "@sendgrid/mail";
+import * as database from "./util/FirebaseHandler";
 import bcrypt from "bcrypt";
 import firebase from "firebase/compat/app";
 import speakeasy from "speakeasy";
-
-mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
 
 export default class Security {
     private static isProtected(user: any) {
@@ -27,14 +24,13 @@ export default class Security {
         const credential = { id, rawId, response: { attestationObject, clientDataJSON }, type: req.body.type, name: req.body.name };
 
         const currentUser = result.user
-        const rawUser = result.rawUser
 
         if (currentUser.account.security && currentUser.account.security.security_keys) {
             currentUser.account.security.security_keys.push(credential)
 
-            await database.updateUser(rawUser.id, { "account.security.security_keys": currentUser.account.security.security_keys, "account.security.protected": true })
+            await database.updateUser(currentUser.id, { "account.security.security_keys": currentUser.account.security.security_keys, "account.security.protected": true })
         } else {
-            await database.updateUser(rawUser.id, { "account.security.security_keys": [credential], "account.security.protected": true })
+            await database.updateUser(currentUser.id, { "account.security.security_keys": [credential], "account.security.protected": true })
         }
 
         return {status: 200, success: true}
@@ -49,20 +45,19 @@ export default class Security {
         if (!result.user) { return {status: 400, success: false, message: "Could not find user"} }
 
         const currentUser = result.user
-        const rawUser = result.rawUser
 
         if (currentUser.account.security.security_keys && currentUser.account.security.security_keys[number]) {
             const securityKeys = currentUser.account.security.security_keys;
             securityKeys.splice(number, 1);
             currentUser.account.security.security_keys = securityKeys;
             if (securityKeys === 1) {
-                await database.updateUser(rawUser.id, {
+                await database.updateUser(currentUser.id, {
                     "account.security.security_keys": [],
                     "account.security.protected": this.isProtected(currentUser)
                 });
                 return {status: 200, success: true}
             } else {
-                await database.updateUser(rawUser.id, {
+                await database.updateUser(currentUser.id, {
                     "account.security.security_keys": securityKeys,
                     "account.security.protected": this.isProtected(currentUser)
                 });
@@ -83,12 +78,12 @@ export default class Security {
         await database.createResetRequest(rawUser.id)
         const date = new Date(Date.now() + (7 * 24 * 60 * 60 * 1000))
 
-        await mail.send({
-            to: rawUser.data().email,
-            from: "no-reply@wulfco.xyz",
-            subject: "Wulfco Password Reset",
-            text: `Hello @${rawUser.data().profile.username}, \n\nYou or someone has requested a password reset using this email, if this was, you expect an email in 7 days (${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}) with a link to reset your password. \n\nIf this was not you please contact us at support@wulfco.xyz. \n\nThanks, \nWulfco Team`
-        })
+        // await mail.send({
+        //     to: rawUser.data().email,
+        //     from: "no-reply@wulfco.xyz",
+        //     subject: "Wulfco Password Reset",
+        //     text: `Hello @${rawUser.data().profile.username}, \n\nYou or someone has requested a password reset using this email, if this was, you expect an email in 7 days (${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}) with a link to reset your password. \n\nIf this was not you please contact us at support@wulfco.xyz. \n\nThanks, \nWulfco Team`
+        // })
 
         return {status: 200, success: true}
     }
@@ -105,13 +100,12 @@ export default class Security {
         const newHashedPassword = await bcrypt.hash(newPassword, 10, null)
         await database.updateUser(rawUser.id, { "password": newHashedPassword, "account.security.pass_reset_token": firebase.firestore.FieldValue.delete() })
 
-        mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
-        await mail.send({
-            to: rawUser.data().email,
-            from: "alerts@wulfco.xyz",
-            subject: "Wulfco Password Changed",
-            text: `Hello @${rawUser.data().profile.username}, \n\nYou or someone has changed your password, if this was you please ignore this email. \n\nIf this was not you please contact us at support@wulfco.xyz. \n\nThanks, \nWulfco Team`
-        })
+        // await mail.send({
+        //     to: rawUser.data().email,
+        //     from: "alerts@wulfco.xyz",
+        //     subject: "Wulfco Password Changed",
+        //     text: `Hello @${rawUser.data().profile.username}, \n\nYou or someone has changed your password, if this was you please ignore this email. \n\nIf this was not you please contact us at support@wulfco.xyz. \n\nThanks, \nWulfco Team`
+        // })
 
         return {status: 200, success: true}
     }
@@ -124,16 +118,14 @@ export default class Security {
 
         const code = Math.floor(100000 + Math.random() * 900000)
 
-        mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
+        // await mail.send({
+        //     to: user.email,
+        //     from: "verify@wulfco.xyz",
+        //     subject: "Wulfco Email Verification",
+        //     text: `Hello @${user.profile.username}, \n\nYou or someone has requested a email verification using this email, if this was you please enter the code below to verify your email. \n\n${code} \n\nIf this was not you please ignore this email.\n\nThanks, \nWulfco Team`
+        // })
 
-        await mail.send({
-            to: user.email,
-            from: "verify@wulfco.xyz",
-            subject: "Wulfco Email Verification",
-            text: `Hello @${user.profile.username}, \n\nYou or someone has requested a email verification using this email, if this was you please enter the code below to verify your email. \n\n${code} \n\nIf this was not you please ignore this email.\n\nThanks, \nWulfco Team`
-        })
-
-        await database.updateUser(rawUser.rawUser.id, { "account.security.email_verification": {token: code, created: Date.now()} })
+        await database.updateUser(user.id, { "account.security.email_verification": {token: code, created: Date.now()} })
 
         return {status: 200, success: true}
     }
@@ -148,7 +140,7 @@ export default class Security {
         const user = rawUser.user
 
         if (user.account.security.email_verification.token == code) {
-            await database.updateUser(rawUser.rawUser.id, { "account.security.email_verification": firebase.firestore.FieldValue.delete() })
+            await database.updateUser(user.id, { "account.security.email_verification": firebase.firestore.FieldValue.delete() })
             return {status: 200, success: true}
         } else {
             return {status: 400, success: false, message: "Invalid code"}
@@ -169,22 +161,21 @@ export default class Security {
         const validPassword = await bcrypt.compare(password, user.password, null)
         if (!validPassword) { return {status: 400, success: false, message: "Invalid password"} }
 
-        mail.setApiKey(`${process.env.SENDGRID_API_KEY}`)
-        await mail.send({
-            to: user.email,
-            from: "alerts@wulfco.xyz",
-            subject: "Wulfco Email Changed",
-            text: `Hello @${user.profile.username}, \n\nYou or someone has changed your email, if this was you please ignore this email. \n\nIf this was not you please contact us at support@wulfco.xyz. \n\nThanks, \nWulfco Team`
-        })
+        // await mail.send({
+        //     to: user.email,
+        //     from: "alerts@wulfco.xyz",
+        //     subject: "Wulfco Email Changed",
+        //     text: `Hello @${user.profile.username}, \n\nYou or someone has changed your email, if this was you please ignore this email. \n\nIf this was not you please contact us at support@wulfco.xyz. \n\nThanks, \nWulfco Team`
+        // })
+        //
+        // await mail.send({
+        //     to: newEmail,
+        //     from: "alerts@wulfco.xyz",
+        //     subject: "Wulfco Email Transferred",
+        //     text: `Hello @${user.profile.username}, \n\nYou or someone has transferred the email to this account, if this was you please ignore this email. \n\nIf this was not you please contact us at support@wulfco.xyz. \n\nThanks, \nWulfco Team`
+        // })
 
-        await mail.send({
-            to: newEmail,
-            from: "alerts@wulfco.xyz",
-            subject: "Wulfco Email Transferred",
-            text: `Hello @${user.profile.username}, \n\nYou or someone has transferred the email to this account, if this was you please ignore this email. \n\nIf this was not you please contact us at support@wulfco.xyz. \n\nThanks, \nWulfco Team`
-        })
-
-        await database.updateUser(rawUser.rawUser.id, { "email": newEmail })
+        await database.updateUser(user.id, { "email": newEmail })
 
         return {status: 200, success: true}
     }
@@ -193,7 +184,7 @@ export default class Security {
         const rawUser = await User.get(req)
         if (!rawUser.success) { return rawUser }
 
-        await database.updateUser(rawUser.rawUser.id, { "account.security.email": true, "account.security.protected": true })
+        await database.updateUser(rawUser.user.id, { "account.security.email": true, "account.security.protected": true })
 
         return {status: 200, success: true}
     }
@@ -204,7 +195,7 @@ export default class Security {
 
         rawUser.user.account.security.email = false
 
-        await database.updateUser(rawUser.rawUser.id, { "account.security.email": false, "account.security.protected": this.isProtected(rawUser.user) })
+        await database.updateUser(rawUser.user.id, { "account.security.email": false, "account.security.protected": this.isProtected(rawUser.user) })
 
         return {status: 200, success: true}
     }
@@ -219,7 +210,7 @@ export default class Security {
             issuer: "Wulfco ID"
         })
 
-        await database.updateUser(rawUser.rawUser.id, { "account.security.totp": {secret: secret.base32, enabled: false}, "account.security.protected": true })
+        await database.updateUser(rawUser.user.id, { "account.security.totp": {secret: secret.base32, enabled: false}, "account.security.protected": true })
 
         return {status: 200, success: true, secret: secret.base32, qr: `${secret.otpauth_url}&issuer=Wulfco%20ID`}
     }
@@ -239,7 +230,7 @@ export default class Security {
 
         if (!verified) { return {status: 400, success: false, message: "Invalid token"} }
 
-        await database.updateUser(rawUser.rawUser.id, { "account.security.totp.enabled": true })
+        await database.updateUser(rawUser.user.id, { "account.security.totp.enabled": true })
 
         return {status: 200, success: true}
     }
@@ -248,7 +239,7 @@ export default class Security {
         const rawUser = await User.get(req)
         if (!rawUser.success) { return rawUser }
 
-        await database.updateUser(rawUser.rawUser.id, { "account.security.totp.enabled": false, "account.security.protected": this.isProtected(rawUser.user) })
+        await database.updateUser(rawUser.user.id, { "account.security.totp.enabled": false, "account.security.protected": this.isProtected(rawUser.user) })
 
         return {status: 200, success: true}
     }
