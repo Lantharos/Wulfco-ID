@@ -1,24 +1,27 @@
 <div class="profile-content">
   <h1 class="profile-text notselectable">Profile</h1>
   <div class="profile-container">
-    <div class="profile-avatar-change-wrapper">
+      <input id="avatar" type="file" [accept]='[".jpeg", ".jpg", ".png"]' class="hidden" (change)="changeAvatar($event)"/>
+      <div class="profile-avatar-change-wrapper">
       <span class="profile-pointer notselectable">AVATAR</span>
       <div class="profile-options">
-        <button id="confirm" type="button" class="profile-button button">
-          <svg viewBox="0 0 1024 1024" class="profile-icon">
+        <button id="upload" (click)="pickAvatar()" type="button" class="profile-button button">
+          <svg id="upload-icon" viewBox="0 0 1024 1024" class="profile-icon">
             <path
               d="M214 768h596v86h-596v-86zM384 682v-256h-170l298-298 298 298h-170v256h-256z"
             ></path>
           </svg>
-          <span class="profile-text01">Upload Avatar</span>
+          <span id="upload-text" class="profile-text01">Upload Avatar</span>
+            <div id="upload-loader" class="edit-username-loader"></div>
         </button>
-        <button id="cancel" type="button" class="profile-button1 button">
-          <svg viewBox="0 0 1024 1024" class="profile-icon02">
+        <button id="reset" (click)="resetAvatar()" type="button" class="profile-button1 button">
+          <svg id="reset-icon" viewBox="0 0 1024 1024" class="profile-icon02">
             <path
               d="M726 666l-154-154 154-154-60-60-154 154-154-154-60 60 154 154-154 154 60 60 154-154 154 154zM512 86q176 0 301 125t125 301-125 301-301 125-301-125-125-301 125-301 301-125z"
             ></path>
           </svg>
-          <span class="profile-text02">Reset Avatar</span>
+          <span id="reset-text" class="profile-text02">Reset Avatar</span>
+            <div id="reset-loader" class="edit-username-loader"></div>
         </button>
       </div>
     </div>

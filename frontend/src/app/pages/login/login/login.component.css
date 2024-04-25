@@ -31,7 +31,7 @@
   justify-content: flex-start;
 }
 .login-text {
-  color: rgb(255, 255, 255);
+  color: var(--dl-color-maincolors-headingcolor);
   width: 100%;
   cursor: default;
   font-size: 1.5em;

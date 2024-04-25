@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { InjectionToken } from '@angular/core';\nexport const OVERLAY_REF = new InjectionToken('OVERLAY_REF');\nexport const OVERLAY_COMPONENT = new InjectionToken('OVERLAY_COMPONENT');","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

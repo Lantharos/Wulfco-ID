@@ -122,10 +122,9 @@ export const createUser = async (data: any) => {
 
 export const uploadAvatar = async (id: string, file: any) => {
     try {
-        const parsedFile = JSON.parse(file)
-        const buffer = Buffer.from(parsedFile.data, 'base64');
+        const buffer = Buffer.from(file.data, 'base64');
 
-        const storageRef = ref(storage, `avatars/${id}/${parsedFile.fileName}`);
+        const storageRef = ref(storage, `avatars/${id}/${file.fileName}`);
         await uploadBytes(storageRef, buffer);
 
         const avatarURL = await getDownloadURL(storageRef)
@@ -138,9 +137,7 @@ export const uploadAvatar = async (id: string, file: any) => {
             }
         }
 
-        await updateDoc(doc(users, id), {"profile.avatar": avatarURL});
-
-        return true;
+        return avatarURL;
     } catch(e) {
         console.log(e)
         return false;

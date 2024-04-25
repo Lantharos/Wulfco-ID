@@ -61,9 +61,19 @@ var corsOptions = {
 app.options('*', cors())
 app.use(cors());
 
+app.use("/avatar", express.json({limit: 2097152}), async(req: any, res: any) => {
+    try {
+        const returned = await id.avatar(req)
+        res.status(returned.status).send(returned)
+    } catch(e) {
+        console.log(e)
+        res.sendStatus(500)
+    }
+})
+
 app.use('/', express.json(), slowDown({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    delayAfter: 100, // allow 100 requests per 15 minutes, then...
+    delayAfter: 50, // allow 100 requests per 15 minutes, then...
     delayMs: () => 500 // begin adding 500ms of delay per request above 100.
 }), async(req: any, res: any, next) => {
     if (req.headers['w-reason'] === "life_check") {res.sendStatus(200);return}

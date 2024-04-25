@@ -92,7 +92,7 @@ export default class User {
 
         const encryptedUserData = new CryptoHelper().encryptAES(JSON.stringify(userData), crypto.createSecretKey(rawSessionSecret), iv, "aes-256-cbc")
 
-        return {status: 200, success: true, user: userData, encryptedUserData: new Uint8Array(encryptedUserData).toString()}
+        return {status: 200, success: true, user: userData, encryptedUserData: new Uint8Array(encryptedUserData).toString(), kdf: tedk}
     }
 
     public static async checkPassword(req: any) {
@@ -122,7 +122,7 @@ export default class User {
         const user = await User.get(req, passwordHash)
         if (!user.success) {return user}
 
-        const kdf = new CryptoHelper().KDF(passwordHash, user.user.username)
+        const kdf = user.kdf
 
         const newUser = user.user
 
@@ -218,16 +218,20 @@ export default class User {
 
     public static async updateAvatar(req: any) {
         const file = req.body
-        if (!file) {return {status: 400, success: false, message: "Missing fields"}}
+        if (!file || !file.fileName || !file.fileSize || !file.fileType || !file.data) {return {status: 400, success: false, message: "Missing fields"}}
 
-        const result = await User.get(req)
-        if (!result.success) {return result}
-        const user = result.user
-        if (!user) {return {status: 400, success: false, message: "Could not find user"}}
+        const user = await User.get(req)
+        if (!user.success) {return user}
 
-        const success = await database.uploadAvatar(user.id, file)
+        const avatarURL = await database.uploadAvatar(user.user.id, file)
 
-        if (success) {
+        if (avatarURL) {
+            const newUser = user.user
+            newUser["profile"]["avatar"] = avatarURL
+            const newEncryptedUser = new CryptoHelper().encryptAES(JSON.stringify(newUser), user.kdf, Buffer.from(user.user.iv, "hex"), "aes-256-cbc")
+            if (!newEncryptedUser) {return {status: 400, success: false, error: "Could not encrypt user data"}}
+
+            await database.updateUser(user.user.id, {data: newEncryptedUser.toString("hex")})
             return {status: 200, success: true}
         } else {
             return {status: 400, success: false, message: "Could not upload avatar"}
@@ -235,12 +239,15 @@ export default class User {
     }
 
     public static async resetAvatar(req: any) {
-        const result = await User.get(req)
-        if (!result.success) {return result}
-        const user = result.user
-        if (!user) {return {status: 400, success: false, message: "Could not find user"}}
+        const user = await User.get(req)
+        if (!user.success) {return user}
 
-        await database.updateUser(user.id, {"profile.avatar": `https://api.dicebear.com/5.x/identicon/svg?seed=${user.profile.full_name.split(" ")[0]}&backgroundColor=ffdfbf`})
+        const newUser = user.user
+        newUser["profile"]["avatar"] = "https://api.dicebear.com/5.x/identicon/svg?backgroundType=gradientLinear,solid&row1[]&row5[]&backgroundColor=ffd5dc,d1d4f9,c0aede,b6e3f4,ffdfbf&seed=" + user.user.username
+        const newEncryptedUser = new CryptoHelper().encryptAES(JSON.stringify(newUser), user.kdf, Buffer.from(user.user.iv, "hex"), "aes-256-cbc")
+        if (!newEncryptedUser) {return {status: 400, success: false, error: "Could not encrypt user data"}}
+
+        await database.updateUser(user.user.id, {data: newEncryptedUser.toString("hex")})
 
         return {status: 200, success: true}
     }
