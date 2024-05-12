@@ -118,8 +118,8 @@
 }
 .change-email-step3-icon2 {
   fill: var(--dl-color-maincolors-headingcolor);
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
 }
 .change-email-step3-text5 {
   left: 42px;
@@ -244,4 +244,16 @@
     position: static;
     margin-top: 6%;
   }
+}
+.edit-username-loader{
+  width: 100%;
+  height: 100%;
+  color: #ffffff;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  display: block;
+  z-index: 5;
+  top: -0.025cm;
 }

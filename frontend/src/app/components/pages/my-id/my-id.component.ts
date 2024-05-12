@@ -11,6 +11,8 @@ import {NgHcaptchaService} from "ng-hcaptcha";
 import {CookieService} from "ngx-cookie-service";
 import {AuthCrypto} from "../../../util/AuthCrypto";
 import { config } from '../../../config'
+import {ChangeEmailStep2} from "../../dialogs/change-email/change-email-step2/change-email-step2.component";
+import {ChangeEmailStep3} from "../../dialogs/change-email/change-email-step3/change-email-step3.component";
 
 @Component({
   selector: 'my-id',
@@ -26,7 +28,7 @@ export class MyID {
 
   constructor(private dialog: PopupService, private snackbar: MatSnackBar, private HCaptcha: NgHcaptchaService, private cookies: CookieService) {}
 
-  openDialog(dialog: ComponentType<unknown>) {
+  openProfileDialog(dialog: ComponentType<unknown>) {
       this.dialog.open(dialog, async(values: object, stopLoadingButton: () => void) => {
         let data = {}
         let endpoint = ''
@@ -154,6 +156,75 @@ export class MyID {
             this.snackbar.openFromComponent(WulfcoSnackbar, {data: {message: 'Captcha Failed!', type: 'error', totalTime: 5000}, duration: 6000, horizontalPosition: 'center', verticalPosition: 'top', panelClass: ['wulfco-snackbar'],});
           }
         })
+      })
+  }
+
+  handleEmailDialog() {
+      this.dialog.open(ChangeEmailStep1, async(_, stopLoadingButton: () => void) => {
+          const sessionSecret = new Uint8Array(decodeURIComponent(this.cookies.get('ss')).split(',').map(Number))
+          const sessionToken = new Uint8Array(decodeURIComponent(this.cookies.get('st')).split(',').map(Number))
+          const sessionId = this.cookies.get('sid')
+          const sessionDoc = this.cookies.get('sd')
+          const iv = new Uint8Array(decodeURIComponent(this.cookies.get('iv')).split(',').map(Number))
+
+          if (sessionSecret === undefined || sessionToken === undefined || sessionId === '' || sessionDoc === '' || iv === undefined) {
+              window.location.href = '/login'
+          }
+
+          const importedKey = await new AuthCrypto().ImportKey(sessionSecret)
+          const ticket = await new AuthCrypto().AESEncrypt(JSON.stringify({ token: sessionToken.toString() }), importedKey, iv)
+
+          await fetch(config.api_url + '/email?stage=1', {method: 'POST', headers: {
+                "W-SessionID": JSON.stringify({ sessionId, sessionDoc }),
+                "W-Auth": ticket,
+                "W-Reason": 'change-email-step1',
+                "Content-Type": "application/json"
+            }}).then(async (res) => {
+                if (res.status === 200) {
+                    this.dialog.close()
+                    this.dialog.open(ChangeEmailStep2, async(values: object, stopLoadingButton: () => void) => {
+                        const code = values["code"]
+
+                        await fetch(config.api_url + '/email?stage=2', {method: 'POST', headers: {
+                            "W-SessionID": JSON.stringify({ sessionId, sessionDoc }),
+                            "W-Auth": ticket,
+                            "W-Reason": 'change-email-step2',
+                            "Content-Type": "application/json"
+                        }, body: JSON.stringify({code}) }).then(async (res) => {
+                            if (res.status === 200) {
+                                this.dialog.open(ChangeEmailStep3, async(values: object, stopLoadingButton: () => void) => {
+                                    const newEmail = await values["email"]
+                                    const passwordHash = new AuthCrypto().Hash(await values["password"])
+
+                                    const encryptedData = await new AuthCrypto().SimpleEncrypt(JSON.stringify({ email: newEmail, password: await passwordHash }))
+                                    await fetch(config.api_url + '/email?stage=3', {method: 'POST', headers: {
+                                        "W-SessionID": JSON.stringify({ sessionId, sessionDoc }),
+                                        "W-Auth": ticket,
+                                        "W-Reason": 'change-email-step3',
+                                        "Content-Type": "application/json"
+                                    }, body: JSON.stringify(encryptedData) }).then(async (res) => {
+                                        if (res.status === 200) {
+                                            this.getUserData()
+                                            this.snackbar.openFromComponent(WulfcoSnackbar, {data: {message: 'Email Updated!', type: 'success', totalTime: 5000}, duration: 6000, horizontalPosition: 'center', verticalPosition: 'top', panelClass: ['wulfco-snackbar'],});
+                                            stopLoadingButton();
+                                            this.dialog.close()
+                                        } else {
+                                            stopLoadingButton()
+                                            this.snackbar.openFromComponent(WulfcoSnackbar, {data: {message: 'An error occured!', type: 'error', totalTime: 5000}, duration: 6000, horizontalPosition: 'center', verticalPosition: 'top', panelClass: ['wulfco-snackbar'],});
+                                        }
+                                    })
+                                })
+                            } else {
+                                stopLoadingButton()
+                                this.snackbar.openFromComponent(WulfcoSnackbar, {data: {message: 'An error occured!', type: 'error', totalTime: 5000}, duration: 6000, horizontalPosition: 'center', verticalPosition: 'top', panelClass: ['wulfco-snackbar'],});
+                            }
+                        })
+                    })
+                } else {
+                    stopLoadingButton()
+                    this.snackbar.openFromComponent(WulfcoSnackbar, {data: {message: 'An error occured!', type: 'error', totalTime: 5000}, duration: 6000, horizontalPosition: 'center', verticalPosition: 'top', panelClass: ['wulfco-snackbar'],});
+                }
+            })
       })
   }
 

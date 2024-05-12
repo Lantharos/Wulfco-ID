@@ -1,11 +1,9 @@
 import crypto from "crypto";
 import * as database from "./util/FirebaseHandler";
 import User from "./User";
-import bcrypt from "bcrypt";
 import { Resend } from "resend"
 import * as hcaptcha from "hcaptcha";
 import CH from "./util/CryptoHelper";
-import {getUserByUsername} from "./util/FirebaseHandler";
 import verifyEmail from "./emails/verify-email"
 import firebase from "firebase/compat/app";
 

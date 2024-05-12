@@ -3,7 +3,8 @@ import bcrypt from "bcrypt";
 import * as database from "./util/FirebaseHandler";
 import Payments from "./Payments";
 import CryptoHelper from "./util/CryptoHelper";
-import Auth from "./Auth";
+import {Resend} from "resend";
+import sendVerificationEmail from "./emails/verify-email";
 
 export default class User {
     public static async get(req: any, checkPassword?: any) {
@@ -196,6 +197,62 @@ export default class User {
         return {status: 200, success: true}
     }
 
+    public static async email(req: any, step: number) {
+        if (step === 1) {
+            const user = await User.get(req)
+            if (!user.success) {return user}
+            const newUser = user.user
+
+            const resend = new Resend(process.env.RESEND_KEY);
+            const emailVerification = Math.random().toString(36).slice(2, 8)
+            const formattedEmailVerification = emailVerification.toUpperCase().slice(0, 3) + "-" + emailVerification.toUpperCase().slice(3)
+            await sendVerificationEmail(resend, user.user.account.email, formattedEmailVerification)
+
+            newUser["account"]["email_change"] = {step: 1, code: emailVerification, email: user.user.account.email}
+            const newEncryptedUser = new CryptoHelper().encryptAES(JSON.stringify(newUser), user.kdf, Buffer.from(user.user.iv, "hex"), "aes-256-cbc")
+            if (!newEncryptedUser) {return {status: 400, success: false, error: "Could not encrypt user data"}}
+            await database.updateUser(user.user.id, {data: newEncryptedUser.toString("hex")})
+
+            return {status: 200, success: true}
+        } else if (step === 2) {
+            const user = await User.get(req)
+            if (!user.success) {return user}
+            const newUser = user.user
+
+            const code = req.body.code
+
+            if (code == newUser.account.email_change.code && newUser.account.email_change.step == 1) {
+                return {status: 200, success: true}
+            } else {
+                return {status: 500, success: false, message: "Invalid state"}
+            }
+        } else if (step === 3) {
+            const decryptedData = new CryptoHelper().SimpleDecrypt(req.body.encryptedData, req.body.encryptedSymmetricKey, req.body.iv)
+            if (!decryptedData) {return {status: 400, success: false, message: "Invalid data"}}
+            const decryptedDataJSON = JSON.parse(decryptedData)
+
+            console.log(decryptedDataJSON)
+            const user = await User.get(req, decryptedDataJSON.password)
+            if (!user.success) {return user}
+            const newUser = user.user
+
+            if (newUser.account.email_change == null) {
+                return {status: 500, success: false, message: "Invalid state"}
+            }
+
+            newUser.account.email = decryptedDataJSON.email
+            newUser.account.email_change.step = 0
+
+            const newEncryptedUser = new CryptoHelper().encryptAES(JSON.stringify(newUser), user.kdf, Buffer.from(user.user.iv, "hex"), "aes-256-cbc")
+            if (!newEncryptedUser) {return {status: 400, success: false, error: "Could not encrypt user data"}}
+            await database.updateUser(user.user.id, {data: newEncryptedUser.toString("hex")})
+
+            return {status: 200, success: true}
+        }
+
+        return {status: 500, success: false, message: "Internal conflict"}
+    }
+
     public static async preferences(req: any) {
         const share_analytics = req.body["share_analytics"]
         const share_storage_data = req.body["share_storage_data"]
@@ -253,20 +310,26 @@ export default class User {
     }
 
     public static async profile(req: any) {
-        const newAboutMe = req.body["about_me"]
-        const newProfileColor = req.body["profile_color"]
-        const newPronouns = req.body["pronouns"]
+        const user = await User.get(req)
+        if (!user.success) {return user}
 
-        if (!newAboutMe && !newProfileColor && !newPronouns) {
-            return {status: 400, success: false, message: "Missing fields"}
+        const newUser = user.user
+        const decryptedData = new CryptoHelper().SimpleDecrypt(req.body.encryptedData, req.body.encryptedSymmetricKey, req.body.iv)
+        if (!decryptedData) {return {status: 400, success: false, message: "Invalid data"}}
+        const decryptedDataJSON = JSON.parse(decryptedData)
+
+        newUser["profile"]["about_me"] = decryptedDataJSON["about_me"]
+        newUser["profile"]["display_name"] = decryptedDataJSON["display_name"]
+        if (decryptedDataJSON["color"] == "#ff4444" || decryptedDataJSON["color"] == null) {
+            newUser["profile"]["profile_color"] = "#ff4444"
+        } else {
+            newUser["profile"]["profile_color"] = decryptedDataJSON["color"]
+            newUser["profile"]["last_custom_color"] = decryptedDataJSON["color"]
         }
 
-        const result = await User.get(req)
-        if (!result.success) {
-            return result
-        }
-
-        await database.updateUser(result.user.id, {"profile.about_me": newAboutMe || "", "profile.profile_color": newProfileColor || "#008cff", "profile.pronouns": newPronouns || ""})
+        const newEncryptedUser = new CryptoHelper().encryptAES(JSON.stringify(newUser), user.kdf, Buffer.from(user.user.iv, "hex"), "aes-256-cbc")
+        if (!newEncryptedUser) {return {status: 400, success: false, error: "Could not encrypt user data"}}
+        await database.updateUser(user.user.id, {data: newEncryptedUser.toString("hex")})
 
         return {status: 200, success: true}
     }

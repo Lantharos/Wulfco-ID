@@ -14,7 +14,7 @@
           </div>
           <button
             id="edit_fullname"
-            (click)="openDialog(EditName)"
+            (click)="openProfileDialog(EditName)"
             type="button"
             class="my-id-button button"
           >
@@ -42,7 +42,7 @@
               </h1>
             </div>
           </div>
-          <button id="edit_username" (click)="openDialog(EditUsername)" type="button" class="my-id-button2 button">
+          <button id="edit_username" (click)="openProfileDialog(EditUsername)" type="button" class="my-id-button2 button">
             <svg viewBox="0 0 1024 1024" class="my-id-icon04">
               <path
                 d="M884 300l-78 78-160-160 78-78q12-12 30-12t30 12l100 100q12 12 12 30t-12 30zM128 736l472-472 160 160-472 472h-160v-160z"
@@ -57,7 +57,7 @@
               {{userdata.account.email}}
             </h1>
           </div>
-          <button id="edit_email" (click)="openDialog(ChangeEmailStep1)" type="button" class="my-id-button3 button">
+          <button id="edit_email" (click)="handleEmailDialog()" type="button" class="my-id-button3 button">
             <svg viewBox="0 0 1024 1024" class="my-id-icon06">
               <path
                 d="M884 300l-78 78-160-160 78-78q12-12 30-12t30 12l100 100q12 12 12 30t-12 30zM128 736l472-472 160 160-472 472h-160v-160z"
@@ -75,7 +75,7 @@
               {{userdata.account.birthday ? (userdata.account.birthday | date:'MMMM d, yyyy')  : "Not set"}}
               </h1>
             </div>
-            <button id="edit_birthday" (click)="openDialog(EditBirthday)" type="button" class="my-id-button4 button">
+            <button id="edit_birthday" (click)="openProfileDialog(EditBirthday)" type="button" class="my-id-button4 button">
               <svg viewBox="0 0 1024 1024" class="my-id-icon08">
                 <path
                   d="M884 300l-78 78-160-160 78-78q12-12 30-12t30 12l100 100q12 12 12 30t-12 30zM128 736l472-472 160 160-472 472h-160v-160z"

@@ -42,6 +42,17 @@ export default class ID {
             return {status: 400, success: false, message: "Invalid method"}
         }
     }
+    public static async email(req: any) {
+        if (req.query.stage == 1) {
+            return await User.email(req, 1)
+        } else if (req.query.stage == 2) {
+            return await User.email(req, 2)
+        } else if (req.query.stage == 3) {
+            return await User.email(req, 3)
+        } else {
+            return {status: 400, success: false, message: "Invalid stage"}
+        }
+    }
 
     // Security module
     public static async securityKey(req: any) {
@@ -60,17 +71,6 @@ export default class ID {
             return await Security.changePassword(req)
         } else {
             return {status: 400, success: false, message: "Invalid method"}
-        }
-    }
-    public static async email(req: any) {
-        if (req.query.stage == 1) {
-            return await Security.sendEmailVerification(req)
-        } else if (req.query.stage == 2) {
-            return await Security.verifyEmail(req)
-        } else if (req.query.stage == 3) {
-            return await Security.changeEmail(req)
-        } else {
-            return {status: 400, success: false, message: "Invalid stage"}
         }
     }
     public static async emailAuth(req: any) {

@@ -54,6 +54,8 @@ import {WulfcoSnackbar} from "./snackbar/wulfco-snackbar.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Blocked} from "./pages/blocked/blocked.component";
 import {Block} from "@angular/compiler";
+import {NgOtpInputModule} from "ng-otp-input";
+import {NgxColorsModule} from "ngx-colors";
 
 @NgModule({
   declarations: [
@@ -107,7 +109,7 @@ import {Block} from "@angular/compiler";
     WulfcoSnackbar,
       Blocked
   ],
-    imports: [CommonModule, RouterModule, NgOptimizedImage, FormsModule, ReactiveFormsModule],
+    imports: [CommonModule, RouterModule, NgOptimizedImage, FormsModule, ReactiveFormsModule, NgOtpInputModule, NgxColorsModule],
     exports: [
         FriendRequest,
         ChangeEmailStep2,

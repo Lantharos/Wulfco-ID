@@ -7,7 +7,7 @@
     <br />
   </span>
   <div class="change-email-step2-container1">
-    <button id="cancel" type="button" class="change-email-step2-button button">
+    <button id="cancel" (click)="cancel()" type="button" class="change-email-step2-button button">
       <svg viewBox="0 0 1024 1024" class="change-email-step2-icon">
         <path
           d="M726 666l-154-154 154-154-60-60-154 154-154-154-60 60 154 154-154 154 60 60 154-154 154 154zM512 86q176 0 301 125t125 301-125 301-301 125-301-125-125-301 125-301 301-125z"
@@ -17,37 +17,25 @@
     </button>
     <button
       id="confirm"
+      (click)="confirm()"
       type="button"
       class="change-email-step2-button1 button"
     >
-      <svg viewBox="0 0 1024 1024" class="change-email-step2-icon2">
+      <svg id="confirm-icon" viewBox="0 0 1024 1024" class="change-email-step2-icon2">
         <path
           d="M426 726l384-384-60-62-324 324-152-152-60 60zM512 86q176 0 301 125t125 301-125 301-301 125-301-125-125-301 125-301 301-125z"
         ></path>
       </svg>
-      <span class="change-email-step2-text7">Confirm</span>
+      <span id="confirm-text" class="change-email-step2-text7">Confirm</span>
+        <div id="confirm-loader" class="edit-username-loader"></div>
     </button>
   </div>
   <div class="change-email-step2-container2">
-    <span class="change-email-step2-text8 notselectable">
-      Verification Code
-    </span>
-    <input
-      type="text"
-      id="code"
-      name="code"
-      required="true"
-      placeholder="000-000"
-      autocomplete="off"
-      class="change-email-step2-textinput input"
-    />
-    <a
-      href="https://example.com"
-      target="_blank"
-      rel="noreferrer noopener"
-      class="change-email-step2-link"
-    >
-      Didn&apos;t receive a code? Resend it.
-    </a>
+      <div class="verify-email-container2">
+          <ng-otp-input id="code" class="verify-email-otp-container" (onInputChange)="onChange($event)" [config]="{length:6, letterCase:'Upper', inputStyles: {backgroundColor:'var(--dl-color-maincolors-inputcolor)', borderRadius: '8px', borderWidth: 0, color: 'var(--dl-color-maincolors-headingcolor)'}, containerClass: 'verify-email-otp-container'}"></ng-otp-input>
+          <a href="https://example.com" target="_blank" rel="noreferrer noopener" class="change-email-step2-link">
+              Didn&apos;t receive a code? Resend it.
+          </a>
+      </div>
   </div>
 </div>
