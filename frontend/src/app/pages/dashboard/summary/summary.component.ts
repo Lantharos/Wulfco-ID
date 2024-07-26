@@ -49,7 +49,6 @@ export class Summary implements OnInit {
                   const userDataRaw = await new AuthCrypto().AESDecrypt(encryptedUserData, importedKey, iv)
 
                   this.userData = JSON.parse(userDataRaw)
-                  console.log(this.userData)
                   this.loaded = true
               } else {
                 this.snackbar.openFromComponent(WulfcoSnackbar, {data: {message: 'An error occured!', type: 'error', totalTime: 5000}, duration: 6000, horizontalPosition: 'center', verticalPosition: 'top', panelClass: ['wulfco-snackbar'],});

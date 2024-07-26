@@ -85,19 +85,21 @@
       </div>
     </div>
     <button ngHcaptchaInvisibleButton></button>
-    <my-id *ngIf="selectedPage === 'id'" [userdata]="userData" [getUserData]="getUserData"></my-id>
-    <app-profile *ngIf="selectedPage === 'profile'" [userdata]="userData" [getUserData]="getUserData"></app-profile>
-    <app-security *ngIf="selectedPage === 'security'"></app-security>
-    <app-privacy *ngIf="selectedPage === 'privacy'"></app-privacy>
-    <authorized-apps *ngIf="selectedPage === 'authorized-apps'"></authorized-apps>
-    <app-devices *ngIf="selectedPage === 'devices'"></app-devices>
-    <connected-apps *ngIf="selectedPage === 'connections'"></connected-apps>
-    <my-friends *ngIf="selectedPage === 'friends'"></my-friends>
-    <add-friend *ngIf="selectedPage === 'add-friend'"></add-friend>
-    <app-subscriptions *ngIf="selectedPage === 'subscriptions'"></app-subscriptions>
-    <app-gifts *ngIf="selectedPage === 'gifts'"></app-gifts>
-    <app-billing *ngIf="selectedPage === 'billing'"></app-billing>
-    <blocked *ngIf="selectedPage === 'blocked'"></blocked>
+    <div [ngSwitch]="selectedPage">
+        <my-id *ngSwitchCase="'id'" [userdata]="userData" [getUserData]="getUserData"></my-id>
+        <app-profile *ngSwitchCase="'profile'" [userdata]="userData" [getUserData]="getUserData"></app-profile>
+        <app-security *ngSwitchCase="'security'" [userdata]="userData" [getUserData]="getUserData"></app-security>
+        <app-privacy *ngSwitchCase="'privacy'"></app-privacy>
+        <authorized-apps *ngSwitchCase="'authorized-apps'"></authorized-apps>
+        <app-devices *ngSwitchCase="'devices'"></app-devices>
+        <connected-apps *ngSwitchCase="'connections'"></connected-apps>
+        <my-friends *ngSwitchCase="'friends'"></my-friends>
+        <add-friend *ngSwitchCase="'add-friend'"></add-friend>
+        <app-subscriptions *ngSwitchCase="'subscriptions'"></app-subscriptions>
+        <app-gifts *ngSwitchCase="'gifts'"></app-gifts>
+        <app-billing *ngSwitchCase="'billing'"></app-billing>
+        <blocked *ngSwitchCase="'blocked'"></blocked>
+    </div>
   </div>
   <div class="account-settings-screen-size-warning">
     <h1 class="account-settings-text19 notselectable">

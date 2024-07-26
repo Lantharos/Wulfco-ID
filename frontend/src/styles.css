@@ -184,5 +184,12 @@ body {
   text-transform: none;
   text-decoration: none;
 }
+::-moz-selection { 
+  color: white;
+  background: #ff4444;
+}
 
-
+::selection {
+  color: white;
+  background: #ff4444;
+}
