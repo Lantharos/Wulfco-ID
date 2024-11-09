@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "tsc && node lib/index.js"
+    "start": "op run --env-file .env -- tsc && node lib/index.js"
   },
   "author": "Wulfco",
   "license": "ISC",
